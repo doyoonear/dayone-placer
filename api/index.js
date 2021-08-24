@@ -3,8 +3,42 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http, { cors: { origin: '*' } });
 // io.set('heartbeat interval', 2000);
 // io.set('heartbeat timeout', 10000);
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 const port = 4000;
+
+const options = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'root',
+  database: 'placer',
+  schema: {
+    tableName: 'session_user',
+    columnNames: {
+      session_id: 'id',
+      expires: 'expires',
+      data: 'data',
+    },
+  },
+  cookie: {
+    secure: false,
+    sameSite: false,
+  },
+};
+
+const sessionStore = new MySQLStore(options);
+
+app.use(
+  session({
+    key: 'session_user',
+    secret: 'placer_!!(',
+    store: sessionStore,
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 http.listen(port, function () {
   console.log('listening on *:' + port);
@@ -12,6 +46,10 @@ http.listen(port, function () {
 
 app.use(require('./routes'));
 app.get('/', function (req, res) {
+  // req.session.name = 'test';
+  // req.session.save();
+
+  console.log('session', req.session);
   res.send('socket.io');
 });
 
