@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 function Login() {
-  return <div></div>;
+  return <div>Login</div>;
 }
 
 export default Login;

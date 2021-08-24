@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 function Main() {
-  return <div></div>;
+  return <div>Main</div>;
 }
 
 export default Main;
