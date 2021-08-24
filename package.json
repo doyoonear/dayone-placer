@@ -11,8 +11,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "styled-reset": "^4.3.4"
-  }
+  "license": "ISC"
 }
