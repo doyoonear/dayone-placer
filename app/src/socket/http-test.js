@@ -22,6 +22,18 @@ const HttpTest = () => {
     console.log('groups', result);
   };
 
+  const findDesks = async () => {
+    const roomId = 1;
+    const result = await axios.get(`http://localhost:4000/desks/${roomId}`);
+    console.log('desks', result);
+  };
+
+  const findParts = async () => {
+    const roomId = 1;
+    const result = await axios.get(`http://localhost:4000/parts/${roomId}`);
+    console.log('parts', result);
+  };
+
   const findGroupMembers = async () => {
     const result = await axios.get('http://localhost:4000/groups/members');
     console.log('groups', result);
@@ -56,6 +68,16 @@ const HttpTest = () => {
       <br />
       <button type='button' onClick={findGroupMembers}>
         그룹 + 임직원 불러오기
+      </button>
+      <br />
+      <br />
+      <button type='button' onClick={findDesks}>
+        책상 목록 불러오기
+      </button>
+      <br />
+      <br />
+      <button type='button' onClick={findParts}>
+        부품 (part) 목록 불러오기 (책상을 제외한 창문, 물건, 바닥 색상 등등이 여기 해당)
       </button>
       <br />
       <br />
