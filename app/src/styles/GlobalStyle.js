@@ -10,6 +10,11 @@ const GlobalStyle = createGlobalStyle`
       outline: none;
     }
   }
+
+  li {
+    list-style: none;
+  }
+
   a,
   button {
     cursor: pointer;
