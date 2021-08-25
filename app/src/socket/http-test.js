@@ -6,15 +6,15 @@ const HttpTest = () => {
   const [members, setMembers] = useState([]);
 
   const findRooms = async () => {
-    const rooms = await axios.get('http://localhost:4000/rooms');
-    console.log('rooms', rooms);
-    setRooms(rooms.data);
+    const result = await axios.get('http://localhost:4000/rooms');
+    console.log('rooms', result);
+    setRooms(result.data);
   };
 
   const findMembers = async () => {
-    const members = await axios.get('http://localhost:4000/members');
-    console.log('members', members);
-    setMembers(members.data);
+    const result = await axios.get('http://localhost:4000/members');
+    console.log('members', result);
+    setMembers(result.data);
   };
 
   const signIn = async () => {
@@ -27,16 +27,20 @@ const HttpTest = () => {
   return (
     <div>
       HTTP
-      <button onClick={findRooms}>findRooms</button>
-      <br />
-      rooms: {JSON.stringify(rooms)}
-      <br />
-      <br />
-      <button onClick={findMembers}>findMembers</button>
-      members: {JSON.stringify(members)}
+      <button type='button' onClick={findRooms}>
+        findRooms
+      </button>
       <br />
       <br />
-      <button onClick={signIn}>login</button>
+      <br />
+      <button type='button' onClick={findMembers}>
+        findMembers
+      </button>
+      <br />
+      <br />
+      <button type='button' onClick={signIn}>
+        login
+      </button>
     </div>
   );
 };
