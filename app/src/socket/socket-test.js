@@ -3,52 +3,57 @@ import socketio from 'socket.io-client';
 
 const socket = socketio.connect('http://localhost:4000');
 
-const getRoom = () => {
-  socket.emit('getRoom');
-};
-
-const loadRoom = () => {
-  socket.emit('loadRoom');
+// 공통 관리해야할 값
+const SOCKET_EVENTS = {
+  CHANGE_LOCATION: 'CHANGE_LOCATION',
+  APPEND_LOCATION: 'APPEND_LOCATION',
+  REMOVE_LOCATION: 'REMOVE_LOCATION',
+  INIT: 'INIT',
 };
 
 const socketInit = () => {
-  socket.emit('init', { memberId: 3 });
+  socket.emit(SOCKET_EVENTS.INIT, { memberId: 3, accessToken : 'test' });
 };
 
-const changeRoomDesk = () => {
-  socket.emit('changeRoomDesk', { prev: { x: 3, y: 5 }, next: { x: 5, y: 5 } });
+const changeLocation = (type) => {
+  socket.emit(SOCKET_EVENTS.CHANGE_LOCATION, {
+    roomId: 1,
+    type,
+    prevLocation: { x: 3, y: 5 },
+    nextLocation: { x: 5, y: 5 },
+  });
+};
+
+const appendLocation = (type) => {
+  socket.emit(SOCKET_EVENTS.APPEND_LOCATION, { roomId: 1, type, location: { x: 5, y: 5 } });
+};
+
+const removeLocation = (type) => {
+  socket.emit(SOCKET_EVENTS.REMOVE_LOCATION, { roomId: 1, type, location: { x: 5, y: 5 } });
 };
 
 const SocketTest = () => {
+  useEffect(() => {
+    socketInit();
+    subscribeSocketEvents();
+  }, []);
+
   const subscribeSocketEvents = () => {
     socket.on('connected', () => {
       console.log('connected');
     });
 
-    socket.on('getRoom', (msg) => {
-      console.log('getRoom', msg);
-    });
-
-    socket.on('changeRoomDesk', (msg) => {
-      console.log('changeRoomDesk', msg);
+    socket.on(SOCKET_EVENTS.CHANGE_LOCATION, (data) => {
+      // data를 사용하여 데이터를 바꿔줘야함
+      console.log(SOCKET_EVENTS.CHANGE_LOCATION, data);
     });
   };
 
-  useEffect(() => {
-    subscribeSocketEvents();
-  }, []);
-
   return (
     <div>
-      <button type='button' onClick={getRoom}>
-        getRoom
-      </button>
-      <button type='button' onClick={changeRoomDesk}>
-        changeRoomDesk
-      </button>
-      <button type='button' onClick={socketInit}>
-        socketInit
-      </button>
+      <button onClick={() => changeLocation('DESK')}>changeDesk</button>
+      <button onClick={() => appendLocation('DESK')}>appendDesk</button>
+      <button onClick={() => removeLocation('DESK')}>removeDesk</button>
     </div>
   );
 };
