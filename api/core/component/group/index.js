@@ -1,16 +1,8 @@
 const findGroups = () => {
   return [
-    {
-      id: 1,
-      type: "LEVEL_1",
-      title: "개발실",
-      sequence: 1,
-      children: [
-        { id: 2, type: "LEVEL2", title: "패캠", sequence: 1 },
-        { id: 3, type: "LEVEL2", title: "스노우볼", sequence: 2 },
-        { id: 4, type: "LEVEL2", title: "콜로소", sequence: 3 },
-      ],
-    },
+    { id: 2, type: "LEVEL2", title: "패캠", color: "#00FF00", sequence: 1 },
+    { id: 3, type: "LEVEL2", title: "스노우볼", color: "#DDDDDD", sequence: 2 },
+    { id: 4, type: "LEVEL2", title: "콜로소", color: "#FF0000", sequence: 3 },
   ];
 };
 
