@@ -15,7 +15,7 @@ const StyledName = styled.div`
 `;
 
 const StyledSidebar = styled.div`
-  background-color: $primary;
+  background-color: skyblue;
   width: 10rem;
   height: 100%;
 `;
