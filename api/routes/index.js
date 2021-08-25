@@ -5,8 +5,6 @@ const authRoutes = require('./auth');
 const roomRoutes = require('./room');
 const memberRoutes = require('./member');
 
-router.use('/auth', authRoutes);
-router.use('/rooms', roomRoutes);
-router.use('/members', memberRoutes);
+router.use('/auth', authRoutes).use('/rooms', roomRoutes).use('/members', memberRoutes);
 
 module.exports = router;
