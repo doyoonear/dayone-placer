@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { setStorage } from '../api/support';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,6 +13,11 @@ function Login() {
       email,
       password,
     });
+
+    if (result?.data?.accessToken) {
+      const accessToken = result?.data?.accessToken;
+      setStorage('ACCESS_TOKEN', accessToken);
+    }
   };
 
   return (
