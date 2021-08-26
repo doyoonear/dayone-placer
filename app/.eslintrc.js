@@ -10,6 +10,7 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react/react-in-jsx-scope': 'warn',
     'no-unused-vars': 'warn',
+    'no-console': 'off',
     'import/no-named-as-default': 'warn',
     'import/no-named-as-default-member': 'warn',
     'import/extensions': 'off',
