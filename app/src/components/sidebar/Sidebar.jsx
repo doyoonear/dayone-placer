@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import axios from 'axios';
 import httpClient from '../../api/http-client';
+import ArrowIcon from './icons/ArrowIcon';
 
 function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);
@@ -19,6 +21,7 @@ function Sidebar({ handleDrag }) {
   };
 
   useEffect(getGroupMembers, []);
+  useEffect(() => console.log('groupList', groupList));
 
   return (
     <StSidebar>
@@ -38,10 +41,12 @@ function Sidebar({ handleDrag }) {
       {groupList.length &&
         groupList.map((group) => {
           return (
-            // TODO: color 추가되면 group.id -> group.color 로 변경
             <StGroupContainer key={group.id}>
-              <StGroupHeader groupColor={group.id}>
-                <div>{group.title}</div>
+              <StGroupHeader color={group.color}>
+                <StFlexBox justify='space-between'>
+                  <h3>{group.title}</h3>
+                  <ArrowIcon width='1' height='1' rotate='90' />
+                </StFlexBox>
               </StGroupHeader>
               <StMemberContainer>
                 {group.members.length &&
@@ -84,7 +89,7 @@ const StGroupContainer = styled.div`
 const StGroupHeader = styled.div`
   padding: 0.7rem;
   border-bottom: 0.1rem solid black;
-  background: ${(props) => props.groupColor || 'grey'};
+  background: ${(props) => props.color || 'grey'};
 `;
 
 const StMemberContainer = styled.li`
@@ -102,6 +107,13 @@ const StSidebar = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
   width: 15rem;
+`;
+
+const StFlexBox = styled.div`
+  display: flex;
+  justify-content: ${(props) => props.justify || 'center'};
+  align-items: ${(props) => props.align || 'center'};
+  flex-direction: ${(props) => props.direction || 'row'};
 `;
 
 export default Sidebar;
