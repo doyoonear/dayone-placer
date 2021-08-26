@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import httpClient from '../../api/http-client';
 import ArrowIcon from './icons/ArrowIcon';
+import CommonFlexBox from './styled/CommonFlexBox';
 
 function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);
@@ -11,6 +12,7 @@ function Sidebar({ handleDrag }) {
     { id: 1, type: 'DESK', title: '책상' },
     { id: 2, type: 'WINDOW_1', title: '창문1' },
   ]);
+  const [arrowRotate, setArrowRotate] = useState(90);
 
   const getGroupMembers = async () => {
     const {
@@ -18,6 +20,10 @@ function Sidebar({ handleDrag }) {
     } = await httpClient.get({ url: '/groups/members' });
 
     setGroupList(children);
+  };
+
+  const handleArrow = (isClosed) => {
+    return isClosed ? setArrowRotate(90) : setArrowRotate(240);
   };
 
   useEffect(getGroupMembers, []);
@@ -43,10 +49,10 @@ function Sidebar({ handleDrag }) {
           return (
             <StGroupContainer key={group.id}>
               <StGroupHeader color={group.color}>
-                <StFlexBox justify='space-between'>
+                <CommonFlexBox justify='space-between'>
                   <h3>{group.title}</h3>
-                  <ArrowIcon width='1' height='1' rotate='90' />
-                </StFlexBox>
+                  <ArrowIcon width={1} height={1} rotate={arrowRotate} onClick={() => handleArrow(true)} />
+                </CommonFlexBox>
               </StGroupHeader>
               <StMemberContainer>
                 {group.members.length &&
@@ -107,13 +113,6 @@ const StSidebar = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
   width: 15rem;
-`;
-
-const StFlexBox = styled.div`
-  display: flex;
-  justify-content: ${(props) => props.justify || 'center'};
-  align-items: ${(props) => props.align || 'center'};
-  flex-direction: ${(props) => props.direction || 'row'};
 `;
 
 export default Sidebar;
