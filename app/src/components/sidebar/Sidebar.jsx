@@ -5,6 +5,8 @@ import axios from 'axios';
 import httpClient from '../../api/http-client';
 import ArrowIcon from './icons/ArrowIcon';
 import CommonFlexBox from './styled/CommonFlexBox';
+import GroupHeader from './sidebar/GroupHeader';
+import ContextApp from '../context/index';
 
 function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);
@@ -22,12 +24,7 @@ function Sidebar({ handleDrag }) {
     setGroupList(children);
   };
 
-  const handleArrow = (isClosed) => {
-    return isClosed ? setArrowRotate(90) : setArrowRotate(240);
-  };
-
   useEffect(getGroupMembers, []);
-  useEffect(() => console.log('groupList', groupList));
 
   return (
     <StSidebar>
@@ -49,10 +46,7 @@ function Sidebar({ handleDrag }) {
           return (
             <StGroupContainer key={group.id}>
               <StGroupHeader color={group.color}>
-                <CommonFlexBox justify='space-between'>
-                  <h3>{group.title}</h3>
-                  <ArrowIcon width={1} height={1} rotate={arrowRotate} onClick={() => handleArrow(true)} />
-                </CommonFlexBox>
+                <GroupHeader groupId={group.id} group={group} />
               </StGroupHeader>
               <StMemberContainer>
                 {group.members.length &&
@@ -94,13 +88,13 @@ const StGroupContainer = styled.div`
 
 const StGroupHeader = styled.div`
   padding: 0.7rem;
-  border-bottom: 0.1rem solid black;
   background: ${(props) => props.color || 'grey'};
 `;
 
 const StMemberContainer = styled.li`
   padding: 0.7rem;
-  background: #e8e8e8;
+  /* background: ${(props) => (props.isGroupOpen ? 'blue' : props.theme.primary4)}; */
+  display: ${(props) => (props.isGroupOpen ? 'block' : 'none')};
   width: 100%;
 `;
 
@@ -109,7 +103,7 @@ const StMemberName = styled.div`
 `;
 
 const StSidebar = styled.div`
-  background: papayawhip;
+  background: ${(props) => props.theme.primary6};
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
   width: 15rem;

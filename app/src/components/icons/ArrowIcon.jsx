@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as RightArrow } from '../../assets/right-arrow.svg';
-import CommonIconContainer from '../styled/CommonIconBox';
+import CommonIconContainer from '../_styled/CommonIconBox';
 
 function ArrowIcon({ width, height, rotate }) {
   return (

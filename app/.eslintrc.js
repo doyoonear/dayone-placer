@@ -14,5 +14,7 @@ module.exports = {
     'import/no-named-as-default': 'warn',
     'import/no-named-as-default-member': 'warn',
     'import/extensions': 'off',
+    'react/forbid-prop-types': 'off',
+    'react/prop-types': 'off',
   },
 };

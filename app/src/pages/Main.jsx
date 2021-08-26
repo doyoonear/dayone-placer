@@ -6,6 +6,7 @@ import Input from '../components/Input';
 import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
+import Sidebar from '../components/Sidebar';
 
 import httpClient from '../api/http-client';
 
@@ -109,11 +110,19 @@ function Main() {
             sizeY={selectedRoom.sizeY}
           />
         )}
+        <StAbsoluteBox>
+          <Sidebar />
+        </StAbsoluteBox>
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
       </MainContainer>
     </MainPage>
   );
 }
+
+const StAbsoluteBox = styled.div`
+  position: fixed;
+  right: 0;
+`;
 
 const MainPage = styled.div``;
 
