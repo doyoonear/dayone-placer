@@ -2,15 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-function Dropdown({ options, label, name, onChange }) {
+function Dropdown({ options, label, name, onChange, placeholder }) {
   return (
     <>
       <Label>{label}</Label>
-      <Select name={name} onChange={onChange}>
+      <Select name={name} onChange={onChange} defaultValue='default'>
+        <Option value='default' disabled selected>
+          {placeholder}
+        </Option>
         {options.map((option) => (
-          <option key={option.id} value={option.title}>
+          <Option key={option.id} value={option.title}>
             {option.title}
-          </option>
+          </Option>
         ))}
       </Select>
     </>
@@ -22,10 +25,12 @@ Dropdown.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   label: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 Dropdown.defaultProps = {
   label: '',
+  placeholder: '',
 };
 
 const Label = styled.label`
@@ -41,6 +46,9 @@ const Select = styled.select`
   background: #fff;
   border: 1px solid ${(props) => props.theme.primary2};
   border-radius: 4px;
+  cursor: pointer;
 `;
+
+const Option = styled.option``;
 
 export default Dropdown;
