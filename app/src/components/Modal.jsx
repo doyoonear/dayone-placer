@@ -15,7 +15,7 @@ function Modal({ title, children }) {
 
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
 
 Modal.defaultProps = {
