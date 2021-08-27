@@ -35,8 +35,13 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
 
 Grid.propTypes = {
   handleDeskModal: PropTypes.func.isRequired,
-  sizeX: PropTypes.number.isRequired,
-  sizeY: PropTypes.number.isRequired,
+  sizeX: PropTypes.number,
+  sizeY: PropTypes.number,
+};
+
+Grid.defaultProps = {
+  sizeX: 0,
+  sizeY: 0,
 };
 
 const GridContainer = styled.div`
