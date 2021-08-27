@@ -1,38 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
 
-function Grid() {
-  // const [roomSizeX, setRoomSizeX] = useState(30);
-  // const [roomSizeXY, setRoomSizeY] = useState(30);
-  const [sectionX, setSectionX] = useState(0);
-  const [sectionY, setSectionY] = useState(0);
-  const room = { sizeX: 30, sizeY: 30 };
-  const list = []; // sizeX 30 만큼 가로로 맵 돌리고,
-  // 그렇게 생성된 2번째 리스트를 또 sizeY 30만큼 세로로 맵 돌리고
+function Grid({ handleDeskModal }) {
+  const grid = {
+    cols: 20,
+    rows: 10,
+  };
 
-  useEffect(async () => {
-    await axios.get('/');
-  }, []);
+  const rendering = (x, y) => {
+    const result = [];
+    for (let i = 0; i < x * y; i += 1) {
+      result.push(
+        <Bullet
+          key={i + 1}
+          id={i + 1}
+          // x, y 너비가 아닌 좌표값으로 변경 필요
+          data-x={x}
+          data-y={y}
+          onClick={(e) => console.log(e.target.dataset.x, e.target.dataset.y)}
+        />
+      );
+    }
+    return result;
+  };
 
   return (
-    <StyledContainer>
-      {list.map(() => (
-        <StyledSection sectionX={sectionX} sectionY={sectionY} />
-      ))}
-    </StyledContainer>
+    <GridContainer onClick={handleDeskModal}>
+      <GridWrapper>{rendering(grid.cols, grid.rows)}</GridWrapper>
+    </GridContainer>
   );
 }
 
-const StyledContainer = styled.div`
-  background-color: ${(props) => props.color || '#fcfcfc'};
-  padding: ${(props) => props.padding || '2rem'};
+Grid.propTypes = {
+  handleDeskModal: PropTypes.func.isRequired,
+};
+
+const GridContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const StyledSection = styled.div`
-  width: ${(props) => props.sectionX || '1'}rem;
-  height: ${(props) => props.sectionY || '1'}rem;
-  border: 0.1rem solid red;
+const GridWrapper = styled.div`
+  display: grid;
+  grid-gap: 0;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  width: fit-content;
+`;
+
+const Bullet = styled.div`
+  width: 20px;
+  height: 20px;
+  border: 1px solid lightgrey;
+  text-align: center;
+  cursor: pointer;
 `;
 
 export default Grid;
