@@ -12,11 +12,12 @@ function Main() {
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState({});
   const [groups, setGroups] = useState([]);
   const [deskForm, setDeskForm] = useState({
     team: '',
-    x: null,
-    y: null,
+    x: 0,
+    y: 0,
   });
 
   const fetchData = () => {
@@ -32,6 +33,10 @@ function Main() {
 
     findRooms();
     findGroups();
+  };
+
+  const handleRoom = (id) => {
+    setSelectedRoom(rooms.filter((room) => room.id === id)[0]);
   };
 
   const handleDeskModal = () => {
@@ -58,13 +63,22 @@ function Main() {
   return (
     <MainPage>
       <MainContainer>
-        <Title>자리 배치도</Title>
+        <Title>
+          {selectedRoom.title && `${selectedRoom.title} `}
+          자리 배치도
+        </Title>
         {isDeskModalOn && (
           <Modal title='책상 그룹 추가'>
             <InputWrapper>
-              <Dropdown label='팀' options={groups} name='team' onChange={handleDeskForm} />
-              <Input label='책상 가로' type='number' name='x' onChange={handleDeskForm} value={deskForm.x} />
-              <Input label='책상 세로' type='number' name='y' onChange={handleDeskForm} value={deskForm.y} />
+              <Dropdown
+                label='팀'
+                options={groups}
+                name='team'
+                onChange={handleDeskForm}
+                placeholder='팀을 선택해주세요'
+              />
+              <Input label='책상 가로' type='number' name='x' onChange={handleDeskForm} value={deskForm.xc} />
+              <Input label='책상 세로' type='number' name='y' onChange={handleDeskForm} value={deskForm.yc} />
             </InputWrapper>
             <ButtonWrapper>
               <Button onClick={handleDeskModal} name='취소' />
@@ -85,8 +99,10 @@ function Main() {
             </ButtonWrapper>
           </Modal>
         )}
-        <Grid handleDeskModal={handleDeskModal} />
-        <Tabs rooms={rooms} handleRoomModal={handleRoomModal} />
+        {selectedRoom && (
+          <Grid handleDeskModal={handleDeskModal} sizeX={selectedRoom.sizeX} sizeY={selectedRoom.sizeY} />
+        )}
+        <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
       </MainContainer>
     </MainPage>
   );
