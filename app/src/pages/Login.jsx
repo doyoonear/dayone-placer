@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import httpClient from '../api/http-client';
 
 import { setStorage } from '../api/support';
 
@@ -9,9 +9,12 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const signIn = async () => {
-    const result = await axios.post('http://localhost:4000/auth/sign-in', {
-      email,
-      password,
+    const result = await httpClient.post({
+      url: '/auth/sign-in',
+      data: {
+        email,
+        password,
+      },
     });
 
     if (result?.data?.accessToken) {
