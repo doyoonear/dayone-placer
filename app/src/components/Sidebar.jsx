@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
+import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import httpClient from '../api/http-client';
 
-function Sidebar() {
+function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);
+  const [partList, setPartList] = useState([
+    { id: 1, type: 'DESK', title: '책상' },
+    { id: 2, type: 'WINDOW_1', title: '창문1' },
+  ]);
 
   const getGroupMembers = async () => {
     const {
@@ -18,6 +23,19 @@ function Sidebar() {
 
   return (
     <StSidebar>
+      <StPartContainer>
+        {partList.map((part) => (
+          <StPart
+            key={part.id}
+            draggable
+            data-type={part.type}
+            onDragOver={(e) => e.preventDefault()}
+            onDragStart={handleDrag}
+          >
+            {part.title}
+          </StPart>
+        ))}
+      </StPartContainer>
       {groupList.length &&
         groupList.map((group) => {
           return (
@@ -38,6 +56,18 @@ function Sidebar() {
     </StSidebar>
   );
 }
+
+Sidebar.propTypes = {
+  handleDrag: PropTypes.func,
+};
+
+Sidebar.defaultProps = {
+  handleDrag: () => {},
+};
+
+const StPartContainer = styled.div``;
+const StPart = styled.div``;
+
 const StGroupContainer = styled.div`
   border: 0.1rem solid red;
 `;
