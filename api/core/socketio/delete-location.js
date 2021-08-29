@@ -2,7 +2,7 @@ const { SOCKET_EVENTS } = require("../../config/socket");
 
 const { partService } = require("../service/part");
 
-const subscribeChangeLocationEvent = (socket) => {
+const subscribeDeleteLocationEvent = (socket) => {
   socket.on(SOCKET_EVENTS.CHANGE_LOCATION, async (data) => {
     console.log("ddd");
     // if (!socket.accessToken) {
@@ -19,5 +19,5 @@ const subscribeChangeLocationEvent = (socket) => {
 };
 
 module.exports = {
-  subscribeChangeLocationEvent,
+  subscribeDeleteLocationEvent,
 };
