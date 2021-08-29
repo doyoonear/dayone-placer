@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import socketio from 'socket.io-client';
+import httpClient from '../api/http-client';
 
-const socket = socketio.connect('http://localhost:4000');
+const socket = socketio.connect(httpClient.SERVER_URL);
 
 // 공통 관리해야할 값
 const SOCKET_EVENTS = {

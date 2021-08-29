@@ -19,6 +19,7 @@ const setAccessToken = () => {
 };
 
 const httpClient = {
+  SERVER_URL,
   async get({ url, params, responseType }) {
     setAccessToken();
     return api({

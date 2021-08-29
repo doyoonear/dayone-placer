@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+
+import httpClient from '../api/http-client';
 
 function Sidebar() {
   const [groupList, setGroupList] = useState([]);
@@ -8,7 +9,7 @@ function Sidebar() {
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
-    } = await axios.get('http://localhost:4000/groups/members');
+    } = await httpClient.get({ url: '/members' });
 
     setGroupList(children);
   };
