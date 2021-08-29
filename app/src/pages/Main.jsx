@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import socketio from 'socket.io-client';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
@@ -9,9 +10,12 @@ import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
 import httpClient from '../api/http-client';
 
+import { getStorage } from '../api/support';
+
 const socket = socketio.connect(httpClient.SERVER_URL);
 
 function Main() {
+  const history = useHistory();
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
   const [rooms, setRooms] = useState([]);
@@ -61,8 +65,10 @@ function Main() {
   };
 
   useEffect(() => {
-    socket.emit('INIT', { test: '' });
-    fetchData();
+    if (getStorage('ACCESS_TOKEN')) {
+      socket.emit('INIT', { test: '' });
+      fetchData();
+    } else history.push('/login');
   }, []);
 
   return (
@@ -144,6 +150,7 @@ const InputWrapper = styled.div`
 
 const ButtonWrapper = styled.div`
   display: flex;
+  column-gap: 0.6rem;
 `;
 
 export default Main;
