@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import Grid from '../components/Grid.jsx';
+import Grid from '../components/grid/Grid.jsx';
 import Modal from '../components/Modal';
 import Input from '../components/Input';
 import Tabs from '../components/Tabs';
