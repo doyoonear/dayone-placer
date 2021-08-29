@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Main from './pages/Main';
 import Login from './pages/Login';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/sidebar/Sidebar';
 
 /** test를 위한 페이지로 개발 이후에는 제거될 페이지입니다 */
 import SocketTest from './socket/socket-test';
