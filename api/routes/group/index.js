@@ -1,21 +1,21 @@
 const { Router } = require("express");
 const router = Router();
 
-const groupComponent = require("../../core/component/group");
+const { groupService } = require("../../core/service/group");
 
-router.get("/", (req, res) => {
-  const data = groupComponent.findGroups();
+router.get("/", async (req, res) => {
+  const data = await groupService.find();
   res.send(data);
 });
 
-router.get("/members", (req, res) => {
-  const data = groupComponent.findGroupMembers();
+router.get("/members", async (req, res) => {
+  const data = await groupService.findGroupMembers();
   res.send(data);
 });
 
-router.get("/:groupId", (req, res) => {
+router.get("/:groupId", async (req, res) => {
   const groupId = req.params.groupId;
-  const data = groupComponent.getGroup(groupId);
+  const data = await groupService.getById(groupId);
   res.send(data);
 });
 

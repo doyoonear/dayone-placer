@@ -1,7 +1,12 @@
-const findParts = (roomId) => {
-  return [{ id: 1, type: 'WINDOW_1', direction: 3, x: 1, y: 20 }];
-};
+const { partRepository } = require("../../repository/partRepository");
+const { Service } = require("../Service");
+
+class PartService extends Service {
+  constructor() {
+    super({ repository: partRepository });
+  }
+}
 
 module.exports = {
-  findParts,
+  partService: new PartService(),
 };

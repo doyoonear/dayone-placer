@@ -1,16 +1,16 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = Router();
 
-const memberComponent = require('../../core/component/member');
+const memberService = require("../../core/service/member");
 
-router.get('/', (req, res) => {
-  const data = memberComponent.findMembers();
+router.get("/", (req, res) => {
+  const data = memberService.find();
   res.send(data);
 });
 
-router.get('/:memberId', (req, res) => {
+router.get("/:memberId", (req, res) => {
   const memberId = req.params.memberId;
-  const data = memberComponent.getMembers(memberId);
+  const data = memberService.getById(memberId);
   res.send(data);
 });
 

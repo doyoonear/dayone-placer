@@ -1,16 +1,17 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = Router();
 
-const roomComponent = require('../../core/component/room');
+const { roomService } = require("../../core/service/room");
 
-router.get('/', (req, res) => {
-  const data = roomComponent.findRoom();
-  res.send(data);
+router.get("/", async (req, res) => {
+  const data = await roomService.find();
+  return res.send(data);
 });
 
-router.get('/:roomId', (req, res) => {
-  const data = roomComponent.getRoom();
-  res.send(data);
+router.get("/:roomId", async (req, res) => {
+  const roomId = Number(req.params.roomId);
+  const data = await roomService.getById(roomId);
+  return res.send(data);
 });
 
 module.exports = router;
