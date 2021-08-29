@@ -14,12 +14,10 @@ class PartService extends Service {
   // TODO: transaction
   async updateChangeLocation({ roomId, location }) {
     const { prevX, prevY, nextX, nextY } = location;
-    console.log("location", location);
 
-    const prevPart = await partRepository.selectFirst({ room_id: roomId, location_x: prevX, location_y: prevY });
-    console.log("prevPart", prevPart);
+    const prevPart = await partRepository.selectFirst({ roomId, locationX: prevX, locationY: prevY });
     await partRepository.updateMoveLocation(roomId, nextX, nextY, prevX, prevY);
-    return partRepository.updateById(prevPart.id, { location_x: nextX, location_y: nextY });
+    return partRepository.updateById(prevPart.id, { locationX: nextX, locationY: nextY });
   }
 
   deleteLocation({ roomId, location }) {
