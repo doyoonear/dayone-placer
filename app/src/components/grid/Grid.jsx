@@ -51,12 +51,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     };
   }, [gridData]);
 
-  useEffect(async () => {
-    // 데이터 조회
-    console.log('roomId', roomId);
-    await getRoom();
-  }, [roomId]);
-
   // useEffect(() => {
   //   // gridData 초기화
   // }, [reload]);
@@ -173,33 +167,48 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     setDragItem({});
   };
 
-  const renderGridItem = (cols, rows) => {
+  const [itemList, setItemList] = useState([]);
+
+  const getGridItemAmount = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
       const x = i % cols;
       const y = parseInt(i / cols, 10);
-
-      result.push(
-        <GridItem
-          key={i + 1}
-          id={i + 1}
-          locationX={x}
-          locationY={y}
-          handleDrag={handleDrag}
-          handleDrop={handleDrop}
-          addNewItem={addNewItem}
-          deleteItem={deleteItem}
-          data={gridData[`${x}_${y}`]}
-        />
-      );
+      result.push({ x, y });
     }
+
     return result;
   };
 
+  const makeGridItem = () => {
+    const result = getGridItemAmount(sizeX, sizeY);
+    setItemList(result);
+  };
+
+  useEffect(async () => {
+    // 데이터 조회
+    await getRoom();
+    makeGridItem();
+  }, []);
+
   return (
     <GridContainer>
-      <GridWrapper width={sizeX} height={sizeY}>
-        {renderGridItem(sizeX, sizeY)}
+      <GridWrapper>
+        {itemList.length &&
+          itemList.map((item, index) => {
+            return (
+              <GridItem
+                key={`${item.x}_${item.y}`}
+                id={index}
+                item={item}
+                handleDrag={handleDrag}
+                handleDrop={handleDrop}
+                addNewItem={addNewItem}
+                deleteItem={deleteItem}
+                data={gridData[`${item.x}_${item.y}`]}
+              />
+            );
+          })}
       </GridWrapper>
       <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
     </GridContainer>
