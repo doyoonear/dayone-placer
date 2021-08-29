@@ -1,12 +1,22 @@
-const findRooms = () => {
-  return [{ id: 1, title: 'foo', sizeX: 30, sizeY: 30 }];
-};
+const { roomRepository } = require("../../repository/roomRepository");
+const { Service } = require("../Service");
 
-const getRooms = (roomId) => {
-  return { id: 1, title: 'foo', sizeX: 30, sizeY: 30 };
-};
+const { memberService } = require("../member");
+
+class RoomService extends Service {
+  constructor() {
+    super({ repository: roomRepository });
+  }
+
+  // /** @override */
+  // async getById(id) {
+  //   const room = await super.getById(id);
+  //
+  //   // part, member
+  //   const member = await memberService.findAll({});
+  // }
+}
 
 module.exports = {
-  findRooms,
-  getRooms,
+  roomService: new RoomService(),
 };

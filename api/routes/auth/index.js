@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router({ mergeParams: true });
 
-const { signIn } = require("../../core/component/auth");
+const { signIn } = require("../../core/service/auth");
 
 router.post("/sign-in", async (req, res, next) => {
   // TODO: routes try-catch 함수 분리
