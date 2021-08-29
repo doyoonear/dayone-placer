@@ -7,13 +7,9 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
   const [isDeleteIconOn, setDeleteIcon] = useState(false);
 
-  const toggleDeleteIcon = () => {
-    setDeleteIcon(!isDeleteIconOn);
-  };
-
   const submitDelete = () => {
     deleteItem(currLocation);
-    setDeleteIcon(!isDeleteIconOn);
+    setDeleteIcon(false);
   };
 
   const checkGridEmpty = (e) => {
@@ -23,7 +19,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     const type = 'GRID';
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
     setCurrLocation(location);
-    return type === 'GRID' ? addNewItem({ targetLocation }) : () => console.log('toggle');
+    return type === 'GRID' ? addNewItem({ targetLocation }) : setDeleteIcon(true);
   };
 
   return (

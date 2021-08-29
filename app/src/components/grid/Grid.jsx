@@ -168,24 +168,26 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     setDragItem({});
   };
 
-  const [locationList, setLocationList] = useState([]);
-
-  // TODO: 렌더스피드 너무 느림 locationList 가 변하는 state 가 필요하진 않기 때문에
-  // for 문 도는것 내부의 데이터는 state 말고 일반 값으로 사용. for문 한번만.
-  const getGridItemAmount = (cols, rows) => {
+  const makeGridItem = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
       const x = i % cols;
       const y = parseInt(i / cols, 10);
-      result.push({ x, y });
+      result.push(
+        <GridItem
+          key={`${x}_${y}`}
+          id={i}
+          location={{ x, y }}
+          handleDrag={handleDrag}
+          handleDrop={handleDrop}
+          addNewItem={addNewItem}
+          deleteItem={deleteItem}
+          data={gridData[`${x}_${y}`]}
+        />
+      );
     }
 
     return result;
-  };
-
-  const makeGridItem = () => {
-    const result = getGridItemAmount(sizeX, sizeY);
-    setLocationList(result);
   };
 
   useEffect(async () => {
@@ -196,23 +198,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
   return (
     <GridContainer>
-      <GridWrapper>
-        {locationList.length &&
-          locationList.map((location, index) => {
-            return (
-              <GridItem
-                key={`${location.x}_${location.y}`}
-                id={index}
-                location={location}
-                handleDrag={handleDrag}
-                handleDrop={handleDrop}
-                addNewItem={addNewItem}
-                deleteItem={deleteItem}
-                data={gridData[`${location.x}_${location.y}`]}
-              />
-            );
-          })}
-      </GridWrapper>
+      <GridWrapper>{makeGridItem(sizeX, sizeY)}</GridWrapper>
       <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
     </GridContainer>
   );
