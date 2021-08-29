@@ -5,13 +5,16 @@ import Routes from './Routes';
 import GlobalStyle from './styles/GlobalStyle';
 import theme from './styles/theme';
 import './index.css';
+import { StateProvider } from './store/Store';
 
 ReactDOM.render(
   <>
-    <GlobalStyle />
-    <ThemeProvider theme={theme}>
-      <Routes />
-    </ThemeProvider>
+    <StateProvider>
+      <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
+    </StateProvider>
   </>,
   document.getElementById('root')
 );
