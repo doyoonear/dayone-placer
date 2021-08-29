@@ -6,7 +6,7 @@ import httpClient from '../../api/http-client';
 import GridItem from './GridItem';
 import Sidebar from '../sidebar/Sidebar';
 
-function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
+function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   const [dragItem, setDragItem] = useState({});
   const [gridData, setGridData] = useState({});
 
@@ -42,12 +42,14 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
           type,
           x: Number(e.currentTarget.attributes['data-x'].value),
           y: Number(e.currentTarget.attributes['data-y'].value),
+          ...data,
         });
         break;
       case 'DESK':
       case 'WINDOW_1':
         setDragItem({
           type,
+          ...data,
         });
         break;
       case 'MEMBER':
@@ -83,8 +85,17 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
         ...dragItem,
       };
 
+      // TODO: 상수사용, 코스 위치 이동
+      socket.emit('APPEND_LOCATION', {
+        type: dragItem.type,
+        roomId,
+        location: {
+          nextX,
+          nextY,
+        },
+      });
+
       setDragItem({});
-      // TODO: append push from socket
       return;
     }
 
@@ -97,12 +108,33 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
       gridData[`${nextX}_${nextY}`] = gridData[`${prevX}_${prevY}`];
       gridData[`${prevX}_${prevY}`] = temp;
 
-      // TODO: change push from socket
+      // TODO: 상수사용, 코스 위치 이동
+      socket.emit('CHANGE_LOCATION', {
+        type: dragItem.type,
+        roomId,
+        location: {
+          prevX,
+          prevY,
+          nextX,
+          nextY,
+        },
+      });
     } else {
       // 놓으려는 자리에 아무것도 없다면
       gridData[`${nextX}_${nextY}`] = gridData[`${prevX}_${prevY}`];
       delete gridData[`${prevX}_${prevY}`];
-      // TODO: change push from socket
+
+      // TODO: 상수사용, 코스 위치 이동
+      socket.emit('MOVE_LOCATION', {
+        type: dragItem.type,
+        roomId,
+        location: {
+          prevX,
+          prevY,
+          nextX,
+          nextY,
+        },
+      });
     }
 
     setDragItem({});
@@ -142,12 +174,14 @@ Grid.propTypes = {
   roomId: PropTypes.number,
   sizeX: PropTypes.number,
   sizeY: PropTypes.number,
+  socket: PropTypes.objectOf(PropTypes.object),
 };
 
 Grid.defaultProps = {
   roomId: 0,
   sizeX: 0,
   sizeY: 0,
+  socket: undefined,
 };
 
 const GridContainer = styled.div`
