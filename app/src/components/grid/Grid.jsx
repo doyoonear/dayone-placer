@@ -114,8 +114,8 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   const renderGridItem = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
-      const x = parseInt(i / cols, 10);
-      const y = i % cols;
+      const x = i % cols;
+      const y = parseInt(i / cols, 10);
 
       result.push(
         <GridItem
