@@ -11,6 +11,7 @@ const { SOCKET_EVENTS } = require("../../config/socket");
 const { subscribeMoveLocationEvent } = require("./move-location");
 const { subscribeChangeLocationEvent } = require("./change-location");
 const { subscribeAppendLocationEvent } = require("./append-location");
+const { subscribeDeleteLocationEvent } = require("./delete-location");
 
 class SocketService {
   constructor(io) {
@@ -35,6 +36,7 @@ class SocketService {
       subscribeMoveLocationEvent(socket);
       subscribeChangeLocationEvent(socket);
       subscribeAppendLocationEvent(socket);
+      subscribeDeleteLocationEvent(socket);
 
       socket.on("connect_wait", (data) => {
         console.log("wait..");

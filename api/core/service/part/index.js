@@ -21,6 +21,11 @@ class PartService extends Service {
     await partRepository.updateMoveLocation(roomId, nextX, nextY, prevX, prevY);
     return partRepository.updateById(prevPart.id, { location_x: nextX, location_y: nextY });
   }
+
+  deleteLocation({ roomId, location }) {
+    const { x, y } = location;
+    return partRepository.deleteByRoomIdAndLocationXAndLocationY(roomId, x, y);
+  }
 }
 
 module.exports = {
