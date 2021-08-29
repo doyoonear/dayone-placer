@@ -9,7 +9,6 @@ import Sidebar from '../sidebar/Sidebar';
 function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   const [dragItem, setDragItem] = useState({});
   const [gridData, setGridData] = useState({});
-  console.log('props socket', socket);
 
   const getRoom = async () => {
     const result = await httpClient.get({ url: `/parts/rooms/${roomId}` });
@@ -33,16 +32,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   // useEffect(() => {
   //   // gridData 초기화
   // }, [reload]);
-
-  const addNewDesk = async (location) => {
-    console.log('addNewDesk');
-    // await httpClient.post({ url: `/parts/rooms/${roomId}`, data: location });
-  };
-
-  const deleteDesk = async (location) => {
-    console.log('deleteDesk');
-    // await httpClient.delete({ url: `/parts/rooms/${roomId}`, data: location });
-  };
 
   const handleDrag = (e, data) => {
     const type = e.currentTarget.attributes['data-type'].value;
@@ -76,6 +65,19 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     }
   };
 
+  const addNewItem = ({ type = 'DESK', location }) => {
+    socket.emit('APPEND_LOCATION', {
+      type,
+      roomId,
+      location,
+    });
+  };
+
+  const deleteItem = async ({ type = 'DESK', location }) => {
+    console.log('deleteItem');
+    // await httpClient.delete({ url: `/parts/rooms/${roomId}`, data: location });
+  };
+
   const handleDrop = (e) => {
     const prevX = dragItem.x;
     const prevY = dragItem.y;
@@ -97,15 +99,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
       };
 
       // TODO: 상수사용, 코스 위치 이동
-      socket.emit('APPEND_LOCATION', {
-        type: dragItem.type,
-        roomId,
-        location: {
-          x: nextX,
-          y: nextY,
-        },
-      });
-
+      addNewItem({ type: dragItem.type, location: { x: nextX, y: nextY } });
       setDragItem({});
       return;
     }
@@ -165,8 +159,8 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
           locationY={y}
           handleDrag={handleDrag}
           handleDrop={handleDrop}
-          addNewDesk={addNewDesk}
-          deleteDesk={deleteDesk}
+          addNewItem={addNewItem}
+          deleteItem={deleteItem}
           data={gridData[`${x}_${y}`]}
         />
       );
