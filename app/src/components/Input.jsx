@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-function Input({ value, type, label, onChange, name }) {
+function Input({ value, type, label, onChange, name, placeholder }) {
   return (
     <>
       <Label>{label}</Label>
-      <InputContainer name={name} value={value} type={type} onChange={onChange} />
+      <InputContainer name={name} value={value} type={type} onChange={onChange} placeholder={placeholder} />
     </>
   );
 }
@@ -17,12 +17,14 @@ Input.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  placeholder: PropTypes.string,
 };
 
 Input.defaultProps = {
   type: 'text',
   value: '',
   label: '',
+  placeholder: '',
 };
 
 const Label = styled.label`
@@ -33,7 +35,7 @@ const Label = styled.label`
 const InputContainer = styled.input`
   width: 100%;
   height: 36px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 0 8px;
   background: #fff;
   border: 1px solid ${(props) => props.theme.primary2};
