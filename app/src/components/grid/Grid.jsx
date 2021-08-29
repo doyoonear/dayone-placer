@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import httpClient from '../api/http-client';
+import httpClient from '../../api/http-client';
 
 import GridItem from './GridItem';
-import Sidebar from './Sidebar';
+import Sidebar from '../sidebar/Sidebar';
 
 function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   const [dragItem, setDragItem] = useState({});
-  const [reload, setReload] = useState(true);
   const [gridData, setGridData] = useState({});
 
   const getRoom = async () => {
@@ -43,7 +42,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   //   // gridData 초기화
   // }, [reload]);
 
-  const handleDrag = (e) => {
+  const handleDrag = (e, data) => {
     const type = e.currentTarget.attributes['data-type'].value;
 
     switch (type) {
@@ -58,6 +57,12 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
       case 'WINDOW_1':
         setDragItem({
           type,
+        });
+        break;
+      case 'MEMBER':
+        setDragItem({
+          type,
+          ...data,
         });
         break;
 
