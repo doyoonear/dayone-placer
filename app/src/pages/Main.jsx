@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
 import Modal from '../components/Modal';
@@ -6,9 +7,7 @@ import Input from '../components/Input';
 import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
-import Sidebar from '../components/Sidebar';
-
-import httpClient from '../api/http-client';
+import Sidebar from '../components/SidebarTemp';
 
 function Main() {
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
@@ -24,12 +23,12 @@ function Main() {
 
   const fetchData = () => {
     const findRooms = async () => {
-      const result = await httpClient.get({ url: '/rooms' });
+      const result = await axios.get('http://localhost:4000/rooms');
       setRooms(result.data);
     };
 
     const findGroups = async () => {
-      const result = await httpClient.get({ url: '/groups' });
+      const result = await axios.get('http://localhost:4000/groups');
       setGroups(result.data);
     };
 
@@ -38,8 +37,7 @@ function Main() {
   };
 
   const handleRoom = (id) => {
-    const room = rooms.find((item) => item.id === id);
-    setSelectedRoom(room);
+    setSelectedRoom(rooms.filter((room) => room.id === id)[0]);
   };
 
   const handleDeskModal = () => {
@@ -102,27 +100,14 @@ function Main() {
             </ButtonWrapper>
           </Modal>
         )}
-        {selectedRoom && selectedRoom.id && (
-          <Grid
-            handleDeskModal={handleDeskModal}
-            roomId={selectedRoom.id}
-            sizeX={selectedRoom.sizeX}
-            sizeY={selectedRoom.sizeY}
-          />
+        {selectedRoom && (
+          <Grid handleDeskModal={handleDeskModal} sizeX={selectedRoom.sizeX} sizeY={selectedRoom.sizeY} />
         )}
-        <StAbsoluteBox>
-          <Sidebar />
-        </StAbsoluteBox>
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
       </MainContainer>
     </MainPage>
   );
 }
-
-const StAbsoluteBox = styled.div`
-  position: fixed;
-  right: 0;
-`;
 
 const MainPage = styled.div``;
 

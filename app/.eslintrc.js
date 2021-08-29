@@ -4,6 +4,9 @@ module.exports = {
     es6: true,
     node: true,
   },
+  parserOptions: {
+    ecmaVersion: 2020,
+  },
   extends: ['airbnb', 'plugin:prettier/recommended'],
   rules: {
     'react/prefer-stateless-function': 'off',

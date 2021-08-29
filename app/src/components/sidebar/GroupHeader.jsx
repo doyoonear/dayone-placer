@@ -2,11 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import ArrowIcon from '../icons/ArrowIcon';
 import CommonFlexBox from '../_styled/CommonFlexBox';
-import { store, useStore, StateProvider } from '../../store/Store';
+import { Context } from '../../store/Store';
 
 function GroupHeader({ isGroupOpen, setIsGroupOpen, group }) {
-  const { state, dispatch } = StateProvider;
-  const globalState = useContext({ state, dispatch });
+  const { state, dispatch } = useContext(Context);
   const [arrowDeg, setArrowDeg] = useState(90);
 
   const changeArrowDeg = () => {

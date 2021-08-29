@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
 import httpClient from '../../api/http-client';
-import ArrowIcon from './icons/ArrowIcon';
-import CommonFlexBox from './styled/CommonFlexBox';
-import GroupHeader from './sidebar/GroupHeader';
-import ContextApp from '../context/index';
+import GroupHeader from './GroupHeader';
 
 function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);

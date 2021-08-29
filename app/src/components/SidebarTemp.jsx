@@ -1,31 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
-import { store, useStore, StateProvider } from '../store/Store';
+import { Context } from '../store/Store';
 import GroupHeader from './sidebar/GroupHeader';
 
-function Sidebar() {
-  const state = useStore(store);
-  const { dispatch } = StateProvider;
-
+function Sidebar({ handleDrag, handleDrop }) {
+  const { state, dispatch } = useContext(Context);
+  const [partList, setPartList] = useState([
+    { id: 1, type: 'DESK', title: '책상' },
+    { id: 2, type: 'WINDOW_1', title: '창문1' },
+  ]);
   // const [isGroupOpen, setIsGroupOpen] = useState(true);
   // const [groupList, setGroupList] = useState([]);
-
-  // const GroupMembersContext = React.createContext({
-  //   isGroupOpen,
-  //   setIsGroupOpen,
-  //   groupList,
-  //   setGroupList,
-  // });
-
-  // const { groupList, isGroupOpen, setGroupList } = state;
-
-  // const groupMembers = useContext(GroupMembersContext);
 
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
     } = await axios.get('http://localhost:4000/groups/members');
+    console.log('children', children);
 
     dispatch({ type: 'SET_GROUPLIST', value: children });
   };
@@ -34,6 +27,19 @@ function Sidebar() {
 
   return (
     <StSidebar>
+      <StPartContainer>
+        {partList.map((part) => (
+          <StPart
+            key={part.id}
+            draggable
+            data-type={part.type}
+            onDragOver={(e) => e.preventDefault()}
+            onDragStart={handleDrag}
+          >
+            {part.title}
+          </StPart>
+        ))}
+      </StPartContainer>
       {state.groupList.length &&
         state.groupList.map((group) => {
           return (
@@ -44,7 +50,17 @@ function Sidebar() {
               <StMemberContainer isGroupOpen={state.isGroupOpen}>
                 {group.members.length &&
                   group.members.map((member) => {
-                    return <StMemberName key={member.id}>{member.name}</StMemberName>;
+                    return (
+                      <StMemberName
+                        key={member.id}
+                        draggable
+                        data-type='MEMBER'
+                        onDragOver={(e) => e.preventDefault()}
+                        onDragStart={(e) => handleDrag(e, member)}
+                      >
+                        {member.name}
+                      </StMemberName>
+                    );
                   })}
               </StMemberContainer>
             </div>
@@ -54,6 +70,19 @@ function Sidebar() {
   );
 }
 
+Sidebar.propTypes = {
+  handleDrag: PropTypes.func,
+  handleDrop: PropTypes.func,
+};
+
+Sidebar.defaultProps = {
+  handleDrag: () => {},
+  handleDrop: () => {},
+};
+
+const StPartContainer = styled.div``;
+const StPart = styled.div``;
+
 const StGroupHeader = styled.div`
   padding: 0.7rem;
   background: ${(props) => props.color || 'grey'};
@@ -61,7 +90,6 @@ const StGroupHeader = styled.div`
 
 const StMemberContainer = styled.li`
   padding: 0.7rem;
-  /* background: ${(props) => (props.isGroupOpen ? 'blue' : props.theme.primary4)}; */
   display: ${(props) => (props.isGroupOpen ? 'block' : 'none')};
   width: 100%;
 `;
