@@ -14,4 +14,10 @@ router.get("/:roomId", async (req, res) => {
   return res.send(data);
 });
 
+router.delete("/:roomId", async (req, res) => {
+  const roomId = Number(req.params.roomId);
+  const data = await roomService.deleteById(roomId);
+  return res.send(data);
+});
+
 module.exports = router;
