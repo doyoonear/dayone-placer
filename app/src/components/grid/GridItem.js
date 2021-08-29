@@ -23,7 +23,7 @@ const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop }) => {
 GridItem.propTypes = {
   locationX: PropTypes.number,
   locationY: PropTypes.number,
-  data: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.object,
   handleDrag: PropTypes.func,
   handleDrop: PropTypes.func,
 };

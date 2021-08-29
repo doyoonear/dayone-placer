@@ -9,6 +9,7 @@ import Sidebar from '../sidebar/Sidebar';
 function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   const [dragItem, setDragItem] = useState({});
   const [gridData, setGridData] = useState({});
+  console.log('props socket', socket);
 
   const getRoom = async () => {
     const result = await httpClient.get({ url: `/parts/rooms/${roomId}` });
@@ -174,7 +175,7 @@ Grid.propTypes = {
   roomId: PropTypes.number,
   sizeX: PropTypes.number,
   sizeY: PropTypes.number,
-  socket: PropTypes.objectOf(PropTypes.object),
+  socket: PropTypes.object,
 };
 
 Grid.defaultProps = {
