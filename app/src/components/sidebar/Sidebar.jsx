@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import httpClient from '../api/http-client';
+import httpClient from '../../api/http-client';
 
 function Sidebar({ handleDrag }) {
   const [groupList, setGroupList] = useState([]);
@@ -46,7 +46,17 @@ function Sidebar({ handleDrag }) {
               <StMemberContainer>
                 {group.members.length &&
                   group.members.map((member) => {
-                    return <StMemberName key={member.id}>{member.name}</StMemberName>;
+                    return (
+                      <StMemberName
+                        key={member.id}
+                        draggable
+                        data-type='MEMBER'
+                        onDragOver={(e) => e.preventDefault()}
+                        onDragStart={(e) => handleDrag(e, member)}
+                      >
+                        {member.name}
+                      </StMemberName>
+                    );
                   })}
               </StMemberContainer>
             </StGroupContainer>
