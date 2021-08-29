@@ -11,10 +11,11 @@ const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop }) => {
       data-y={locationY}
       onDragOver={(e) => e.preventDefault()}
       onDragStart={handleDrag}
-      onDrop={handleDrop}
+      onDrop={(e) => handleDrop(e, data)}
       // onClick={(e) => console.log(e.target.dataset.x, e.target.dataset.y)}
     >
       {data.type?.substring(0, 1)}
+      {data.name}
     </Bullet>
   );
 };
