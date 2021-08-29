@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import socketio from 'socket.io-client';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
 import Modal from '../components/Modal';
@@ -7,6 +8,8 @@ import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
 import httpClient from '../api/http-client';
+
+const socket = socketio.connect(httpClient.SERVER_URL);
 
 function Main() {
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
@@ -58,6 +61,7 @@ function Main() {
   };
 
   useEffect(() => {
+    socket.emit('INIT', { test: '' });
     fetchData();
   }, []);
 
@@ -100,12 +104,13 @@ function Main() {
             </ButtonWrapper>
           </Modal>
         )}
-        {selectedRoom && (
+        {selectedRoom && selectedRoom.id && (
           <Grid
             handleDeskModal={handleDeskModal}
             roomId={selectedRoom.id}
             sizeX={selectedRoom.sizeX}
             sizeY={selectedRoom.sizeY}
+            socket={socket}
           />
         )}
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />

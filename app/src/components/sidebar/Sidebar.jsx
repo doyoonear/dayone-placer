@@ -33,7 +33,7 @@ function Sidebar({ handleDrag, handleDrop }) {
             draggable
             data-type={part.type}
             onDragOver={(e) => e.preventDefault()}
-            onDragStart={handleDrag}
+            onDragStart={(e) => handleDrag(e, part)}
           >
             {part.title}
           </StPart>
