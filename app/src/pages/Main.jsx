@@ -7,7 +7,6 @@ import Input from '../components/Input';
 import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
-import Sidebar from '../components/SidebarTemp';
 
 function Main() {
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);

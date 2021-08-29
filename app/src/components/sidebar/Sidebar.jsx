@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import axios from 'axios';
-import httpClient from '../../api/http-client';
+import { Context } from '../../store/Store';
 import GroupHeader from './GroupHeader';
 
-function Sidebar({ handleDrag }) {
-  const [groupList, setGroupList] = useState([]);
+function Sidebar({ handleDrag, handleDrop }) {
+  const { state, dispatch } = useContext(Context);
   const [partList, setPartList] = useState([
     { id: 1, type: 'DESK', title: '책상' },
     { id: 2, type: 'WINDOW_1', title: '창문1' },
   ]);
-  const [arrowRotate, setArrowRotate] = useState(90);
+  // const [isGroupOpen, setIsGroupOpen] = useState(true);
+  // const [groupList, setGroupList] = useState([]);
 
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
-    } = await httpClient.get({ url: '/groups/members' });
+    } = await axios.get('http://localhost:4000/groups/members');
+    console.log('children', children);
 
-    setGroupList(children);
+    dispatch({ type: 'SET_GROUPLIST', value: children });
   };
 
   useEffect(getGroupMembers, []);
@@ -38,14 +40,14 @@ function Sidebar({ handleDrag }) {
           </StPart>
         ))}
       </StPartContainer>
-      {groupList.length &&
-        groupList.map((group) => {
+      {state.groupList.length &&
+        state.groupList.map((group) => {
           return (
-            <StGroupContainer key={group.id}>
+            <div key={group.id}>
               <StGroupHeader color={group.color}>
-                <GroupHeader groupId={group.id} group={group} />
+                <GroupHeader group={group} />
               </StGroupHeader>
-              <StMemberContainer>
+              <StMemberContainer isGroupOpen={state.isGroupOpen}>
                 {group.members.length &&
                   group.members.map((member) => {
                     return (
@@ -61,7 +63,7 @@ function Sidebar({ handleDrag }) {
                     );
                   })}
               </StMemberContainer>
-            </StGroupContainer>
+            </div>
           );
         })}
     </StSidebar>
@@ -70,18 +72,16 @@ function Sidebar({ handleDrag }) {
 
 Sidebar.propTypes = {
   handleDrag: PropTypes.func,
+  handleDrop: PropTypes.func,
 };
 
 Sidebar.defaultProps = {
   handleDrag: () => {},
+  handleDrop: () => {},
 };
 
 const StPartContainer = styled.div``;
 const StPart = styled.div``;
-
-const StGroupContainer = styled.div`
-  border: 0.1rem solid red;
-`;
 
 const StGroupHeader = styled.div`
   padding: 0.7rem;
@@ -90,7 +90,6 @@ const StGroupHeader = styled.div`
 
 const StMemberContainer = styled.li`
   padding: 0.7rem;
-  /* background: ${(props) => (props.isGroupOpen ? 'blue' : props.theme.primary4)}; */
   display: ${(props) => (props.isGroupOpen ? 'block' : 'none')};
   width: 100%;
 `;

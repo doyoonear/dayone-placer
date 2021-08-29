@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import httpClient from '../../api/http-client';
 
 import GridItem from './GridItem';
-import Sidebar from '../SidebarTemp';
+import Sidebar from '../sidebar/Sidebar';
 
 function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   const [dragItem, setDragItem] = useState({});
