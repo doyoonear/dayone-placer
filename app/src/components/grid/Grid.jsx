@@ -100,11 +100,17 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
     // TODO: 놓으려는 자리에 무엇인가 있다면?
     console.log('위치 이동');
 
-    if (!gridData[`${nextX}_${nextY}`]) {
+    if (gridData[`${nextX}_${nextY}`]) {
+      // 놓으려는 자리에 무엇인가 있다면
+      const temp = gridData[`${nextX}_${nextY}`];
+      gridData[`${nextX}_${nextY}`] = gridData[`${prevX}_${prevY}`];
+      gridData[`${prevX}_${prevY}`] = temp;
+
+      // TODO: change push from socket
+    } else {
       // 놓으려는 자리에 아무것도 없다면
       gridData[`${nextX}_${nextY}`] = gridData[`${prevX}_${prevY}`];
-      gridData[`${prevX}_${prevY}`] = {};
-
+      delete gridData[`${prevX}_${prevY}`];
       // TODO: change push from socket
     }
 
