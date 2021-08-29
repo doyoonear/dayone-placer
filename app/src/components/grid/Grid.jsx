@@ -170,6 +170,8 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
   const [locationList, setLocationList] = useState([]);
 
+  // TODO: 렌더스피드 너무 느림 locationList 가 변하는 state 가 필요하진 않기 때문에
+  // for 문 도는것 내부의 데이터는 state 말고 일반 값으로 사용. for문 한번만.
   const getGridItemAmount = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
