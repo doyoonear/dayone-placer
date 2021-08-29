@@ -6,6 +6,7 @@ const GridItem = ({ locationX, locationY, handleDrag, handleDrop }) => {
   return (
     <Bullet
       draggable
+      data-type='GRID'
       data-x={locationX}
       data-y={locationY}
       onDragOver={(e) => e.preventDefault()}
