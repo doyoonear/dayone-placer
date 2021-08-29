@@ -26,6 +26,11 @@ function Main() {
     x: 0,
     y: 0,
   });
+  const [roomForm, setRoomForm] = useState({
+    title: '',
+    sizeX: 0,
+    sizeY: 0,
+  });
 
   const fetchData = () => {
     const findRooms = async () => {
@@ -64,6 +69,21 @@ function Main() {
     });
   };
 
+  const handleRoomForm = (e) => {
+    const { name, value } = e.target;
+    console.log('name', name);
+    console.log('value', value);
+
+    setRoomForm({
+      ...roomForm,
+      [name]: value,
+    });
+  };
+
+  const makeNewRoom = async () => {
+    await httpClient.post({ url: '/rooms', data: roomForm });
+  };
+
   useEffect(() => {
     if (getStorage('ACCESS_TOKEN')) {
       socket.emit('INIT', { test: '' });
@@ -100,13 +120,13 @@ function Main() {
         {isRoomModalOn && (
           <Modal title='공간 추가'>
             <InputWrapper>
-              <Input label='공간명' name='roomName' onChange={handleDeskForm} />
-              <Input label='가로' type='number' name='x' onChange={handleDeskForm} />
-              <Input label='세로' type='number' name='y' onChange={handleDeskForm} />
+              <Input label='공간명' name='title' onChange={handleRoomForm} value={roomForm.title} />
+              <Input label='가로' type='number' name='sizeX' onChange={handleRoomForm} value={roomForm.sizeX} />
+              <Input label='세로' type='number' name='sizeY' onChange={handleRoomForm} value={roomForm.sizeY} />
             </InputWrapper>
             <ButtonWrapper>
               <Button onClick={handleRoomModal} name='취소' />
-              <Button name='확인' onClick={() => console.log(deskForm)} />
+              <Button name='확인' onClick={makeNewRoom} />
             </ButtonWrapper>
           </Modal>
         )}
