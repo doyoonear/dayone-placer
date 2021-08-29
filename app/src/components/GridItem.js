@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const GridItem = ({ locationX, locationY, handleDrag, handleDrop }) => {
+const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop }) => {
   return (
     <Bullet
       draggable
@@ -13,13 +13,16 @@ const GridItem = ({ locationX, locationY, handleDrag, handleDrop }) => {
       onDragStart={handleDrag}
       onDrop={handleDrop}
       // onClick={(e) => console.log(e.target.dataset.x, e.target.dataset.y)}
-    />
+    >
+      {data.type?.substring(0, 1)}
+    </Bullet>
   );
 };
 
 GridItem.propTypes = {
   locationX: PropTypes.number,
   locationY: PropTypes.number,
+  data: PropTypes.arrayOf(PropTypes.object),
   handleDrag: PropTypes.func,
   handleDrop: PropTypes.func,
 };
@@ -27,6 +30,7 @@ GridItem.propTypes = {
 GridItem.defaultProps = {
   locationX: 0,
   locationY: 0,
+  data: {},
   handleDrag: () => {},
   handleDrop: () => {},
 };
