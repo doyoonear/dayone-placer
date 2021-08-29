@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
 import Modal from '../components/Modal';
@@ -7,6 +6,7 @@ import Input from '../components/Input';
 import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
+import httpClient from '../api/http-client';
 
 function Main() {
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
@@ -22,12 +22,12 @@ function Main() {
 
   const fetchData = () => {
     const findRooms = async () => {
-      const result = await axios.get('http://localhost:4000/rooms');
+      const result = await httpClient.get({ url: '/rooms' });
       setRooms(result.data);
     };
 
     const findGroups = async () => {
-      const result = await axios.get('http://localhost:4000/groups');
+      const result = await httpClient.get({ url: '/groups' });
       setGroups(result.data);
     };
 
@@ -36,7 +36,8 @@ function Main() {
   };
 
   const handleRoom = (id) => {
-    setSelectedRoom(rooms.filter((room) => room.id === id)[0]);
+    const room = rooms.find((item) => item.id === id);
+    setSelectedRoom(room);
   };
 
   const handleDeskModal = () => {
@@ -100,7 +101,12 @@ function Main() {
           </Modal>
         )}
         {selectedRoom && (
-          <Grid handleDeskModal={handleDeskModal} sizeX={selectedRoom.sizeX} sizeY={selectedRoom.sizeY} />
+          <Grid
+            handleDeskModal={handleDeskModal}
+            roomId={selectedRoom.id}
+            sizeX={selectedRoom.sizeX}
+            sizeY={selectedRoom.sizeY}
+          />
         )}
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
       </MainContainer>

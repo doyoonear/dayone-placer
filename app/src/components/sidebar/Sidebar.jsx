@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Context } from '../../store/Store';
 import GroupHeader from './GroupHeader';
+import httpClient from '../../api/http-client';
 
 function Sidebar({ handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
@@ -17,8 +17,7 @@ function Sidebar({ handleDrag, handleDrop }) {
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
-    } = await axios.get('http://localhost:4000/groups/members');
-    console.log('children', children);
+    } = await httpClient.get({ url: '/groups/members' });
 
     dispatch({ type: 'SET_GROUPLIST', value: children });
   };
