@@ -18,9 +18,37 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
       data[`${part.locationX}_${part.locationY}`] = part;
     });
 
-    console.log('data', data);
-
     setGridData(data);
+  };
+
+  useEffect(() => {
+    // event subscribe
+    // TODO: socket 코드 격리
+    socket.on('APPEND_LOCATION', (data) => {
+      socketAppendLocation(data);
+    });
+
+    return () => {
+      socket.removeListener('APPEND_LOCATION');
+    };
+  }, [roomId, gridData]);
+
+  const socketAppendLocation = ({ type, roomId: socketRoomId, location }) => {
+    // Server 에서 처리하도록 수정필요
+    if (roomId !== socketRoomId) {
+      return;
+    }
+
+    gridData[`${location.x}_${location.y}`] = {
+      type,
+      roomId,
+      location: {
+        x: location.x,
+        y: location.y,
+      },
+    };
+
+    setDragItem({});
   };
 
   useEffect(async () => {
