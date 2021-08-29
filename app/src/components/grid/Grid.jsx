@@ -5,6 +5,7 @@ import httpClient from '../../api/http-client';
 
 import GridItem from './GridItem';
 import Sidebar from '../sidebar/Sidebar';
+import DeleteIcon from '../icons/DeleteIcon';
 
 function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   const [dragItem, setDragItem] = useState({});
@@ -167,7 +168,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     setDragItem({});
   };
 
-  const [itemList, setItemList] = useState([]);
+  const [locationList, setLocationList] = useState([]);
 
   const getGridItemAmount = (cols, rows) => {
     const result = [];
@@ -182,7 +183,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
   const makeGridItem = () => {
     const result = getGridItemAmount(sizeX, sizeY);
-    setItemList(result);
+    setLocationList(result);
   };
 
   useEffect(async () => {
@@ -194,18 +195,18 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
   return (
     <GridContainer>
       <GridWrapper>
-        {itemList.length &&
-          itemList.map((item, index) => {
+        {locationList.length &&
+          locationList.map((location, index) => {
             return (
               <GridItem
-                key={`${item.x}_${item.y}`}
+                key={`${location.x}_${location.y}`}
                 id={index}
-                item={item}
+                location={location}
                 handleDrag={handleDrag}
                 handleDrop={handleDrop}
                 addNewItem={addNewItem}
                 deleteItem={deleteItem}
-                data={gridData[`${item.x}_${item.y}`]}
+                data={gridData[`${location.x}_${location.y}`]}
               />
             );
           })}
