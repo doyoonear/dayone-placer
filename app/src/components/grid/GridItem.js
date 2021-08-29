@@ -2,7 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop }) => {
+const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop, addNewDesk, deleteDesk }) => {
+  const checkDeskEmpty = (e) => {
+    // 해당 location div 의 data-type check
+    // e.target 의 data-type
+    const type = 'GRID';
+    const location = { x: e.target.dataset.x, y: e.target.dataset.y };
+    return type === 'GRID' ? addNewDesk(location) : deleteDesk(location);
+  };
+
   return (
     <Bullet
       draggable
@@ -12,7 +20,7 @@ const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop }) => {
       onDragOver={(e) => e.preventDefault()}
       onDragStart={handleDrag}
       onDrop={(e) => handleDrop(e, data)}
-      // onClick={(e) => console.log(e.target.dataset.x, e.target.dataset.y)}
+      onClick={(e) => checkDeskEmpty(e)}
     >
       {data.type?.substring(0, 1)}
       {data.name}
