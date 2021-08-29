@@ -13,8 +13,16 @@ class Repository {
     return knex(this.table).where(query).select();
   }
 
+  selectFirst(query) {
+    return knex(this.table).where(query).first();
+  }
+
   selectById(id) {
     return knex(this.table).where({ id }).first();
+  }
+
+  insert(data) {
+    return knex(this.table).insert(data);
   }
 
   updateById(id, data) {

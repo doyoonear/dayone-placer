@@ -20,6 +20,10 @@ class Service {
     return toViews(result);
   }
 
+  create(data) {
+    return this.repository.insert(data);
+  }
+
   updateById(id, data) {
     return this.repository.updateById(id, data);
   }
