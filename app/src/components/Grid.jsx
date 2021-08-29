@@ -1,12 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import httpClient from '../api/http-client';
 
 import GridItem from './GridItem';
 import Sidebar from './Sidebar';
 
-function Grid({ handleDeskModal, sizeX, sizeY }) {
+function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   const [dragItem, setDragItem] = useState({});
+  const [reload, setReload] = useState(true);
+  const [gridData, setGridData] = useState({});
+
+  const getRoom = async () => {
+    const result = await httpClient.get({ url: `/rooms/${roomId}` });
+    const data = {};
+
+    result.data.members?.forEach((member) => {
+      member.desks?.forEach((desk) => {
+        data[`${desk.x}_${desk.y}`] = {
+          ...desk,
+          ...member,
+        };
+      });
+    });
+
+    result.data.parts?.forEach((part) => {
+      data[`${part.x}_${part.y}`] = part;
+    });
+
+    console.log('data', data);
+
+    setGridData(data);
+  };
+
+  useEffect(async () => {
+    // 데이터 조회
+    console.log('roomId', roomId);
+    await getRoom();
+  }, [roomId]);
+
+  // useEffect(() => {
+  //   // gridData 초기화
+  // }, [reload]);
 
   const handleDrag = (e) => {
     const type = e.currentTarget.attributes['data-type'].value;
@@ -48,11 +83,26 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
 
     if (!prevX && !prevY) {
       console.log('새로운 추가 =>', dragItem.type);
+      gridData[`${nextX}_${nextY}`] = {
+        ...dragItem,
+      };
+
+      setDragItem({});
+      // TODO: append push from socket
       return;
     }
 
     // TODO: 놓으려는 자리에 무엇인가 있다면?
     console.log('위치 이동');
+
+    if (!gridData[`${nextX}_${nextY}`]) {
+      // 놓으려는 자리에 아무것도 없다면
+      gridData[`${nextX}_${nextY}`] = gridData[`${prevX}_${prevY}`];
+      gridData[`${prevX}_${prevY}`] = {};
+
+      // TODO: change push from socket
+    }
+
     setDragItem({});
   };
 
@@ -63,14 +113,21 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
       const y = i % cols;
 
       result.push(
-        <GridItem key={i + 1} id={i + 1} locationX={x} locationY={y} handleDrag={handleDrag} handleDrop={handleDrop} />
+        <GridItem
+          key={i + 1}
+          id={i + 1}
+          locationX={x}
+          locationY={y}
+          handleDrag={handleDrag}
+          handleDrop={handleDrop}
+          data={gridData[`${x}_${y}`]}
+        />
       );
     }
     return result;
   };
 
   return (
-    // <GridContainer onClick={handleDeskModal}>
     <GridContainer>
       <GridWrapper>{renderGridItem(sizeX, sizeY)}</GridWrapper>
       <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
@@ -80,11 +137,13 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
 
 Grid.propTypes = {
   handleDeskModal: PropTypes.func.isRequired,
+  roomId: PropTypes.number,
   sizeX: PropTypes.number,
   sizeY: PropTypes.number,
 };
 
 Grid.defaultProps = {
+  roomId: 0,
   sizeX: 0,
   sizeY: 0,
 };

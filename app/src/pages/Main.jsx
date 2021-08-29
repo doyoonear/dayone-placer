@@ -37,7 +37,8 @@ function Main() {
   };
 
   const handleRoom = (id) => {
-    setSelectedRoom(rooms.filter((room) => room.id === id)[0]);
+    const room = rooms.find((item) => item.id === id);
+    setSelectedRoom(room);
   };
 
   const handleDeskModal = () => {
@@ -100,8 +101,13 @@ function Main() {
             </ButtonWrapper>
           </Modal>
         )}
-        {selectedRoom && (
-          <Grid handleDeskModal={handleDeskModal} sizeX={selectedRoom.sizeX} sizeY={selectedRoom.sizeY} />
+        {selectedRoom && selectedRoom.id && (
+          <Grid
+            handleDeskModal={handleDeskModal}
+            roomId={selectedRoom.id}
+            sizeX={selectedRoom.sizeX}
+            sizeY={selectedRoom.sizeY}
+          />
         )}
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
       </MainContainer>
