@@ -21,18 +21,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     setGridData(data);
   };
 
-  useEffect(() => {
-    // event subscribe
-    // TODO: socket 코드 격리
-    socket.on('APPEND_LOCATION', (data) => {
-      socketAppendLocation(data);
-    });
-
-    return () => {
-      socket.removeListener('APPEND_LOCATION');
-    };
-  }, [gridData]);
-
   const socketAppendLocation = ({ type, roomId: socketRoomId, location }) => {
     // Server 에서 처리하도록 수정필요
     if (roomId !== socketRoomId) {
@@ -50,6 +38,18 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
     setDragItem({});
   };
+
+  useEffect(() => {
+    // event subscribe
+    // TODO: socket 코드 격리
+    socket.on('APPEND_LOCATION', (data) => {
+      socketAppendLocation(data);
+    });
+
+    return () => {
+      socket.removeListener('APPEND_LOCATION');
+    };
+  }, [gridData]);
 
   useEffect(async () => {
     // 데이터 조회
