@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import PropTypes from 'prop-types';
 import httpClient from '../api/http-client';
 
 function Sidebar({ handleDrag }) {
@@ -14,7 +13,7 @@ function Sidebar({ handleDrag }) {
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
-    } = await httpClient.get({ url: '/members' });
+    } = await httpClient.get({ url: '/groups/members' });
 
     setGroupList(children);
   };
