@@ -9,6 +9,7 @@ import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
 import httpClient from '../api/http-client';
+import InfoModal from '../components/InfoModal';
 
 import { getStorage } from '../api/support';
 
@@ -31,6 +32,8 @@ function Main() {
     sizeX: 0,
     sizeY: 0,
   });
+
+  const [isInfoModalVisible, setInfoModal] = useState(false);
 
   const fetchData = () => {
     const findRooms = async () => {
@@ -81,7 +84,17 @@ function Main() {
   };
 
   const makeNewRoom = async () => {
-    await httpClient.post({ url: '/rooms', data: roomForm });
+    try {
+      await httpClient.post({ url: '/rooms', data: roomForm });
+      setIsRoomModalOn(false);
+      setInfoModal(true);
+    } catch {
+      setInfoModal(false);
+    }
+  };
+
+  const handleInfoModal = (bool) => {
+    return setInfoModal(bool);
   };
 
   useEffect(() => {
@@ -140,6 +153,7 @@ function Main() {
           />
         )}
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
+        {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       </MainContainer>
     </MainPage>
   );
