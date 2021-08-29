@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as Trash } from '../../assets/right-arrow.svg';
+import { ReactComponent as Trash } from '../../assets/trash.svg';
 import CommonIconContainer from '../_styled/CommonIconBox';
 
 function DeleteIcon({ width, height, rotate }) {
