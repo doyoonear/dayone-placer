@@ -1,9 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+import GridItem from './GridItem';
+
 function Grid({ handleDeskModal, sizeX, sizeY }) {
-  const rendering = (cols, rows) => {
+  const [dragItem, setDragItem] = useState({});
+
+  const handleDrag = (e) => {
+    console.log('drag start');
+    setDragItem({
+      prev: {
+        x: Number(e.currentTarget.attributes['data-x'].value),
+        y: Number(e.currentTarget.attributes['data-y'].value),
+      },
+    });
+  };
+
+  const handleDrop = (e) => {
+    console.log('drop!');
+    const prevX = dragItem.prev.x;
+    const prevY = dragItem.prev.y;
+
+    const nextX = e.currentTarget.attributes['data-x'].value;
+    const nextY = e.currentTarget.attributes['data-y'].value;
+
+    console.log(`drag...., (${prevX}, ${prevY}) => (${nextX}, ${nextY})`);
+
+    if (prevX === nextX && prevY === nextY) {
+      console.log('제자리 놓기');
+      return;
+    }
+
+    console.log('END');
+  };
+
+  const renderGridItem = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
       const x = parseInt(i / cols, 10) + 1;
@@ -14,21 +46,16 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
       }
 
       result.push(
-        <Bullet
-          key={i + 1}
-          id={i + 1}
-          data-x={x}
-          data-y={y}
-          onClick={(e) => console.log(e.target.dataset.x, e.target.dataset.y)}
-        />
+        <GridItem key={i + 1} id={i + 1} locationX={x} locationY={y} handleDrag={handleDrag} handleDrop={handleDrop} />
       );
     }
     return result;
   };
 
   return (
-    <GridContainer onClick={handleDeskModal}>
-      <GridWrapper>{rendering(sizeX, sizeY)}</GridWrapper>
+    // <GridContainer onClick={handleDeskModal}>
+    <GridContainer>
+      <GridWrapper>{renderGridItem(sizeX, sizeY)}</GridWrapper>
     </GridContainer>
   );
 }
@@ -58,17 +85,6 @@ const GridWrapper = styled.div`
   grid-template-columns: repeat(30, 1fr);
   grid-template-rows: repeat(30, 1fr);
   width: fit-content;
-`;
-
-const Bullet = styled.div`
-  width: 20px;
-  height: 20px;
-  border: 1px solid lightgrey;
-  text-align: center;
-  cursor: pointer;
-  :hover {
-    background: ${(props) => props.theme.primary8};
-  }
 `;
 
 export default Grid;
