@@ -31,7 +31,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     return () => {
       socket.removeListener('APPEND_LOCATION');
     };
-  }, [roomId, gridData]);
+  }, [gridData]);
 
   const socketAppendLocation = ({ type, roomId: socketRoomId, location }) => {
     // Server 에서 처리하도록 수정필요
