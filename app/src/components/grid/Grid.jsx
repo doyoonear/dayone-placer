@@ -11,20 +11,11 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY }) {
   const [gridData, setGridData] = useState({});
 
   const getRoom = async () => {
-    const result = await httpClient.get({ url: `/rooms/${roomId}` });
+    const result = await httpClient.get({ url: `/parts/rooms/${roomId}` });
     const data = {};
 
-    result.data.members?.forEach((member) => {
-      member.desks?.forEach((desk) => {
-        data[`${desk.x}_${desk.y}`] = {
-          ...desk,
-          ...member,
-        };
-      });
-    });
-
-    result.data.parts?.forEach((part) => {
-      data[`${part.x}_${part.y}`] = part;
+    result.data.forEach((part) => {
+      data[`${part.locationX}_${part.locationY}`] = part;
     });
 
     console.log('data', data);
