@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop, addNewDesk, deleteDesk }) => {
+const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop, addNewItem, deleteItem }) => {
   const checkDeskEmpty = (e) => {
-    // 해당 location div 의 data-type check
-    // e.target 의 data-type
+    // TODO: e.target 의 data-type 체크 해서 GRID 일때 addNewItem. (optional: 선택해서 다른 타입 넣기)
+    // TODO: DESK, PARTS 의 type 이 모두 GRID 임 (어떻게 연결되어있는지 확인)
+
     const type = 'GRID';
     const location = { x: e.target.dataset.x, y: e.target.dataset.y };
-    return type === 'GRID' ? addNewDesk(location) : deleteDesk(location);
+    return type === 'GRID' ? addNewItem({ location }) : deleteItem({ location });
   };
 
   return (
