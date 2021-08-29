@@ -3,27 +3,41 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import GridItem from './GridItem';
+import Sidebar from './Sidebar';
 
 function Grid({ handleDeskModal, sizeX, sizeY }) {
   const [dragItem, setDragItem] = useState({});
 
   const handleDrag = (e) => {
-    console.log('drag start');
-    setDragItem({
-      prev: {
-        x: Number(e.currentTarget.attributes['data-x'].value),
-        y: Number(e.currentTarget.attributes['data-y'].value),
-      },
-    });
+    const type = e.currentTarget.attributes['data-type'].value;
+
+    switch (type) {
+      case 'GRID':
+        setDragItem({
+          type,
+          x: Number(e.currentTarget.attributes['data-x'].value),
+          y: Number(e.currentTarget.attributes['data-y'].value),
+        });
+        break;
+      case 'DESK':
+      case 'WINDOW_1':
+        setDragItem({
+          type,
+        });
+        break;
+
+      default:
+        console.error('err', type);
+        break;
+    }
   };
 
   const handleDrop = (e) => {
-    console.log('drop!');
-    const prevX = dragItem.prev.x;
-    const prevY = dragItem.prev.y;
+    const prevX = dragItem.x;
+    const prevY = dragItem.y;
 
-    const nextX = e.currentTarget.attributes['data-x'].value;
-    const nextY = e.currentTarget.attributes['data-y'].value;
+    const nextX = Number(e.currentTarget.attributes['data-x'].value);
+    const nextY = Number(e.currentTarget.attributes['data-y'].value);
 
     console.log(`drag...., (${prevX}, ${prevY}) => (${nextX}, ${nextY})`);
 
@@ -32,7 +46,14 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
       return;
     }
 
-    console.log('END');
+    if (!prevX && !prevY) {
+      console.log('새로운 추가 =>', dragItem.type);
+      return;
+    }
+
+    // TODO: 놓으려는 자리에 무엇인가 있다면?
+    console.log('위치 이동');
+    setDragItem({});
   };
 
   const renderGridItem = (cols, rows) => {
@@ -52,6 +73,7 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
     // <GridContainer onClick={handleDeskModal}>
     <GridContainer>
       <GridWrapper>{renderGridItem(sizeX, sizeY)}</GridWrapper>
+      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
     </GridContainer>
   );
 }
