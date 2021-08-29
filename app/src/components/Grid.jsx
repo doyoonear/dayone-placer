@@ -38,12 +38,8 @@ function Grid({ handleDeskModal, sizeX, sizeY }) {
   const renderGridItem = (cols, rows) => {
     const result = [];
     for (let i = 0; i < cols * rows; i += 1) {
-      const x = parseInt(i / cols, 10) + 1;
-      let y = (i + 1) % cols;
-
-      if (y === 0) {
-        y = cols;
-      }
+      const x = parseInt(i / cols, 10);
+      const y = i % cols;
 
       result.push(
         <GridItem key={i + 1} id={i + 1} locationX={x} locationY={y} handleDrag={handleDrag} handleDrop={handleDrop} />
