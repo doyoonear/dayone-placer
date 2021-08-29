@@ -90,8 +90,8 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
         type: dragItem.type,
         roomId,
         location: {
-          nextX,
-          nextY,
+          x: nextX,
+          y: nextY,
         },
       });
 
