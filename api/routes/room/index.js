@@ -14,10 +14,20 @@ router.get("/:roomId", async (req, res) => {
   return res.send(data);
 });
 
+router.post("/", async (req, res) => {
+  const command = {
+    title: req.body.title,
+    size_x: req.body.sizeX,
+    size_y: req.body.sizeY,
+  };
+  const result = await roomService.create(command);
+  return res.send(result);
+});
+
 router.delete("/:roomId", async (req, res) => {
   const roomId = Number(req.params.roomId);
-  const data = await roomService.deleteById(roomId);
-  return res.send(data);
+  const result = await roomService.deleteById(roomId);
+  return res.send(result);
 });
 
 module.exports = router;
