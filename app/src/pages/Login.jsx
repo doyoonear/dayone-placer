@@ -9,17 +9,26 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const signIn = async () => {
-    const result = await httpClient.post({
-      url: '/auth/sign-in',
-      data: {
-        email,
-        password,
-      },
-    });
+    try {
+      const result = await httpClient.post({
+        url: '/auth/sign-in',
+        data: {
+          email,
+          password,
+        },
+      });
 
-    if (result?.data?.accessToken) {
-      const accessToken = result?.data?.accessToken;
-      setStorage('ACCESS_TOKEN', accessToken);
+      if (result.data.accessToken) {
+        const accessToken = result?.data?.accessToken;
+        setStorage('ACCESS_TOKEN', accessToken);
+
+        // TODO: 페이지 이동
+        alert('로그인 완료');
+      }
+    } catch (e) {
+      if (e.response.status === 401) {
+        alert(e.response.data.message);
+      }
     }
   };
 
