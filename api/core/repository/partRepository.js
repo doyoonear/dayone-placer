@@ -12,6 +12,10 @@ class PartRepository extends Repository {
       .where({ room_id: roomId, location_x: prevX, location_y: prevY })
       .update({ location_x: nextX, location_y: nextY });
   }
+
+  deleteByRoomIdAndLocationXAndLocationY(roomId, locationX, locationY) {
+    return knex(this.table).where({ room_id: roomId, location_x: locationX, location_y: locationY }).delete();
+  }
 }
 
 module.exports = {
