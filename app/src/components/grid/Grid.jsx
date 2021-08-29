@@ -198,7 +198,9 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
   return (
     <GridContainer>
-      <GridWrapper>{renderGridItem(sizeX, sizeY)}</GridWrapper>
+      <GridWrapper width={sizeX} height={sizeY}>
+        {renderGridItem(sizeX, sizeY)}
+      </GridWrapper>
       <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
     </GridContainer>
   );
@@ -226,12 +228,11 @@ const GridContainer = styled.div`
   max-width: 1080px;
 `;
 
-// TODO: repeat 변수로 수정 필요
 const GridWrapper = styled.div`
   display: grid;
   grid-gap: 0;
-  grid-template-columns: repeat(30, 1fr);
-  grid-template-rows: repeat(30, 1fr);
+  grid-template-columns: repeat(${({ width }) => width}, 1fr);
+  grid-template-rows: repeat(${({ height }) => height}, 1fr);
   width: fit-content;
 `;
 
