@@ -9,15 +9,20 @@ class GroupService extends Service {
   }
 
   async findGroupMembers() {
-    const groups = await groupRepository.selectAll({ type: "LEVEL_2" });
-    const groupIds = groups.map((item) => item.id);
+    const data = await groupRepository.select();
 
-    const members = await memberService.findAllGroupIds(groupIds);
+    const groups = data.filter((item) => item.type === "LEVEL_1");
 
-    return groups.map((group) => {
-      group.children = members.filter((member) => member.groupId === group.id);
-      return group;
+    const members = await memberService.find();
+
+    groups.forEach((group) => {
+      group.children = data.filter((item) => item.parent_id === group.id);
+      group.children?.forEach((child) => {
+        child.members = members.filter((member) => member.groupId === child.id); // TODO: knex 설정으로 snake => camel로 바꾸도록 수정
+      });
     });
+
+    return groups;
   }
 }
 
