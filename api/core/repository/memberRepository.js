@@ -8,7 +8,7 @@ class MemberRepository extends Repository {
   }
 
   findAllGroupIds(groupIds) {
-    return knex(this.table).whereIn("group_id", groupIds).select();
+    return knex(this.table).whereIn("groupId", groupIds).select();
   }
 }
 

@@ -1,23 +1,18 @@
-const { toViews, toView } = require("./support/mapper");
-
 class Service {
   constructor({ repository }) {
     this.repository = repository;
   }
 
-  async find() {
-    const result = await this.repository.select();
-    return toViews(result);
+  find() {
+    return this.repository.select();
   }
 
-  async getById(id) {
-    const result = await this.repository.selectById(id);
-    return toView(result);
+  getById(id) {
+    return this.repository.selectById(id);
   }
 
-  async findAll(query) {
-    const result = await this.repository.selectAll(query);
-    return toViews(result);
+  findAll(query) {
+    return this.repository.selectAll(query);
   }
 
   create(data) {
