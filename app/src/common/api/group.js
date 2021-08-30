@@ -1,4 +1,4 @@
-import { httpClient } from '../support/http-client';
+import httpClient from '../support/http-client';
 
 export const findGroups = () => {
   return httpClient.get({ url: `/groups` });

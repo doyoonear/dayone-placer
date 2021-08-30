@@ -7,7 +7,7 @@ import Sidebar from '../sidebar/Sidebar';
 import DeleteIcon from '../icons/DeleteIcon';
 
 import { SOCKET_EVENT_TYPE } from '../../common/policy';
-import { findRoomParts } from '../../common/api/grid';
+import findRoomParts from '../../common/api/grid';
 
 function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
   const [dragItem, setDragItem] = useState({});

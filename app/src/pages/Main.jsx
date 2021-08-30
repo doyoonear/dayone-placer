@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
 import InfoModal from '../components/InfoModal';
 
-import { socketConnection } from '../common/api/socket';
+import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
 import { findGroups } from '../common/api/group';
 import { findRooms, createRoom } from '../common/api/room';

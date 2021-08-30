@@ -1,4 +1,4 @@
-import { httpClient } from '../support/http-client';
+import httpClient from '../support/http-client';
 
 export const findRooms = () => {
   return httpClient.get({ url: `/rooms` });
