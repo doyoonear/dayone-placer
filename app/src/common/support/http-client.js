@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { getStorage } from './storage';
-
-// TODO: move to config
-export const SERVER_URL = 'http://localhost:4000';
-// const SERVER_URL = 'http://ky-server.iptime.org:4000';
+import { SERVER_URL } from '../policy';
 
 const api = axios.create({
   baseURL: SERVER_URL,
