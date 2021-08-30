@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import httpClient from '../api/http-client';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-import { getStorage, setStorage } from '../api/support';
+import { getStorage, setStorage } from '../common/support/storage';
+import { authSignIn } from '../common/api/auth';
 
 function Login() {
   const history = useHistory();
@@ -18,12 +18,7 @@ function Login() {
 
   const signIn = async () => {
     try {
-      const result = await httpClient.post({
-        url: '/auth/sign-in',
-        data: {
-          ...form,
-        },
-      });
+      const result = await authSignIn(form);
 
       if (result.data.accessToken) {
         const accessToken = result?.data?.accessToken;
