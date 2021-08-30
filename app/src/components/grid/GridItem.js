@@ -6,11 +6,17 @@ import DeleteIcon from '../icons/DeleteIcon';
 const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem }) => {
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
   const [isDeleteIconOn, setDeleteIcon] = useState(false);
+
   const submitDelete = (e) => {
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
     setCurrLocation(targetLocation);
+    setDeleteIcon(!isDeleteIconOn);
+  };
 
-    setDeleteIcon(true);
+  const submitAddNewItem = (e) => {
+    const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
+    setCurrLocation(targetLocation);
+    addNewItem({ data, location: targetLocation });
   };
 
   const onIconClick = () => {
@@ -21,8 +27,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
 
   const checkGridEmpty = (e) => {
     const type = e.target.getAttribute('data-type');
-    const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
-    return type === null ? addNewItem({ data, location: targetLocation }) : submitDelete(e);
+    return type === null ? submitAddNewItem(e) : submitDelete(e);
   };
 
   return (
@@ -42,9 +47,9 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
       </Bullet>
 
       {isDeleteIconOn && (
-        <IconWrapper onClick={onIconClick} tabIndex={0} onBlur={() => setDeleteIcon(false)}>
+        <IconButton onClick={onIconClick}>
           <DeleteIcon width={1} height={1} rotate={0} />
-        </IconWrapper>
+        </IconButton>
       )}
     </GridItemContainer>
   );
@@ -82,7 +87,7 @@ const GridItemContainer = styled.div`
   position: relative;
 `;
 
-const IconWrapper = styled.div`
+const IconButton = styled.button`
   position: absolute;
   border-radius: 100%;
   display: flex;
