@@ -2,7 +2,7 @@ const { SOCKET_EVENTS } = require("../../config/socket");
 
 const { partService } = require("../service/part");
 
-const subscribeAppendLocationEvent = (socket) => {
+const subscribeAppendLocationEvent = (io, socket) => {
   socket.on(SOCKET_EVENTS.APPEND_LOCATION, async (props) => {
     // if (!socket.accessToken) {
     //   return socket.emit(SOCKET_EVENTS.APPEND_LOCATION, { status: 401, message: "로그인이 필요합니다." });
@@ -18,7 +18,7 @@ const subscribeAppendLocationEvent = (socket) => {
       locationY: location.y,
     });
 
-    socket.broadcast.emit(SOCKET_EVENTS.APPEND_LOCATION, props);
+    io.to(`room_${roomId}`).emit(SOCKET_EVENTS.APPEND_LOCATION, props);
   });
 };
 
