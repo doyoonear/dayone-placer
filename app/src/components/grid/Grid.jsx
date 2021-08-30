@@ -26,6 +26,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
 
   // 이 코드들을 분리할 수 없을까..
   const addNewItem = ({ data, location }) => {
+    console.log('data >>>', data); // 비어있음 {}
     gridData[`${location.x}_${location.y}`] = data;
 
     setDragItem({});

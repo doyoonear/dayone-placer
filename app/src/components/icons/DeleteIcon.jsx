@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as Trash } from '../../assets/trash.svg';
-import CommonIconContainer from '../_styled/CommonIconBox';
+import CommonIconBox from '../_styled/CommonIconBox';
 
 function DeleteIcon({ width, height, rotate }) {
   return (
-    <CommonIconContainer width={width} height={height} rotate={rotate}>
+    <CommonIconBox color='blue' width={width} height={height} rotate={rotate}>
       <Trash />
-    </CommonIconContainer>
+    </CommonIconBox>
   );
 }
 DeleteIcon.defaultProps = {
