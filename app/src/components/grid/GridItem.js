@@ -26,16 +26,16 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     <>
       <Bullet
         draggable
-        data-type='GRID'
+        data-type={data.type}
         data-x={location.x}
         data-y={location.y}
         onDragOver={(e) => e.preventDefault()}
-        onDragStart={handleDrag}
+        onDragStart={(e) => handleDrag(e, data)}
         onDrop={(e) => handleDrop(e, data)}
         onClick={(e) => checkGridEmpty(e)}
       >
         {data.type?.substring(0, 1)}
-        {data.name}
+        {data.type && data.type === 'MEMBER' && data.member?.name}
       </Bullet>
       {isDeleteIconOn && <DeleteIcon width={1} height={1} rotate={0} onClick={submitDelete} />}
     </>
