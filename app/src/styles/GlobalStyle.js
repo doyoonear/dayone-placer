@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   *, html, body{
     box-sizing:border-box;
+    font-family: 'Noto Sans KR', 'Helvetica Neue', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', sans-serif;
     
     &:focus {
       outline: none;
