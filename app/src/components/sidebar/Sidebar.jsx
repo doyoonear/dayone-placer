@@ -19,7 +19,14 @@ function Sidebar({ handleDrag, handleDrop }) {
       data: [{ children }],
     } = await findGroupMembers();
 
-    dispatch({ type: 'SET_GROUPLIST', value: children });
+    const modifiedGroups = children.map((group) => {
+      return {
+        ...group,
+        isGroupOpen: false,
+      };
+    });
+
+    dispatch({ type: 'SET_GROUPLIST', value: modifiedGroups });
   };
 
   useEffect(getGroupMembers, []);
@@ -46,7 +53,7 @@ function Sidebar({ handleDrag, handleDrop }) {
               <StGroupHeader color={group.color}>
                 <GroupHeader group={group} />
               </StGroupHeader>
-              <StMemberContainer isGroupOpen={state.isGroupOpen}>
+              <StMemberContainer isGroupOpen={group.isGroupOpen}>
                 {group.members.length &&
                   group.members.map((member) => {
                     return (
