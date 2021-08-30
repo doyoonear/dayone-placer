@@ -13,6 +13,10 @@ class Repository {
     return knex(this.table).where(query).select();
   }
 
+  selectAllByIds(ids) {
+    return knex(this.table).whereIn("id", ids).select();
+  }
+
   selectFirst(query) {
     return knex(this.table).where(query).first();
   }
@@ -30,8 +34,7 @@ class Repository {
   }
 
   deleteById(id) {
-    return 1;
-    // return knex(this.table).where({ id }).delete();
+    return knex(this.table).where({ id }).delete();
   }
 }
 
