@@ -117,16 +117,18 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
     if (!prevX && !prevY) {
       // 새로운 추가
       if (gridData[`${nextX}_${nextY}`]) {
-        if (dragItem.type !== 'MEMBER' || gridData[`${nextX}_${nextY}`].type !== 'DESK') {
-          alert('빈자리에만 자리배치를 할 수 있어요');
+        if (dragItem.type !== 'MEMBER') {
+          alert('이미 물건이 배치되어 있어요');
           return;
         }
 
-        socketConnection.emit(SOCKET_EVENT_TYPE.DELETE_LOCATION, {
-          data: dragItem,
-          roomId,
-          location: { x: nextX, y: nextY },
-        });
+        if (gridData[`${nextX}_${nextY}`].type !== 'DESK') {
+          alert('빈자리에만 자리배치를 할 수 있어요');
+          return;
+        }
+      } else if (dragItem.type === 'MEMBER') {
+        alert('빈 책상에만 배치할 수 있어요');
+        return;
       }
 
       socketConnection.emit(SOCKET_EVENT_TYPE.APPEND_LOCATION, {

@@ -27,6 +27,10 @@ class PartService extends Service {
     return partRepository.updateMoveLocation(roomId, prevX, prevY, nextX, nextY);
   }
 
+  updateDeskMember({ memberId, roomId, locationX, locationY }) {
+    return partRepository.updateMemberIdByLocation(memberId, roomId, { locationX, locationY });
+  }
+
   // TODO: transaction
   async updateChangeLocation({ roomId, location }) {
     const { prevX, prevY, nextX, nextY } = location;
