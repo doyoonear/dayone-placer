@@ -14,7 +14,7 @@ function Login() {
     password: '',
   });
 
-  useEffect(() => history.push(getStorage('ACCESS_TOKEN') ? '/' : '/login'));
+  // useEffect(() => history.push(getStorage('ACCESS_TOKEN') ? '/' : '/login'), []);
 
   const signIn = async () => {
     try {
