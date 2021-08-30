@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
-import socketio from 'socket.io-client';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
 import Modal from '../components/Modal';
@@ -8,12 +7,12 @@ import Input from '../components/Input';
 import Tabs from '../components/Tabs';
 import Button from '../components/Button';
 import Dropdown from '../components/Dropdown';
-import httpClient from '../api/http-client';
 import InfoModal from '../components/InfoModal';
 
-import { getStorage } from '../api/support';
-
-const socket = socketio.connect(httpClient.SERVER_URL);
+import { socketConnection } from '../common/api/socket';
+import { getStorage } from '../common/support/storage';
+import { findGroups } from '../common/api/group';
+import { findRooms, createRoom } from '../common/api/room';
 
 function Main() {
   const history = useHistory();
@@ -35,19 +34,21 @@ function Main() {
 
   const [isInfoModalVisible, setInfoModal] = useState(false);
 
-  const fetchData = () => {
-    const findRooms = async () => {
-      const result = await httpClient.get({ url: '/rooms' });
+  const fetchRooms = () => {
+    findRooms().then((result) => {
       setRooms(result.data);
-    };
+    });
+  };
 
-    const findGroups = async () => {
-      const result = await httpClient.get({ url: '/groups' });
+  const fetchGroups = () => {
+    findGroups().then((result) => {
       setGroups(result.data);
-    };
+    });
+  };
 
-    findRooms();
-    findGroups();
+  const fetchData = () => {
+    fetchRooms();
+    fetchGroups();
   };
 
   const handleRoom = (id) => {
@@ -85,9 +86,11 @@ function Main() {
 
   const makeNewRoom = async () => {
     try {
-      await httpClient.post({ url: '/rooms', data: roomForm });
+      await createRoom(roomForm);
       setIsRoomModalOn(false);
       setInfoModal(true);
+
+      fetchRooms();
     } catch {
       setInfoModal(false);
     }
@@ -99,7 +102,6 @@ function Main() {
 
   useEffect(() => {
     if (getStorage('ACCESS_TOKEN')) {
-      socket.emit('INIT', { test: '' });
       fetchData();
     } else history.push('/login');
   }, []);
@@ -149,7 +151,7 @@ function Main() {
             roomId={selectedRoom.id}
             sizeX={selectedRoom.sizeX}
             sizeY={selectedRoom.sizeY}
-            socket={socket}
+            socketConnection={socketConnection}
           />
         )}
         <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
