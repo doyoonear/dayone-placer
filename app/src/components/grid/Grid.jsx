@@ -60,30 +60,15 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
     setDragItem({});
   };
 
-  const socketAppendLocation = ({ data, roomId: socketRoomId, location }) => {
-    // TODO: Server 에서 처리하도록 수정필요
-    if (roomId !== socketRoomId) {
-      return;
-    }
-
+  const socketAppendLocation = ({ data, location }) => {
     addNewItem({ data, location });
   };
 
-  const socketMoveLocation = ({ data, roomId: socketRoomId, location }) => {
-    // TODO: Server 에서 처리하도록 수정필요
-    if (roomId !== socketRoomId) {
-      return;
-    }
-
+  const socketMoveLocation = ({ data, location }) => {
     moveItem({ data, location });
   };
 
-  const socketChangeLocation = ({ data, roomId: socketRoomId, location }) => {
-    // TODO: Server 에서 처리하도록 수정필요
-    if (roomId !== socketRoomId) {
-      return;
-    }
-
+  const socketChangeLocation = ({ data, location }) => {
     changeItem({ data, location });
   };
 
@@ -130,7 +115,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
     }
 
     if (!prevX && !prevY) {
-      addNewItem({ data: dragItem, memberId: dragItem.memberId, location: { x: nextX, y: nextY } });
       socketConnection.emit(SOCKET_EVENT_TYPE.APPEND_LOCATION, {
         data: dragItem,
         roomId,
@@ -141,15 +125,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
 
     if (gridData[`${nextX}_${nextY}`]) {
       // 놓으려는 자리에 무엇인가 있다면
-      changeItem({
-        data: dragItem,
-        location: {
-          prevX,
-          prevY,
-          nextX,
-          nextY,
-        },
-      });
       socketConnection.emit(SOCKET_EVENT_TYPE.CHANGE_LOCATION, {
         data: dragItem,
         roomId,
@@ -162,16 +137,6 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
       });
     } else {
       // 놓으려는 자리에 아무것도 없다면
-      moveItem({
-        data: dragItem,
-        location: {
-          prevX,
-          prevY,
-          nextX,
-          nextY,
-        },
-      });
-
       socketConnection.emit(SOCKET_EVENT_TYPE.MOVE_LOCATION, {
         data: dragItem,
         roomId,
@@ -207,10 +172,16 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
     return result;
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     // 데이터 조회
     fetchData().then(() => {});
     makeGridItem();
+
+    socketConnection.emit(SOCKET_EVENT_TYPE.ROOM_JOIN, { roomId });
+
+    return () => {
+      socketConnection.emit(SOCKET_EVENT_TYPE.ROOM_LEAVE, { roomId });
+    };
   }, [roomId]);
 
   return (
