@@ -6,6 +6,8 @@ import Button from '../components/Button';
 
 import { setStorage } from '../common/support/storage';
 import authSignIn from '../common/api/auth';
+import { SOCKET_EVENT_TYPE } from '../common/policy';
+import socketConnection from '../common/api/socket';
 
 function Login() {
   const history = useHistory();
@@ -21,6 +23,8 @@ function Login() {
       if (result.data.accessToken) {
         const accessToken = result?.data?.accessToken;
         setStorage('ACCESS_TOKEN', accessToken);
+
+        socketConnection.emit(SOCKET_EVENT_TYPE.INIT, { accessToken });
 
         history.push('/');
       }
