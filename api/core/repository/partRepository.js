@@ -20,6 +20,12 @@ class PartRepository extends Repository {
       .where({ state: "NORMAL " })
       .update({ state: "NORMAL" });
   }
+
+  updateMemberIdByLocation(memberId, roomId, location) {
+    return knex(this.table)
+      .where({ ...location, roomId })
+      .update({ memberId, type: "MEMBER" });
+  }
 }
 
 module.exports = {
