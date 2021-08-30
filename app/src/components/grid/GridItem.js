@@ -16,6 +16,7 @@ const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop, addNewIt
     <Bullet
       draggable
       data-type='GRID'
+      type={data.type}
       data-x={locationX}
       data-y={locationY}
       onDragOver={(e) => e.preventDefault()}
@@ -24,7 +25,7 @@ const GridItem = ({ locationX, locationY, data, handleDrag, handleDrop, addNewIt
       onClick={(e) => checkDeskEmpty(e)}
     >
       {data.type?.substring(0, 1)}
-      {data.name}
+      {data.type === 'MEMBER' && data.name}
     </Bullet>
   );
 };
@@ -45,12 +46,28 @@ GridItem.defaultProps = {
   handleDrop: () => {},
 };
 
+// TODO: policy 등에 옮기기
+const handleColorType = (type) => {
+  switch (type) {
+    case 'WINDOW_1' || 'WINDOW':
+      return 'lightblue';
+    case 'DESK':
+      return 'lightpink';
+    case 'MEMBER':
+      return 'tomato';
+    default:
+      return 'white';
+  }
+};
+
 const Bullet = styled.div`
   width: 20px;
   height: 20px;
   border: 1px solid lightgrey;
   text-align: center;
   cursor: pointer;
+  background: ${({ type }) => handleColorType(type)};
+
   :hover {
     background: ${(props) => props.theme.primary8};
   }
