@@ -9,9 +9,6 @@ router.post("/sign-in", async (req, res, next) => {
     const email = req.body?.email;
     const password = req.body?.password;
 
-    console.log("email", email);
-    console.log("password", password);
-
     const accessToken = await signIn(email, password);
 
     res.send({ accessToken });
