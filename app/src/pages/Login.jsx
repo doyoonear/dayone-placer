@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-import { getStorage, setStorage } from '../common/support/storage';
-import { authSignIn } from '../common/api/auth';
+import { setStorage } from '../common/support/storage';
+import authSignIn from '../common/api/auth';
 
 function Login() {
   const history = useHistory();
@@ -13,8 +13,6 @@ function Login() {
     email: '',
     password: '',
   });
-
-  // useEffect(() => history.push(getStorage('ACCESS_TOKEN') ? '/' : '/login'), []);
 
   const signIn = async () => {
     try {
@@ -46,18 +44,16 @@ function Login() {
     <LoginPage>
       <LoginContainer>
         <Title>LOGIN</Title>
-        <form action={signIn}>
-          <Input name='email' type='email' placeholder='email' value={form.email} onChange={handleForm} required />
-          <Input
-            name='password'
-            type='password'
-            placeholder='password'
-            value={form.password}
-            onChange={handleForm}
-            required
-          />
-          <Button type='submit' onClick={signIn} name='로그인' />
-        </form>
+        <Input name='email' type='email' placeholder='email' value={form.email} onChange={handleForm} required />
+        <Input
+          name='password'
+          type='password'
+          placeholder='password'
+          value={form.password}
+          onChange={handleForm}
+          required
+        />
+        <Button type='submit' onClick={signIn} name='로그인' />
       </LoginContainer>
     </LoginPage>
   );
