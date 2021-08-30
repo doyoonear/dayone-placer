@@ -5,6 +5,7 @@ export const SOCKET_EVENT_TYPE = {
   CHANGE_LOCATION: 'CHANGE_LOCATION',
   ROOM_JOIN: 'ROOM_JOIN',
   ROOM_LEAVE: 'ROOM_LEAVE',
+  INIT: 'INIT',
 };
 
 // export const SERVER_URL = 'http://localhost:4000';
