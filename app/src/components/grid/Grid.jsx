@@ -194,7 +194,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
     // 데이터 조회
     await getRoom();
     makeGridItem();
-  }, []);
+  }, [roomId]);
 
   return (
     <GridContainer>
