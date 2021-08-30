@@ -1,18 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import DeleteIcon from './icons/DeleteIcon';
 
-function Tabs({ rooms, handleRoomModal, handleRoom }) {
+function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal }) {
   return (
     <TabsContainer>
-      {rooms.map((room) => (
-        <Tab key={room.id} id={room.id} onClick={() => handleRoom(room.id)}>
-          {room.title}
-        </Tab>
-      ))}
-      <Tab onClick={handleRoomModal} addRoom>
-        방 추가
-      </Tab>
+      <TabAdd onClick={handleRoomModal} addRoom>
+        +
+      </TabAdd>
+
+      <RoomsContainer>
+        {rooms.map((room) => (
+          <TabContainer>
+            <TabTitle key={room.id} id={room.id} onClick={() => handleRoom(room.id)}>
+              {room.title}
+            </TabTitle>
+            <TabArrow onClick={(e) => handleRoomDeleteModal(room)}>
+              <DeleteIcon width={0.8} height={0.8} rotate={0} />
+            </TabArrow>
+          </TabContainer>
+        ))}
+      </RoomsContainer>
     </TabsContainer>
   );
 }
@@ -34,12 +43,43 @@ const TabsContainer = styled.div`
   background: ${(props) => props.theme.primary2};
 `;
 
-const Tab = styled.button`
-  width: 100px;
-  font-size: 16px;
-  background: ${(props) => (props.addRoom ? props.theme.primary6 : props.theme.primary4)};
-  border-right: 1px solid lightgray;
+const RoomsContainer = styled.div`
+  display: flex;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const TabContainer = styled.div`
+  display: flex;
   cursor: pointer;
+  background: ${(props) => (props.addRoom ? props.theme.primary6 : props.theme.primary4)};
+
+  :hover {
+    background: ${(props) => (props.addRoom ? props.theme.primary6 : props.theme.primary6)};
+  }
+`;
+
+const TabAdd = styled.button`
+  font-size: 16px;
+  padding: 0px 10px;
+  align-items: center;
+  justify-contents: center;
+  background: ${(props) => props.theme.primary6};
+`;
+
+const TabTitle = styled.button`
+  font-size: 16px;
+  padding-left: 20px;
+  align-items: center;
+  justify-contents: center;
+`;
+
+const TabArrow = styled.button`
+  border-right: 1px solid lightgray;
+  padding-right: 20px;
 `;
 
 export default Tabs;
