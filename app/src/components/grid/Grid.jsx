@@ -198,7 +198,9 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socket }) {
 
   return (
     <GridContainer>
-      <GridWrapper>{makeGridItem(sizeX, sizeY)}</GridWrapper>
+      <GridWrapper width={sizeX} height={sizeY}>
+        {makeGridItem(sizeX, sizeY)}
+      </GridWrapper>
       <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
     </GridContainer>
   );
