@@ -2,6 +2,9 @@ const connection = require("../../config/db");
 const { toCamelCase, toSnakeCase } = require("../util/str");
 
 const objectEntryKeyConvert = (obj) => {
+  if (!obj) {
+    return;
+  }
   const data = {};
   for (const [key, value] of Object.entries(obj)) {
     data[toCamelCase(key)] = value;
