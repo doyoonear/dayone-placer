@@ -15,7 +15,7 @@ const setAccessToken = () => {
   }
 };
 
-export const httpClient = {
+const httpClient = {
   async get({ url, params, responseType }) {
     setAccessToken();
     return api({
@@ -51,3 +51,5 @@ export const httpClient = {
     });
   },
 };
+
+export default httpClient;
