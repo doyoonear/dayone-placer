@@ -7,3 +7,7 @@ export const findRooms = () => {
 export const createRoom = (data) => {
   return httpClient.post({ url: '/rooms', data });
 };
+
+export const apiDeleteRoom = (id) => {
+  return httpClient.delete({ url: `/rooms/${id}` });
+};

@@ -12,12 +12,13 @@ import InfoModal from '../components/InfoModal';
 import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
 import { findGroups } from '../common/api/group';
-import { findRooms, createRoom } from '../common/api/room';
+import { findRooms, createRoom, apiDeleteRoom } from '../common/api/room';
 
 function Main() {
   const history = useHistory();
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
+  const [isRoomDeleteModalOn, setIsRoomDeleteModalOn] = useState({});
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [groups, setGroups] = useState([]);
@@ -64,6 +65,10 @@ function Main() {
     setIsRoomModalOn(!isRoomModalOn);
   };
 
+  const handleRoomDeleteModal = (room) => {
+    setIsRoomDeleteModalOn(room);
+  };
+
   const handleDeskForm = (e) => {
     const { name, value } = e.target;
 
@@ -89,6 +94,17 @@ function Main() {
       await createRoom(roomForm);
       setIsRoomModalOn(false);
       setInfoModal(true);
+
+      fetchRooms();
+    } catch {
+      setInfoModal(false);
+    }
+  };
+
+  const deleteRoom = async () => {
+    try {
+      await apiDeleteRoom(isRoomDeleteModalOn.id);
+      setIsRoomDeleteModalOn({});
 
       fetchRooms();
     } catch {
@@ -145,6 +161,15 @@ function Main() {
             </ButtonWrapper>
           </Modal>
         )}
+        {isRoomDeleteModalOn && isRoomDeleteModalOn.id && (
+          <Modal title='공간 삭제'>
+            {isRoomDeleteModalOn.title} 를 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.
+            <ButtonWrapper>
+              <Button onClick={(e) => handleRoomDeleteModal({})} name='취소' />
+              <Button name='확인' onClick={deleteRoom} />
+            </ButtonWrapper>
+          </Modal>
+        )}
         {selectedRoom && selectedRoom.id && (
           <Grid
             handleDeskModal={handleDeskModal}
@@ -154,7 +179,12 @@ function Main() {
             socketConnection={socketConnection}
           />
         )}
-        <Tabs rooms={rooms} handleRoomModal={handleRoomModal} handleRoom={handleRoom} />
+        <Tabs
+          rooms={rooms}
+          handleRoomModal={handleRoomModal}
+          handleRoom={handleRoom}
+          handleRoomDeleteModal={handleRoomDeleteModal}
+        />
         {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       </MainContainer>
     </MainPage>
