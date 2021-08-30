@@ -15,6 +15,10 @@ class Service {
     return this.repository.selectAll(query);
   }
 
+  findByIds(ids) {
+    return this.repository.selectAllByIds(ids);
+  }
+
   create(data) {
     return this.repository.insert(data);
   }
