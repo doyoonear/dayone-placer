@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Context } from '../../store/Store';
 import GroupHeader from './GroupHeader';
 import { findGroupMembers } from '../../common/api/group';
+import { handleGridColor } from '../../styles/theme';
 
 function Sidebar({ handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
@@ -33,19 +34,21 @@ function Sidebar({ handleDrag, handleDrop }) {
 
   return (
     <StSidebar>
-      <StPartContainer>
-        {partList.map((part) => (
+      <SidebarSubitle>사물</SidebarSubitle>
+      {partList.map((part) => (
+        <StPartWrapper>
           <StPart
             key={part.id}
             draggable
+            type={part.type}
             data-type={part.type}
             onDragOver={(e) => e.preventDefault()}
             onDragStart={(e) => handleDrag(e, part)}
-          >
-            {part.title}
-          </StPart>
-        ))}
-      </StPartContainer>
+          />
+          <StName>{part.title}</StName>
+        </StPartWrapper>
+      ))}
+      <SidebarSubitle>임직원</SidebarSubitle>
       {state.groupList.length &&
         state.groupList.map((group) => {
           return (
@@ -86,8 +89,34 @@ Sidebar.defaultProps = {
   handleDrop: () => {},
 };
 
-const StPartContainer = styled.div``;
-const StPart = styled.div``;
+const SidebarSubitle = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 20px;
+
+  :not(:first-child) {
+    margin-top: 20px;
+  }
+`;
+
+const StName = styled.span`
+  margin-left: 8px;
+  font-size: 12px;
+`;
+
+const StPartWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+`;
+
+const StPart = styled.div`
+  width: 48px;
+  height: 32px;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  background: ${({ type }) => handleGridColor(type)};
+`;
 
 const StGroupHeader = styled.div`
   padding: 0.7rem;
@@ -105,10 +134,15 @@ const StMemberName = styled.div`
 `;
 
 const StSidebar = styled.div`
-  background: ${(props) => props.theme.primary6};
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  padding: 20px;
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
-  width: 15rem;
+  background: ${(props) => props.theme.primary4};
 `;
 
 export default Sidebar;

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import DeleteIcon from '../icons/DeleteIcon';
+import { handleGridColor } from '../../styles/theme';
 
 const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem }) => {
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
@@ -34,6 +35,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     <GridItemContainer>
       <Bullet
         draggable
+        type={data.type}
         data-type={data.type}
         data-x={location.x}
         data-y={location.y}
@@ -69,20 +71,6 @@ GridItem.defaultProps = {
   handleDrop: () => {},
 };
 
-// TODO: policy 등에 옮기기
-const handleColorType = (type) => {
-  switch (type) {
-    case 'WINDOW_1' || 'WINDOW':
-      return 'lightblue';
-    case 'DESK':
-      return 'lightpink';
-    case 'MEMBER':
-      return 'tomato';
-    default:
-      return 'white';
-  }
-};
-
 const GridItemContainer = styled.div`
   position: relative;
 `;
@@ -102,15 +90,19 @@ const IconButton = styled.button`
 `;
 
 const Bullet = styled.div`
-  width: 20px;
-  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 32px;
   border: 1px solid lightgrey;
+  font-size: 12px;
   text-align: center;
   cursor: pointer;
-  background: ${({ type }) => handleColorType(type)};
+  background: ${({ type }) => handleGridColor(type)};
 
   :hover {
-    background: ${(props) => props.theme.primary8};
+    border: solid 4px ${(props) => props.theme.primary8};
   }
 `;
 
