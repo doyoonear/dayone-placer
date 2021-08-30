@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { getStorage } from './support';
+import { getStorage } from './storage';
 
 // TODO: move to config
-// const SERVER_URL = 'http://localhost:4000';
-const SERVER_URL = 'http://ky-server.iptime.org:4000';
+export const SERVER_URL = 'http://localhost:4000';
+// const SERVER_URL = 'http://ky-server.iptime.org:4000';
 
 const api = axios.create({
   baseURL: SERVER_URL,
@@ -18,8 +18,7 @@ const setAccessToken = () => {
   }
 };
 
-const httpClient = {
-  SERVER_URL,
+export const httpClient = {
   async get({ url, params, responseType }) {
     setAccessToken();
     return api({
@@ -55,5 +54,3 @@ const httpClient = {
     });
   },
 };
-
-export default httpClient;
