@@ -23,8 +23,6 @@ function GroupHeader({ isGroupOpen, setIsGroupOpen, group }) {
     dispatch({ type: 'TOGGLE_GROUPMEMBERS', groupId });
   };
 
-  useEffect(() => console.log(isGroupOpen));
-
   return (
     <CommonFlexBox justify='space-between' onClick={() => handleGroupOpen(group.id)}>
       <h3>{group.title}</h3>
