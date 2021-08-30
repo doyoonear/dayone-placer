@@ -20,8 +20,6 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   };
 
   const checkGridEmpty = (e) => {
-    // TODO: e.target 의 data-type 체크 해서 GRID 일때 addNewItem. (optional: 선택해서 다른 타입 넣기)
-    // TODO: DESK, PARTS 의 type 이 모두 GRID 임 (어떻게 연결되어있는지 확인)
     const type = e.target.getAttribute('data-type');
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
     return type === null ? addNewItem({ data, location: targetLocation }) : submitDelete(e);
