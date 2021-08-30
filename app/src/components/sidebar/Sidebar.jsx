@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Context } from '../../store/Store';
 import GroupHeader from './GroupHeader';
-import httpClient from '../../api/http-client';
+import { findGroupMembers } from '../../common/api/group';
 
 function Sidebar({ handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
@@ -17,7 +17,7 @@ function Sidebar({ handleDrag, handleDrop }) {
   const getGroupMembers = async () => {
     const {
       data: [{ children }],
-    } = await httpClient.get({ url: '/groups/members' });
+    } = await findGroupMembers();
 
     dispatch({ type: 'SET_GROUPLIST', value: children });
   };
