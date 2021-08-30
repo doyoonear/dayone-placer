@@ -1,12 +1,28 @@
 const { partRepository } = require("../../repository/partRepository");
 const { Service } = require("../Service");
 
+const { memberService } = require("../member");
+
 class PartService extends Service {
   constructor() {
     super({ repository: partRepository });
   }
 
-  updateMoveLocation({ roomId, location }) {
+  async findPartByRoomId(roomId) {
+    const parts = await partRepository.selectAll({ roomId });
+    const memberIds = parts.map((item) => item.memberId).filter((v) => v);
+
+    const members = await memberService.findByIds(memberIds);
+    parts.forEach((part) => {
+      if (part.memberId) {
+        part.member = members.find((member) => member.id === part.memberId);
+      }
+    });
+
+    return parts;
+  }
+
+  updateMoveLocation({ data, roomId, location }) {
     const { prevX, prevY, nextX, nextY } = location;
     return partRepository.updateMoveLocation(roomId, prevX, prevY, nextX, nextY);
   }
