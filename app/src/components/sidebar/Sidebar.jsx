@@ -5,8 +5,9 @@ import { Context } from '../../store/Store';
 import GroupHeader from './GroupHeader';
 import { findGroupMembers } from '../../common/api/group';
 import { handleGridColor } from '../../styles/theme';
+import { DEFAULT_PART_LIST } from '../../common/policy';
 
-function Sidebar({ partList, handleDrag, handleDrop }) {
+function Sidebar({ handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
   // const [isGroupOpen, setIsGroupOpen] = useState(true);
   // const [groupList, setGroupList] = useState([]);
@@ -31,7 +32,7 @@ function Sidebar({ partList, handleDrag, handleDrop }) {
   return (
     <StSidebar>
       <SidebarSubitle>사물</SidebarSubitle>
-      {partList.map((part) => (
+      {DEFAULT_PART_LIST.map((part) => (
         <StPartWrapper>
           <StPart
             key={part.id}
