@@ -51,7 +51,7 @@ const TabAdd = styled.button`
   font-size: 16px;
   padding: 0px 10px;
   align-items: center;
-  justify-contents: center;
+  justify-content: center;
   background: ${(props) => props.theme.primary6};
 `;
 

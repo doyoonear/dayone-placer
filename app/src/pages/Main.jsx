@@ -136,34 +136,37 @@ function Main() {
 
   return (
     <MainPage>
+      {isDeskModalOn && (
+        <DeskCreateModal
+          groups={groups}
+          handleDeskForm={handleDeskForm}
+          deskForm={deskForm}
+          handleDeskModal={handleDeskModal}
+        />
+      )}
+      {isRoomModalOn && (
+        <RoomCreateModal
+          handleRoomForm={handleRoomForm}
+          roomForm={roomForm}
+          handleRoomModal={handleRoomModal}
+          makeNewRoom={makeNewRoom}
+        />
+      )}
+      {isRoomDeleteModalOn && isRoomDeleteModalOn.id && (
+        <RoomDeleteModal
+          isRoomDeleteModalOn={isRoomDeleteModalOn}
+          handleRoomDeleteModal={handleRoomDeleteModal}
+          deleteRoom={deleteRoom}
+        />
+      )}
+      {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       <MainContainer>
-        <Title>
-          {selectedRoom.title && `${selectedRoom.title} `}
-          자리 배치도
-        </Title>
-        {isDeskModalOn && (
-          <DeskCreateModal
-            groups={groups}
-            handleDeskForm={handleDeskForm}
-            deskForm={deskForm}
-            handleDeskModal={handleDeskModal}
-          />
-        )}
-        {isRoomModalOn && (
-          <RoomCreateModal
-            handleRoomForm={handleRoomForm}
-            roomForm={roomForm}
-            handleRoomModal={handleRoomModal}
-            makeNewRoom={makeNewRoom}
-          />
-        )}
-        {isRoomDeleteModalOn && isRoomDeleteModalOn.id && (
-          <RoomDeleteModal
-            isRoomDeleteModalOn={isRoomDeleteModalOn}
-            handleRoomDeleteModal={handleRoomDeleteModal}
-            deleteRoom={deleteRoom}
-          />
-        )}
+        <TitleContainer>
+          <Title>
+            {selectedRoom.title && `${selectedRoom.title} `}
+            자리 배치도
+          </Title>
+        </TitleContainer>
         {selectedRoom && selectedRoom.id && (
           <Grid
             handleDeskModal={handleDeskModal}
@@ -180,28 +183,35 @@ function Main() {
           handleRoomDeleteModal={handleRoomDeleteModal}
           selectedRoom={selectedRoom}
         />
-        {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       </MainContainer>
     </MainPage>
   );
 }
-
-const MainPage = styled.div``;
+const MainPage = styled.div`
+  height: 100vh;
+`;
 
 const Title = styled.p`
-  margin: 20px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  background: #333;
+  color: white;
+`;
+
+const TitleContainer = styled.div`
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 60px;
+  padding: 0 16px;
 `;
 
 const MainContainer = styled.div`
-  position: fixed;
-  z-index: 20;
-  left: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh-40px);
+  padding-bottom: 40px;
 `;
 
 export default Main;

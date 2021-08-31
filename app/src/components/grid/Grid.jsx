@@ -203,12 +203,14 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
   }, [roomId]);
 
   return (
-    <GridContainer>
-      <GridWrapper width={sizeX} height={sizeY}>
-        {makeGridItem(sizeX, sizeY)}
-      </GridWrapper>
-      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} partList={DEFAULT_PART_LIST} />
-    </GridContainer>
+    <>
+      <GridBox>
+        <GridWrapper width={sizeX} height={sizeY}>
+          {makeGridItem(sizeX, sizeY)}
+        </GridWrapper>
+      </GridBox>
+      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
+    </>
   );
 }
 
@@ -227,11 +229,12 @@ Grid.defaultProps = {
   socketConnection: undefined,
 };
 
-const GridContainer = styled.div`
+const GridBox = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  max-width: 1080px;
+  align-content: center;
+  min-width: calc(100vw-300px);
+  min-height: calc(100vh-40px);
 `;
 
 const GridWrapper = styled.div`
@@ -240,6 +243,9 @@ const GridWrapper = styled.div`
   grid-template-columns: repeat(${({ width }) => width}, 1fr);
   grid-template-rows: repeat(${({ height }) => height}, 1fr);
   width: fit-content;
+  overflow: scroll;
+  margin-right: 300px;
+  border: 2px solid gray;
 `;
 
 export default Grid;
