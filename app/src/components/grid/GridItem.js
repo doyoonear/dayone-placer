@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Context } from '../../store/Store';
 import DeleteIcon from '../icons/DeleteIcon';
 import { handleGridColor } from '../../styles/theme';
 import { ACCOUNT_PERMISSION } from '../../common/policy';
 
 const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem, partList, accountLevel }) => {
+  const { state, dispatch } = useContext(Context);
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
-  const [isDeleteIconOn, setDeleteIcon] = useState(false);
+  const [isMatchLocation, setMatchLocation] = useState(false);
 
   const getPartColor = (type) => {
     const part = partList.find((item) => item.type === type);
@@ -19,10 +21,14 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     return part?.title;
   };
 
+  const checkDeleteIconLocation = () => {
+    return currLocation === state.location ? setMatchLocation(true) : setMatchLocation(false);
+  };
+
   const submitDelete = (e) => {
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
     setCurrLocation(targetLocation);
-    setDeleteIcon(!isDeleteIconOn);
+    dispatch({ type: 'TOGGLE_DELETEBTN', location: targetLocation });
   };
 
   const submitAddNewItem = (e) => {
@@ -34,7 +40,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   const onIconClick = () => {
     deleteItem({ data, location: currLocation });
 
-    setDeleteIcon(false);
+    dispatch({ type: 'TOGGLE_DELETEBTN', value: false });
   };
 
   const checkGridEmpty = (e) => {
@@ -52,6 +58,9 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
         return getPartTitle(data.type);
     }
   };
+  useEffect(() => {
+    checkDeleteIconLocation();
+  }, [state.location]);
 
   return (
     <GridItemContainer>
@@ -70,7 +79,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
         {renderTitle()}
       </Bullet>
 
-      {isDeleteIconOn && (
+      {state.isDeleteIconOn && isMatchLocation && (
         <IconButton onClick={onIconClick}>
           <DeleteIcon width={1} height={1} rotate={0} />
         </IconButton>

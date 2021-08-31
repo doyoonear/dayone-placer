@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 
 const initialState = {
   groupList: [],
+  isDeleteIconOn: false,
 };
 
 export const Context = createContext(initialState);
@@ -20,6 +21,12 @@ export const StateProvider = ({ children }) => {
         return {
           ...state,
           groupList: action.value,
+        };
+      case 'TOGGLE_DELETEBTN':
+        return {
+          ...state,
+          isDeleteIconOn: action.value ? action.value : !state.isDeleteIconOn,
+          location: action.location,
         };
       default:
         throw new Error();
