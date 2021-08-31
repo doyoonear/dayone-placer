@@ -20,6 +20,11 @@ function Tabs({ rooms, handleRoomModal, handleRoom, selectedRoom, accountLevel }
     handleRoomModal(type, room);
   };
 
+  const closeOptionModalAndMoveRoom = (roomId) => {
+    setVisibleOptionModalData({});
+    handleRoom(roomId);
+  };
+
   return (
     <TabsContainer>
       {accountLevel === ACCOUNT_PERMISSION.ALL && <TabAdd onClick={() => handleRoomModal('CREATE')}>+</TabAdd>}
@@ -28,7 +33,7 @@ function Tabs({ rooms, handleRoomModal, handleRoom, selectedRoom, accountLevel }
           <TabItem
             key={room.id}
             room={room}
-            handleRoom={handleRoom}
+            handleRoom={closeOptionModalAndMoveRoom}
             selectedRoomId={selectedRoom.id}
             handleOptionModal={handleOptionModal}
             accountLevel={accountLevel}
