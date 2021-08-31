@@ -13,6 +13,11 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     return part?.color;
   };
 
+  const getPartTitle = (type) => {
+    const part = partList.find((item) => item.type === type);
+    return part?.title;
+  };
+
   const submitDelete = (e) => {
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
     setCurrLocation(targetLocation);
@@ -36,6 +41,17 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     return type === null ? submitAddNewItem(e) : submitDelete(e);
   };
 
+  const renderTitle = () => {
+    switch (data.type) {
+      case 'WAY':
+        return '';
+      case 'MEMBER':
+        return data.member?.name;
+      default:
+        return getPartTitle(data.type);
+    }
+  };
+
   return (
     <GridItemContainer>
       <Bullet
@@ -50,8 +66,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
         onDrop={(e) => handleDrop(e, data)}
         onClick={(e) => checkGridEmpty(e)}
       >
-        {data.type?.substring(0, 1)}
-        {data.type && data.type === 'MEMBER' && data.member?.name}
+        {renderTitle()}
       </Bullet>
 
       {isDeleteIconOn && (
