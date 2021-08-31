@@ -14,7 +14,7 @@ const signIn = async (email, password) => {
   }
 
   const accessToken = generateAccessToken(account);
-  return accessToken;
+  return { accessToken, level: account.level };
 };
 
 module.exports = {
