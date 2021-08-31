@@ -139,7 +139,7 @@ const StSidebar = styled.div`
   top: 0;
   width: 300px;
   height: 100%;
-  padding: 20px;
+  padding: 20px 20px 60px;
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
   background: ${(props) => props.theme.primary4};
