@@ -13,9 +13,9 @@ export const DEFAULT_PART_LIST = [
   { id: 2, type: 'WINDOW_1', title: '창문', color: '#C7EBF0' },
   { id: 3, type: 'DOOR', title: '출입문', color: '#bcc7eb' },
   { id: 4, type: 'WALL', title: '벽', color: '#BAA7B0' },
-  { id: 4, type: 'PLANT', title: '화분', color: '#e3f0bd' },
-  { id: 5, type: 'PRINTER', title: '프린터', color: '#B1B5C8' },
-  { id: 6, type: 'WAY', title: '통로', color: '#707070' },
+  { id: 5, type: 'PLANT', title: '화분', color: '#e3f0bd' },
+  { id: 6, type: 'PRINTER', title: '프린터', color: '#B1B5C8' },
+  { id: 7, type: 'WAY', title: '통로', color: '#707070' },
 ];
 
 export const ACCOUNT_PERMISSION = {
