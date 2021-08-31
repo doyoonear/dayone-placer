@@ -9,8 +9,12 @@ export const SOCKET_EVENT_TYPE = {
 };
 
 export const DEFAULT_PART_LIST = [
-  { id: 1, type: 'DESK', title: '책상', color: 'lightpink' },
+  { id: 1, type: 'DESK', title: '공석', color: 'lightpink' },
   { id: 2, type: 'WINDOW_1', title: '창문', color: 'lightblue' },
+  { id: 3, type: 'DOOR', title: '출입문', color: '#F6C242' },
+  { id: 4, type: 'BOOK_SHELVES', title: '책장', color: '#FDF2D0' },
+  { id: 5, type: 'PRINTER', title: '프린터', color: '#E6D2DC' },
+  { id: 6, type: 'WAY', title: '통로', color: 'yellow' },
 ];
 
 export const ACCOUNT_PERMISSION = {
