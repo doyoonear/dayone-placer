@@ -25,12 +25,12 @@ const verifyAccessToken = (accessToken) => {
   return decrypt(accessToken);
 };
 
-const generateShaSignature = (value) => {
-  return crypto.SHA256(value, key).toString(crypto.enc.Hex);
+const generateHashedPassword = (password, salt) => {
+  return crypto.SHA256(password + salt).toString();
 };
 
 module.exports = {
   generateAccessToken,
   verifyAccessToken,
-  generateShaSignature,
+  generateHashedPassword,
 };
