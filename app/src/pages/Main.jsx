@@ -8,6 +8,7 @@ import RoomCreateModal from '../components/modal/RoomCreateModal';
 import RoomDeleteModal from '../components/modal/RoomDeleteModal';
 import RoomUpdateModal from '../components/modal/RoomUpdateModal';
 import DeskCreateModal from '../components/modal/DeskCreateModal';
+import LogoutIcon from '../components/icons/LogoutIcon';
 
 import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
@@ -186,6 +187,11 @@ function Main() {
     });
   };
 
+  const handleLogout = () => {
+    localStorage.clear();
+    history.push('/login');
+  };
+
   useEffect(() => {
     if (getStorage('ACCESS_TOKEN')) {
       fetchData();
@@ -233,6 +239,9 @@ function Main() {
             {selectedRoom.title && `${selectedRoom.title} `}
             자리 배치도
           </Title>
+          <IconButton onClick={handleLogout}>
+            <LogoutIcon width={1} height={1} rotate={0} />
+          </IconButton>
         </TitleContainer>
         {selectedRoom && selectedRoom.id && (
           <Grid
@@ -280,6 +289,18 @@ const TitleContainer = styled.div`
 const MainContainer = styled.div`
   height: calc(100vh-40px);
   padding-bottom: 40px;
+`;
+
+const IconButton = styled.button`
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+  padding-left: 0.1rem;
+  background-color: ${(props) => (props.color ? props.color : props.theme.primary4)};
 `;
 
 export default Main;
