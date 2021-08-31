@@ -31,6 +31,17 @@ function Main() {
   });
 
   const [isInfoModalVisible, setInfoModal] = useState(false);
+  const [infoModalTitle, setInfoModalTitle] = useState('');
+
+  const showInfoModal = (message) => {
+    setInfoModalTitle(message);
+    setInfoModal(true);
+  };
+
+  const hideInfoModal = () => {
+    setInfoModalTitle('');
+    setInfoModal(false);
+  };
 
   const fetchRooms = () => {
     findRooms().then((result) => {
@@ -63,17 +74,17 @@ function Main() {
 
   const makeNewRoom = (room) => {
     if (room.title.length === 0) {
-      alert('공간 명을 입력해주세요.');
+      showInfoModal('공간 명을 입력해주세요.');
       return;
     }
 
     if (room.sizeX < 10) {
-      alert('가로길이는 최소 10보다 크게 지정해주세요.');
+      showInfoModal('가로길이는 최소 10보다 크게 지정해주세요.');
       return;
     }
 
     if (room.sizeY < 10) {
-      alert('세로길이는 최소 10보다 크게 지정해주세요.');
+      showInfoModal('세로길이는 최소 10보다 크게 지정해주세요.');
       return;
     }
 
@@ -91,17 +102,17 @@ function Main() {
 
   const updateRoom = ({ id, data }) => {
     if (data.title.length === 0) {
-      alert('공간 명을 입력해주세요.');
+      showInfoModal('공간 명을 입력해주세요.');
       return;
     }
 
     if (data.sizeX < 10) {
-      alert('가로길이는 최소 10보다 크게 지정해주세요.');
+      showInfoModal('가로길이는 최소 10보다 크게 지정해주세요.');
       return;
     }
 
     if (data.sizeY < 10) {
-      alert('세로길이는 최소 10보다 크게 지정해주세요.');
+      showInfoModal('세로길이는 최소 10보다 크게 지정해주세요.');
       return;
     }
 
@@ -136,7 +147,7 @@ function Main() {
         setRoomDeleteData(room);
         break;
       default:
-        alert('올바르지 않은 접근입니다');
+        showInfoModal('올바르지 않은 접근입니다.');
         break;
     }
   };
@@ -153,7 +164,7 @@ function Main() {
         deleteRoom();
         break;
       default:
-        alert('올바르지 않은 접근입니다');
+        showInfoModal('올바르지 않은 접근입니다.');
         break;
     }
   };
@@ -165,10 +176,6 @@ function Main() {
       ...deskForm,
       [name]: value,
     });
-  };
-
-  const handleInfoModal = (bool) => {
-    return setInfoModal(bool);
   };
 
   useEffect(() => {
@@ -211,6 +218,7 @@ function Main() {
           onConfirm={(data) => handleRoomConfirm('UPDATE', data)}
         />
       )}
+      {isInfoModalVisible && <InfoModal title={infoModalTitle} hideInfoModal={hideInfoModal} />}
       <MainContainer>
         <TitleContainer>
           <Title>
@@ -220,6 +228,7 @@ function Main() {
         </TitleContainer>
         {selectedRoom && selectedRoom.id && (
           <Grid
+            showInfoModal={showInfoModal}
             handleDeskModal={handleDeskModal}
             roomId={selectedRoom.id}
             sizeX={selectedRoom.sizeX}

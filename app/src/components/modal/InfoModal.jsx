@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import Modal from './Modal';
 import Button from '../Button';
 
-function InfoModal({ title, content, handleInfoModal }) {
+function InfoModal({ title, hideInfoModal }) {
   return (
     <Modal title={title}>
-      {content}
-      <Button name='확인' onClick={() => handleInfoModal(false)} />
+      <Button name='확인' onClick={hideInfoModal} />
     </Modal>
   );
 }
