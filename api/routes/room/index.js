@@ -17,10 +17,21 @@ router.get("/:roomId", async (req, res) => {
 router.post("/", async (req, res) => {
   const command = {
     title: req.body.title,
-    size_x: req.body.sizeX,
-    size_y: req.body.sizeY,
+    sizeX: req.body.sizeX,
+    sizeY: req.body.sizeY,
   };
   const result = await roomService.create(command);
+  return res.send(result);
+});
+
+router.put("/:roomId", async (req, res) => {
+  const id = Number(req.params.roomId);
+  const command = {
+    title: req.body.title,
+    sizeX: req.body.sizeX,
+    sizeY: req.body.sizeY,
+  };
+  const result = await roomService.updateById(id, command);
   return res.send(result);
 });
 
