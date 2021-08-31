@@ -6,9 +6,7 @@ import DeleteIcon from './icons/DeleteIcon';
 function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal }) {
   return (
     <TabsContainer>
-      <TabAdd onClick={handleRoomModal} addRoom>
-        +
-      </TabAdd>
+      <TabAdd onClick={handleRoomModal}>+</TabAdd>
 
       <RoomsContainer>
         {rooms.map((room) => (
@@ -16,7 +14,7 @@ function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal }) {
             <TabTitle key={room.id} id={room.id} onClick={() => handleRoom(room.id)}>
               {room.title}
             </TabTitle>
-            <TabArrow onClick={(e) => handleRoomDeleteModal(room)}>
+            <TabArrow onClick={() => handleRoomDeleteModal(room)}>
               <DeleteIcon width={0.8} height={0.8} rotate={0} />
             </TabArrow>
           </TabContainer>
@@ -55,10 +53,10 @@ const RoomsContainer = styled.div`
 const TabContainer = styled.div`
   display: flex;
   cursor: pointer;
-  background: ${(props) => (props.addRoom ? props.theme.primary6 : props.theme.primary4)};
+  background: ${(props) => props.theme.primary4};
 
   :hover {
-    background: ${(props) => (props.addRoom ? props.theme.primary6 : props.theme.primary6)};
+    background: ${(props) => props.theme.primary6};
   }
 `;
 
@@ -75,11 +73,13 @@ const TabTitle = styled.button`
   padding-left: 20px;
   align-items: center;
   justify-contents: center;
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 const TabArrow = styled.button`
   border-right: 1px solid lightgray;
   padding-right: 20px;
+  background-color: rgba(255, 255, 255, 0.5);
 `;
 
 export default Tabs;
