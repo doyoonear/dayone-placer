@@ -91,12 +91,12 @@ function Main() {
     try {
       createRoom(room).then(() => {
         setIsRoomModalOn(false);
-        setInfoModal(true);
+        showInfoModal('생성되었습니다.');
 
         fetchRooms();
       });
-    } catch {
-      setInfoModal(false);
+    } catch (err) {
+      showInfoModal(err.message);
     }
   };
 
