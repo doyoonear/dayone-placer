@@ -112,6 +112,7 @@ function Main() {
 
         if (id === selectedRoom?.id) {
           const newSelectedRoom = { ...selectedRoom };
+          newSelectedRoom.title = data.title;
           newSelectedRoom.sizeX = data.sizeX;
           newSelectedRoom.sizeY = data.sizeY;
           setSelectedRoom(newSelectedRoom);
