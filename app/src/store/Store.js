@@ -1,6 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 
 const initialState = {
+  motherGroupList: [],
   groupList: [],
   isDeleteIconOn: false,
 };
@@ -16,6 +17,11 @@ export const StateProvider = ({ children }) => {
           groupList: state.groupList.map((group, index) => {
             return index === action.index ? { ...group, isGroupOpen: !group.isGroupOpen } : group;
           }),
+        };
+      case 'SET_MOTHERGROUPS':
+        return {
+          ...state,
+          motherGroupList: action.value,
         };
       case 'SET_GROUPLIST':
         return {
