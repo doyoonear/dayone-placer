@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 
 const initialState = {
-  isGroupOpen: false,
   groupList: [],
 };
 
@@ -11,7 +10,12 @@ export const StateProvider = ({ children }) => {
   const reducer = (state, action) => {
     switch (action.type) {
       case 'TOGGLE_GROUPMEMBERS':
-        return { ...state, isGroupOpen: !state.isGroupOpen };
+        return {
+          ...state,
+          groupList: state.groupList.map((group, index) => {
+            return index === action.index ? { ...group, isGroupOpen: !group.isGroupOpen } : group;
+          }),
+        };
       case 'SET_GROUPLIST':
         return {
           ...state,
