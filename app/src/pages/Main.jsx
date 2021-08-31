@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
-import Modal from '../components/Modal';
-import Input from '../components/Input';
 import Tabs from '../components/Tabs';
-import Button from '../components/Button';
-import Dropdown from '../components/Dropdown';
-import InfoModal from '../components/InfoModal';
+import InfoModal from '../components/modal/InfoModal';
+import RoomCreateModal from '../components/modal/RoomCreateModal';
+import RoomDeleteModal from '../components/modal/RoomDeleteModal';
+import DeskCreateModal from '../components/modal/DeskCreateModal';
 
 import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
@@ -80,8 +79,6 @@ function Main() {
 
   const handleRoomForm = (e) => {
     const { name, value } = e.target;
-    console.log('name', name);
-    console.log('value', value);
 
     setRoomForm({
       ...roomForm,
@@ -90,6 +87,21 @@ function Main() {
   };
 
   const makeNewRoom = async () => {
+    if (roomForm.title.length === 0) {
+      alert('공간 명을 입력해주세요.');
+      return;
+    }
+
+    if (roomForm.sizeX <= 10) {
+      alert('가로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
+    if (roomForm.sizeY <= 10) {
+      alert('세로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
     try {
       await createRoom(roomForm);
       setIsRoomModalOn(false);
@@ -130,45 +142,27 @@ function Main() {
           자리 배치도
         </Title>
         {isDeskModalOn && (
-          <Modal title='책상 그룹 추가'>
-            <InputWrapper>
-              <Dropdown
-                label='팀'
-                options={groups}
-                name='team'
-                onChange={handleDeskForm}
-                placeholder='팀을 선택해주세요'
-              />
-              <Input label='책상 가로' type='number' name='x' onChange={handleDeskForm} value={deskForm.xc} />
-              <Input label='책상 세로' type='number' name='y' onChange={handleDeskForm} value={deskForm.yc} />
-            </InputWrapper>
-            <ButtonWrapper>
-              <Button onClick={handleDeskModal} name='취소' />
-              <Button name='확인' onClick={() => console.log(deskForm)} />
-            </ButtonWrapper>
-          </Modal>
+          <DeskCreateModal
+            groups={groups}
+            handleDeskForm={handleDeskForm}
+            deskForm={deskForm}
+            handleDeskModal={handleDeskModal}
+          />
         )}
         {isRoomModalOn && (
-          <Modal title='공간 추가'>
-            <InputWrapper>
-              <Input label='공간명' name='title' onChange={handleRoomForm} value={roomForm.title} />
-              <Input label='가로' type='number' name='sizeX' onChange={handleRoomForm} value={roomForm.sizeX} />
-              <Input label='세로' type='number' name='sizeY' onChange={handleRoomForm} value={roomForm.sizeY} />
-            </InputWrapper>
-            <ButtonWrapper>
-              <Button onClick={handleRoomModal} name='취소' />
-              <Button name='확인' onClick={makeNewRoom} />
-            </ButtonWrapper>
-          </Modal>
+          <RoomCreateModal
+            handleRoomForm={handleRoomForm}
+            roomForm={roomForm}
+            handleRoomModal={handleRoomModal}
+            makeNewRoom={makeNewRoom}
+          />
         )}
         {isRoomDeleteModalOn && isRoomDeleteModalOn.id && (
-          <Modal title='공간 삭제'>
-            {isRoomDeleteModalOn.title} 를 삭제하시겠습니까? 삭제 후에는 복구가 불가능합니다.
-            <ButtonWrapper>
-              <Button onClick={(e) => handleRoomDeleteModal({})} name='취소' />
-              <Button name='확인' onClick={deleteRoom} />
-            </ButtonWrapper>
-          </Modal>
+          <RoomDeleteModal
+            isRoomDeleteModalOn={isRoomDeleteModalOn}
+            handleRoomDeleteModal={handleRoomDeleteModal}
+            deleteRoom={deleteRoom}
+          />
         )}
         {selectedRoom && selectedRoom.id && (
           <Grid
@@ -207,16 +201,6 @@ const MainContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  column-gap: 0.6rem;
 `;
 
 export default Main;
