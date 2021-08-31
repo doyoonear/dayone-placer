@@ -120,13 +120,17 @@ const StGroupHeader = styled.div`
 `;
 
 const StMemberContainer = styled.li`
-  padding: 0.7rem;
   display: ${(props) => (props.isGroupOpen ? 'block' : 'none')};
   width: 100%;
 `;
 
 const StMemberName = styled.div`
-  color: black;
+  color: #262626;
+  padding: 0.7rem;
+  background-color: ${(props) => props.theme.primary2};
+  :hover {
+    background-color: ${(props) => props.theme.primary6};
+  }
 `;
 
 const StSidebar = styled.div`
