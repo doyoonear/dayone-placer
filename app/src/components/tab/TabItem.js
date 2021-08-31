@@ -15,7 +15,7 @@ const TabItem = ({ room, handleRoom, selectedRoomId, handleOptionModal, accountL
         <TabArrow onClick={() => handleOptionModal(room, tabContainer.current.getBoundingClientRect())}>
           <ArrowIcon width={0.8} height={0.8} rotate={90} />
         </TabArrow>
-      }
+      )}
     </TabContainer>
   );
 };

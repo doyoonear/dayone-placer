@@ -183,7 +183,6 @@ function Main() {
 
   return (
     <MainPage>
-
       {isDeskModalOn && (
         <DeskCreateModal
           groups={groups}
