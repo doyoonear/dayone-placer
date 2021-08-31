@@ -29,11 +29,11 @@ function Sidebar({ handleDrag }) {
 
   return (
     <StSidebar>
-      <SidebarSubitle>사물</SidebarSubitle>
+      <SidebarSubtitle>사물</SidebarSubtitle>
       {DEFAULT_PART_LIST.map((part) => (
-        <StPartWrapper>
+        <StPartWrapper key={`partwrapper_${part.id}`}>
           <StPart
-            key={part.id}
+            key={`part_${part.id}`}
             draggable
             type={part.type}
             color={part.color}
@@ -41,23 +41,23 @@ function Sidebar({ handleDrag }) {
             onDragOver={(e) => e.preventDefault()}
             onDragStart={(e) => handleDrag(e, part)}
           />
-          <StName>{part.title}</StName>
+          <StName key={`partName${part.id}`}>{part.title}</StName>
         </StPartWrapper>
       ))}
-      <SidebarSubitle>임직원</SidebarSubitle>
+      <SidebarSubtitle>임직원</SidebarSubtitle>
       {state.groupList?.length &&
         state.groupList?.map((group) => {
           return (
-            <div key={group.id}>
-              <StGroupHeader color={group.color}>
-                <GroupHeader group={group} />
+            <>
+              <StGroupHeader key={`header_${group.id}`} color={group.color}>
+                <GroupHeader key={`group_${group.id}`} group={group} />
               </StGroupHeader>
-              <StMemberContainer isGroupOpen={group.isGroupOpen}>
+              <StMemberContainer key={`members_${group.id}`} isGroupOpen={group.isGroupOpen}>
                 {group.members.length &&
                   group.members.map((member) => {
                     return (
                       <StMemberName
-                        key={member.id}
+                        key={`memberName_${member.id}`}
                         draggable
                         data-type='MEMBER'
                         onDragOver={(e) => e.preventDefault()}
@@ -68,7 +68,7 @@ function Sidebar({ handleDrag }) {
                     );
                   })}
               </StMemberContainer>
-            </div>
+            </>
           );
         })}
     </StSidebar>
@@ -83,7 +83,7 @@ Sidebar.defaultProps = {
   handleDrag: () => {},
 };
 
-const SidebarSubitle = styled.p`
+const SidebarSubtitle = styled.p`
   font-size: 16px;
   font-weight: 600;
   padding-bottom: 20px;
