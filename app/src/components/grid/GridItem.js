@@ -93,7 +93,7 @@ GridItem.propTypes = {
   data: PropTypes.object,
   handleDrag: PropTypes.func,
   handleDrop: PropTypes.func,
-  partList: PropTypes.object,
+  partList: PropTypes.array,
 };
 
 GridItem.defaultProps = {
