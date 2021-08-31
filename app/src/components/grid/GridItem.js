@@ -79,7 +79,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
         {renderTitle()}
       </Bullet>
 
-      {state.isDeleteIconOn && isMatchLocation && (
+      {state.isDeleteIconOn && isMatchLocation && accountLevel === ACCOUNT_PERMISSION.ALL && (
         <IconButton onClick={onIconClick}>
           <DeleteIcon width={1} height={1} rotate={0} />
         </IconButton>
