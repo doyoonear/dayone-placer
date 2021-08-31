@@ -9,7 +9,7 @@ export const theme = {
 export const handleGridColor = (type) => {
   switch (type) {
     case 'MEMBER':
-      return 'tomato';
+      return '#e3e1e1';
     default:
       return 'white';
   }
