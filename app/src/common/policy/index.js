@@ -13,5 +13,10 @@ export const DEFAULT_PART_LIST = [
   { id: 2, type: 'WINDOW_1', title: '창문', color: 'lightblue' },
 ];
 
+export const ACCOUNT_PERMISSION = {
+  ALL: 100,
+  NONE: 0,
+};
+
 // export const SERVER_URL = 'http://localhost:4000';
 export const SERVER_URL = 'http://ky-server.iptime.org:4000';

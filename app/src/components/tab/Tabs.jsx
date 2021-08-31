@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import TabItem from './TabItem';
+import { ACCOUNT_PERMISSION } from '../../common/policy';
 
-function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal, selectedRoom }) {
+function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal, selectedRoom, accountLevel }) {
   return (
     <TabsContainer>
-      <TabAdd onClick={handleRoomModal}>+</TabAdd>
+      {accountLevel === ACCOUNT_PERMISSION.ALL && <TabAdd onClick={handleRoomModal}>+</TabAdd>}
       <TabItemContainer>
         {rooms.map((room) => (
           <TabItem
@@ -15,6 +16,7 @@ function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal, selec
             handleRoom={handleRoom}
             handleRoomDeleteModal={handleRoomDeleteModal}
             selectedRoomId={selectedRoom.id}
+            accountLevel={accountLevel}
           />
         ))}
       </TabItemContainer>

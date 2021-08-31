@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import DeleteIcon from '../icons/DeleteIcon';
 import { handleGridColor } from '../../styles/theme';
+import { ACCOUNT_PERMISSION } from '../../common/policy';
 
-const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem, partList }) => {
+const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem, partList, accountLevel }) => {
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
   const [isDeleteIconOn, setDeleteIcon] = useState(false);
 
@@ -39,7 +40,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   return (
     <GridItemContainer>
       <Bullet
-        draggable={(data.type && true) || false}
+        draggable={(data.type && accountLevel === ACCOUNT_PERMISSION.ALL && true) || false}
         type={data.type}
         data-type={data.type}
         color={getPartColor(data.type)}
