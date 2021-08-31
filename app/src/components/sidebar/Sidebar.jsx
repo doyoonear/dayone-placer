@@ -143,6 +143,7 @@ const StSidebar = styled.div`
   font-family: 'Noto Sans KR', sans-serif;
   text-align: left;
   background: ${(props) => props.theme.primary4};
+  overflow-y: auto;
 `;
 
 export default Sidebar;
