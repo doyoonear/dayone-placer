@@ -31,12 +31,6 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     dispatch({ type: 'TOGGLE_DELETEBTN', location: targetLocation });
   };
 
-  const submitAddNewItem = (e) => {
-    const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
-    setCurrLocation(targetLocation);
-    addNewItem({ data, location: targetLocation });
-  };
-
   const onIconClick = () => {
     deleteItem({ data, location: currLocation });
 
@@ -45,7 +39,9 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
 
   const checkGridEmpty = (e) => {
     const type = e.target.getAttribute('data-type');
-    return type === null ? submitAddNewItem(e) : submitDelete(e);
+    if (type !== null) {
+      submitDelete(e);
+    }
   };
 
   const renderTitle = () => {
