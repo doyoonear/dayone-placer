@@ -21,8 +21,9 @@ function Login() {
       const result = await authSignIn(form);
 
       if (result.data.accessToken) {
-        const accessToken = result?.data?.accessToken;
+        const { accessToken, level } = result.data;
         setStorage('ACCESS_TOKEN', accessToken);
+        setStorage('ACCOUNT_LEVEL', level);
 
         socketConnection.emit(SOCKET_EVENT_TYPE.INIT, { accessToken });
 

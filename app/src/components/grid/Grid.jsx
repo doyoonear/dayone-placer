@@ -6,10 +6,10 @@ import GridItem from './GridItem';
 import Sidebar from '../sidebar/Sidebar';
 import DeleteIcon from '../icons/DeleteIcon';
 
-import { SOCKET_EVENT_TYPE, DEFAULT_PART_LIST } from '../../common/policy';
+import { ACCOUNT_PERMISSION, SOCKET_EVENT_TYPE, DEFAULT_PART_LIST } from '../../common/policy';
 import findRoomParts from '../../common/api/grid';
 
-function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
+function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection, accountLevel }) {
   const [dragItem, setDragItem] = useState({});
   const [gridData, setGridData] = useState({});
 
@@ -182,6 +182,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
           addNewItem={addNewItem}
           deleteItem={deleteItem}
           partList={DEFAULT_PART_LIST}
+          accountLevel={accountLevel}
           data={gridData[`${x}_${y}`]}
         />
       );
@@ -209,7 +210,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
           {makeGridItem(sizeX, sizeY)}
         </GridWrapper>
       </GridBox>
-      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
+      {accountLevel === ACCOUNT_PERMISSION.ALL && <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />}
     </>
   );
 }

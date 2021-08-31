@@ -15,6 +15,7 @@ import { findRooms, createRoom, apiDeleteRoom } from '../common/api/room';
 
 function Main() {
   const history = useHistory();
+  const [accountLevel, setAccountLevel] = useState(0);
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
   const [isRoomDeleteModalOn, setIsRoomDeleteModalOn] = useState({});
@@ -131,7 +132,11 @@ function Main() {
   useEffect(() => {
     if (getStorage('ACCESS_TOKEN')) {
       fetchData();
-    } else history.push('/login');
+    } else {
+      history.push('/login');
+    }
+
+    setAccountLevel(Number(getStorage('ACCOUNT_LEVEL')) ?? 0);
   }, []);
 
   return (
@@ -174,6 +179,7 @@ function Main() {
             sizeX={selectedRoom.sizeX}
             sizeY={selectedRoom.sizeY}
             socketConnection={socketConnection}
+            accountLevel={accountLevel}
           />
         )}
         <Tabs
@@ -182,6 +188,7 @@ function Main() {
           handleRoom={handleRoom}
           handleRoomDeleteModal={handleRoomDeleteModal}
           selectedRoom={selectedRoom}
+          accountLevel={accountLevel}
         />
       </MainContainer>
     </MainPage>
