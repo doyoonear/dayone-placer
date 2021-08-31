@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import Grid from '../components/grid/Grid.jsx';
-import Tabs from '../components/Tabs';
+import Tabs from '../components/tab/Tabs';
 import InfoModal from '../components/modal/InfoModal';
 import RoomCreateModal from '../components/modal/RoomCreateModal';
 import RoomDeleteModal from '../components/modal/RoomDeleteModal';
@@ -178,6 +178,7 @@ function Main() {
           handleRoomModal={handleRoomModal}
           handleRoom={handleRoom}
           handleRoomDeleteModal={handleRoomDeleteModal}
+          selectedRoom={selectedRoom}
         />
         {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       </MainContainer>
