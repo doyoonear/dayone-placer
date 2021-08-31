@@ -109,6 +109,13 @@ function Main() {
       apiUpdateRoom(id, data).then(() => {
         setRoomUpdateData({});
         fetchRooms();
+
+        if (id === selectedRoom?.id) {
+          const newSelectedRoom = { ...selectedRoom };
+          newSelectedRoom.sizeX = data.sizeX;
+          newSelectedRoom.sizeY = data.sizeY;
+          setSelectedRoom(newSelectedRoom);
+        }
       });
     } catch {
       setInfoModal(false);
