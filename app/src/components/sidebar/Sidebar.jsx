@@ -6,12 +6,8 @@ import GroupHeader from './GroupHeader';
 import { findGroupMembers } from '../../common/api/group';
 import { handleGridColor } from '../../styles/theme';
 
-function Sidebar({ handleDrag, handleDrop }) {
+function Sidebar({ partList, handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
-  const [partList, setPartList] = useState([
-    { id: 1, type: 'DESK', title: '책상' },
-    { id: 2, type: 'WINDOW_1', title: '창문1' },
-  ]);
   // const [isGroupOpen, setIsGroupOpen] = useState(true);
   // const [groupList, setGroupList] = useState([]);
 
@@ -41,6 +37,7 @@ function Sidebar({ handleDrag, handleDrop }) {
             key={part.id}
             draggable
             type={part.type}
+            color={part.color}
             data-type={part.type}
             onDragOver={(e) => e.preventDefault()}
             onDragStart={(e) => handleDrag(e, part)}
@@ -115,7 +112,7 @@ const StPart = styled.div`
   height: 32px;
   border: 1px solid lightgrey;
   cursor: pointer;
-  background: ${({ type }) => handleGridColor(type)};
+  background: ${({ type, color }) => color ?? handleGridColor(type)};
 `;
 
 const StGroupHeader = styled.div`
