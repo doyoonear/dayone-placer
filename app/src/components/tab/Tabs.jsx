@@ -10,6 +10,7 @@ function Tabs({ rooms, handleRoomModal, handleRoom, handleRoomDeleteModal, selec
       <TabItemContainer>
         {rooms.map((room) => (
           <TabItem
+            key={room.id}
             room={room}
             handleRoom={handleRoom}
             handleRoomDeleteModal={handleRoomDeleteModal}

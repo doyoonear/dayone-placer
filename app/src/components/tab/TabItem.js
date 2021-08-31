@@ -27,8 +27,8 @@ const TabContainer = styled.div`
 `;
 
 const TabTitle = styled.button`
-  font-size: 16px;
-  padding-left: 20px;
+  font-size: 13px;
+  padding-left: 15px;
   align-items: center;
   justify-contents: center;
   background-color: rgba(255, 255, 255, 0.5);
@@ -36,7 +36,7 @@ const TabTitle = styled.button`
 
 const TabArrow = styled.button`
   border-right: 1px solid lightgray;
-  padding-right: 20px;
+  padding-right: 10px;
   background-color: rgba(255, 255, 255, 0.5);
 `;
 
