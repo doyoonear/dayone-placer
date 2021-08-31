@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import DeleteIcon from '../icons/DeleteIcon';
 import { handleGridColor } from '../../styles/theme';
 
-const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem }) => {
+const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem, partList }) => {
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
   const [isDeleteIconOn, setDeleteIcon] = useState(false);
+
+  const getPartColor = (type) => {
+    const part = partList.find((item) => item.type === type);
+    return part?.color;
+  };
 
   const submitDelete = (e) => {
     const targetLocation = { x: e.target.dataset.x, y: e.target.dataset.y };
@@ -34,9 +39,10 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   return (
     <GridItemContainer>
       <Bullet
-        draggable={!!data.type}
+        draggable={(data.type && true) || false}
         type={data.type}
         data-type={data.type}
+        color={getPartColor(data.type)}
         data-x={location.x}
         data-y={location.y}
         onDragOver={(e) => e.preventDefault()}
@@ -62,6 +68,7 @@ GridItem.propTypes = {
   data: PropTypes.object,
   handleDrag: PropTypes.func,
   handleDrop: PropTypes.func,
+  partList: PropTypes.object,
 };
 
 GridItem.defaultProps = {
@@ -69,6 +76,7 @@ GridItem.defaultProps = {
   data: {},
   handleDrag: () => {},
   handleDrop: () => {},
+  partList: [],
 };
 
 const GridItemContainer = styled.div`
@@ -99,7 +107,7 @@ const Bullet = styled.div`
   font-size: 12px;
   text-align: center;
   cursor: pointer;
-  background: ${({ type }) => handleGridColor(type)};
+  background: ${({ type, color }) => color ?? handleGridColor(type)};
 
   :hover {
     border: solid 4px ${(props) => props.theme.primary8};

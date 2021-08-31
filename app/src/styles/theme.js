@@ -8,10 +8,6 @@ export const theme = {
 
 export const handleGridColor = (type) => {
   switch (type) {
-    case 'WINDOW_1' || 'WINDOW':
-      return 'lightblue';
-    case 'DESK':
-      return 'lightpink';
     case 'MEMBER':
       return 'tomato';
     default:

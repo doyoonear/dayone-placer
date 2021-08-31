@@ -6,7 +6,7 @@ import GridItem from './GridItem';
 import Sidebar from '../sidebar/Sidebar';
 import DeleteIcon from '../icons/DeleteIcon';
 
-import { SOCKET_EVENT_TYPE } from '../../common/policy';
+import { SOCKET_EVENT_TYPE, DEFAULT_PART_LIST } from '../../common/policy';
 import findRoomParts from '../../common/api/grid';
 
 function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
@@ -181,6 +181,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
           handleDrop={handleDrop}
           addNewItem={addNewItem}
           deleteItem={deleteItem}
+          partList={DEFAULT_PART_LIST}
           data={gridData[`${x}_${y}`]}
         />
       );
@@ -206,7 +207,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection }) {
       <GridWrapper width={sizeX} height={sizeY}>
         {makeGridItem(sizeX, sizeY)}
       </GridWrapper>
-      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />
+      <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} partList={DEFAULT_PART_LIST} />
     </GridContainer>
   );
 }
