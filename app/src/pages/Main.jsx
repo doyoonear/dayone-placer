@@ -29,11 +29,6 @@ function Main() {
     x: 0,
     y: 0,
   });
-  const [roomForm, setRoomForm] = useState({
-    title: '',
-    sizeX: 0,
-    sizeY: 0,
-  });
 
   const [isInfoModalVisible, setInfoModal] = useState(false);
 
@@ -66,7 +61,50 @@ function Main() {
     }
   };
 
+  const makeNewRoom = (room) => {
+    if (room.title.length === 0) {
+      alert('공간 명을 입력해주세요.');
+      return;
+    }
+
+    if (room.sizeX < 10) {
+      alert('가로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
+    if (room.sizeY < 10) {
+      alert('세로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
+    try {
+      createRoom(room).then(() => {
+        setIsRoomModalOn(false);
+        setInfoModal(true);
+
+        fetchRooms();
+      });
+    } catch {
+      setInfoModal(false);
+    }
+  };
+
   const updateRoom = ({ id, data }) => {
+    if (data.title.length === 0) {
+      alert('공간 명을 입력해주세요.');
+      return;
+    }
+
+    if (data.sizeX < 10) {
+      alert('가로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
+    if (data.sizeY < 10) {
+      alert('세로길이는 최소 10보다 크게 지정해주세요.');
+      return;
+    }
+
     try {
       apiUpdateRoom(id, data).then(() => {
         setRoomUpdateData({});
@@ -106,7 +144,7 @@ function Main() {
   const handleRoomConfirm = (type, room) => {
     switch (type) {
       case 'CREATE':
-        setIsRoomModalOn(!isRoomModalOn);
+        makeNewRoom(room);
         break;
       case 'UPDATE':
         updateRoom(room);
@@ -129,42 +167,6 @@ function Main() {
     });
   };
 
-  const handleRoomForm = (e) => {
-    const { name, value } = e.target;
-
-    setRoomForm({
-      ...roomForm,
-      [name]: value,
-    });
-  };
-
-  const makeNewRoom = async () => {
-    if (roomForm.title.length === 0) {
-      alert('공간 명을 입력해주세요.');
-      return;
-    }
-
-    if (roomForm.sizeX <= 10) {
-      alert('가로길이는 최소 10보다 크게 지정해주세요.');
-      return;
-    }
-
-    if (roomForm.sizeY <= 10) {
-      alert('세로길이는 최소 10보다 크게 지정해주세요.');
-      return;
-    }
-
-    try {
-      await createRoom(roomForm);
-      setIsRoomModalOn(false);
-      setInfoModal(true);
-
-      fetchRooms();
-    } catch {
-      setInfoModal(false);
-    }
-  };
-
   const handleInfoModal = (bool) => {
     return setInfoModal(bool);
   };
@@ -181,6 +183,7 @@ function Main() {
 
   return (
     <MainPage>
+
       {isDeskModalOn && (
         <DeskCreateModal
           groups={groups}
@@ -191,10 +194,8 @@ function Main() {
       )}
       {isRoomModalOn && (
         <RoomCreateModal
-          handleRoomForm={handleRoomForm}
-          roomForm={roomForm}
           onClose={() => handleRoomModal('CREATE', {})}
-          onConfirm={() => handleRoomConfirm('CREATE')}
+          onConfirm={(data) => handleRoomConfirm('CREATE', data)}
         />
       )}
       {roomDeleteData && roomDeleteData.id && (
@@ -211,7 +212,6 @@ function Main() {
           onConfirm={(data) => handleRoomConfirm('UPDATE', data)}
         />
       )}
-      {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
       <MainContainer>
         <TitleContainer>
           <Title>
@@ -233,7 +233,6 @@ function Main() {
           rooms={rooms}
           handleRoomModal={handleRoomModal}
           handleRoom={handleRoom}
-          handleRoomDeleteModal={handleRoomDeleteModal}
           selectedRoom={selectedRoom}
           accountLevel={accountLevel}
         />

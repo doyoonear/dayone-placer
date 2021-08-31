@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Input from '../Input';
 import Button from '../Button';
 import Modal from './Modal';
 
-const RoomCreateModal = ({ handleRoomForm, roomForm, onClose, onConfirm }) => {
+const RoomCreateModal = ({ onClose, onConfirm }) => {
+  const [roomForm, setRoomForm] = useState({
+    title: '',
+    sizeX: 10,
+    sizeY: 10,
+  });
+
+  const handleRoomForm = (e) => {
+    const { name, value } = e.target;
+
+    setRoomForm({
+      ...roomForm,
+      [name]: value,
+    });
+  };
+
   return (
     <Modal title='공간 추가'>
       <InputWrapper>
@@ -14,7 +29,7 @@ const RoomCreateModal = ({ handleRoomForm, roomForm, onClose, onConfirm }) => {
       </InputWrapper>
       <ButtonWrapper>
         <Button onClick={onClose} name='취소' />
-        <Button name='확인' onClick={onConfirm} />
+        <Button name='확인' onClick={() => onConfirm(roomForm)} />
       </ButtonWrapper>
     </Modal>
   );
