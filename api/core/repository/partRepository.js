@@ -16,15 +16,21 @@ class PartRepository extends Repository {
 
   deleteByRoomIdAndLocationXAndLocationY(roomId, locationX, locationY) {
     return knex(this.table)
-      .where({ room_id: roomId, location_x: locationX, location_y: locationY })
+      .where({ roomId, locationX, locationY })
       .where({ state: "NORMAL " })
-      .update({ state: "NORMAL" });
+      .update({ state: "DELETED" });
   }
 
   updateMemberIdByLocation(memberId, roomId, location) {
     return knex(this.table)
       .where({ ...location, roomId })
       .update({ memberId, type: "MEMBER" });
+  }
+
+  updateEmptyDeskByLocation(roomId, location) {
+    return knex(this.table)
+      .where({ ...location, roomId })
+      .update({ type: "DESK", memberId: null });
   }
 }
 
