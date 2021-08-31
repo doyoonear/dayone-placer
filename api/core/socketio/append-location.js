@@ -1,6 +1,7 @@
 const { SOCKET_EVENTS } = require("../../config/socket");
 
 const { partService } = require("../service/part");
+const { memberService } = require("../service/member");
 
 const subscribeAppendLocationEvent = (io, socket) => {
   socket.on(SOCKET_EVENTS.APPEND_LOCATION, async (props) => {
@@ -18,6 +19,8 @@ const subscribeAppendLocationEvent = (io, socket) => {
         locationX: location.x,
         locationY: location.y,
       });
+
+      props.data.member = await memberService.getById(data.id);
     } else {
       await partService.create({
         type: data.type,
