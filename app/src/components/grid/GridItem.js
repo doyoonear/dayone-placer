@@ -34,7 +34,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   return (
     <GridItemContainer>
       <Bullet
-        draggable
+        draggable={!!data.type}
         type={data.type}
         data-type={data.type}
         data-x={location.x}
