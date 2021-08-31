@@ -47,8 +47,8 @@ function Sidebar({ handleDrag, handleDrop }) {
         </StPartWrapper>
       ))}
       <SidebarSubitle>임직원</SidebarSubitle>
-      {state.groupList.length &&
-        state.groupList.map((group) => {
+      {state.groupList?.length &&
+        state.groupList?.map((group) => {
           return (
             <div key={group.id}>
               <StGroupHeader color={group.color}>
