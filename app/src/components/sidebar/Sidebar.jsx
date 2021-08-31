@@ -10,22 +10,28 @@ import { DEFAULT_PART_LIST } from '../../common/policy';
 function Sidebar({ handleDrag }) {
   const { state, dispatch } = useContext(Context);
 
-  const getGroupMembers = async () => {
-    const {
-      data: [{ children }],
-    } = await findGroupMembers();
+  const getMotherGroup = async () => {
+    const { data } = await findGroupMembers();
 
-    const modifiedGroups = children.map((group) => {
+    console.log('data', data);
+    dispatch({ type: 'SET_MOTHERGROUPS', value: data });
+  };
+
+  const getGroupMembers = async (index) => {
+    const groupMemberList = state.motherGroupList[index]?.children;
+
+    const modifiedGroups = groupMemberList.map((group) => {
       return {
         ...group,
         isGroupOpen: false,
       };
     });
-
     dispatch({ type: 'SET_GROUPLIST', value: modifiedGroups });
   };
 
-  useEffect(getGroupMembers, []);
+  useEffect(async () => {
+    await getMotherGroup();
+  }, []);
 
   return (
     <StSidebar>
@@ -45,7 +51,13 @@ function Sidebar({ handleDrag }) {
         </StPartWrapper>
       ))}
       <SidebarSubtitle>임직원</SidebarSubtitle>
-      {state.groupList?.length &&
+      <StMotherGroupContainer>
+        {state.motherGroupList.length > 0 &&
+          state.motherGroupList?.map((mGroup, index) => {
+            return <StMotherGroupBtn onClick={() => getGroupMembers(index)}>{mGroup.title}</StMotherGroupBtn>;
+          })}
+      </StMotherGroupContainer>
+      {state.groupList.length > 0 &&
         state.groupList?.map((group) => {
           return (
             <>
@@ -53,8 +65,8 @@ function Sidebar({ handleDrag }) {
                 <GroupHeader key={`group_${group.id}`} group={group} />
               </StGroupHeader>
               <StMemberContainer key={`members_${group.id}`} isGroupOpen={group.isGroupOpen}>
-                {group.members.length &&
-                  group.members.map((member) => {
+                {group.members.length > 0 &&
+                  group.members?.map((member) => {
                     return (
                       <StMemberName
                         key={`memberName_${member.id}`}
@@ -110,6 +122,19 @@ const StPart = styled.div`
   border: 1px solid lightgrey;
   cursor: pointer;
   background: ${({ type, color }) => color ?? handleGridColor(type)};
+`;
+
+const StMotherGroupContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const StMotherGroupBtn = styled.button`
+  width: 100px;
+  height: 30px;
+  border-radius: 0.2rem;
+  background-color: ${(props) => props.color || 'white'};
 `;
 
 const StGroupHeader = styled.div`
