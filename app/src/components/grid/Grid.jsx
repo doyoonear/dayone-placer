@@ -216,8 +216,8 @@ function Grid({ showInfoModal, handleDeskModal, roomId, sizeX, sizeY, socketConn
 
   return (
     <>
-      <GridBox>
-        <GridWrapper width={sizeX} height={sizeY}>
+      <GridBox accountLevel={accountLevel}>
+        <GridWrapper width={sizeX} height={sizeY} accountLevel={accountLevel}>
           {makeGridItem(sizeX, sizeY)}
         </GridWrapper>
       </GridBox>
@@ -245,7 +245,7 @@ const GridBox = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
-  min-width: calc(100vw-300px);
+  min-width: ${(props) => (props.accountLevel === ACCOUNT_PERMISSION.ALL ? 'calc(100vw - 300px)' : '100vw')};
   min-height: calc(100vh-40px);
 `;
 
@@ -256,7 +256,7 @@ const GridWrapper = styled.div`
   grid-template-rows: repeat(${({ height }) => height}, 1fr);
   width: fit-content;
   overflow: scroll;
-  margin-right: 300px;
+  margin-right: ${(props) => (props.accountLevel === ACCOUNT_PERMISSION.ALL ? '300px' : '0px')};
   border: 2px solid gray;
 `;
 
