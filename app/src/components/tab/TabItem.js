@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
-import DeleteIcon from '../icons/DeleteIcon';
+import ArrowIcon from '../icons/ArrowIcon';
 import { ACCOUNT_PERMISSION } from '../../common/policy';
 
-const TabItem = ({ room, handleRoom, handleRoomDeleteModal, selectedRoomId, accountLevel }) => {
-  console.log('selectedRoomId', selectedRoomId);
+const TabItem = ({ room, handleRoom, selectedRoomId, handleOptionModal, accountLevel }) => {
+  const tabContainer = useRef();
+
   return (
-    <TabContainer id={room.id} selectedRoomId={selectedRoomId}>
+    <TabContainer id={room.id} selectedRoomId={selectedRoomId} ref={tabContainer}>
       <TabTitle key={room.id} id={room.id} onClick={() => handleRoom(room.id)} accountLevel={accountLevel}>
         {room.title}
       </TabTitle>
       {accountLevel === ACCOUNT_PERMISSION.ALL && (
-        <TabArrow onClick={() => handleRoomDeleteModal(room)}>
-          <DeleteIcon width={0.8} height={0.8} rotate={0} />
+        <TabArrow onClick={() => handleOptionModal(room, tabContainer.current.getBoundingClientRect())}>
+          <ArrowIcon width={0.8} height={0.8} rotate={90} />
         </TabArrow>
-      )}
+      }
     </TabContainer>
   );
 };

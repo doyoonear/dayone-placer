@@ -11,3 +11,7 @@ export const createRoom = (data) => {
 export const apiDeleteRoom = (id) => {
   return httpClient.delete({ url: `/rooms/${id}` });
 };
+
+export const apiUpdateRoom = (id, data) => {
+  return httpClient.put({ url: `/rooms/${id}`, data });
+};
