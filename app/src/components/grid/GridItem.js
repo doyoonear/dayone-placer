@@ -6,7 +6,7 @@ import DeleteIcon from '../icons/DeleteIcon';
 import { handleGridColor } from '../../styles/theme';
 import { ACCOUNT_PERMISSION } from '../../common/policy';
 
-const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteItem, partList, accountLevel }) => {
+const GridItem = ({ location, data, handleDrag, handleDrop, deleteItem, partList, accountLevel }) => {
   const { state, dispatch } = useContext(Context);
   const [currLocation, setCurrLocation] = useState({ x: '0', y: '0' });
   const [isMatchLocation, setMatchLocation] = useState(false);
@@ -14,6 +14,12 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
   const getPartColor = (type) => {
     const part = partList.find((item) => item.type === type);
     return part?.color;
+  };
+
+  const getMemberColor = (d) => {
+    return state.groupList.find((group) => {
+      return group.id === d?.member?.groupId;
+    })?.color;
   };
 
   const getPartTitle = (type) => {
@@ -58,13 +64,16 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
     checkDeleteIconLocation();
   }, [state.location]);
 
+  useEffect(() => {}, []);
+
   return (
-    <GridItemContainer>
+    <GridItemContainer key={`container_${data.id}`}>
       <Bullet
+        key={`bullet_${data.id}`}
         draggable={(data.type && accountLevel === ACCOUNT_PERMISSION.ALL && true) || false}
         type={data.type}
         data-type={data.type}
-        color={getPartColor(data.type)}
+        color={data.type === 'MEMBER' ? getMemberColor(data) : getPartColor(data.type)}
         data-x={location.x}
         data-y={location.y}
         onDragOver={(e) => e.preventDefault()}
@@ -76,8 +85,8 @@ const GridItem = ({ location, data, handleDrag, handleDrop, addNewItem, deleteIt
       </Bullet>
 
       {state.isDeleteIconOn && isMatchLocation && accountLevel === ACCOUNT_PERMISSION.ALL && (
-        <IconButton onClick={onIconClick}>
-          <DeleteIcon width={1} height={1} rotate={0} />
+        <IconButton key={`iconbtn_${data.id}`} onClick={onIconClick}>
+          <DeleteIcon key={`deleteicon_${data.id}`} width={1} height={1} rotate={0} />
         </IconButton>
       )}
     </GridItemContainer>

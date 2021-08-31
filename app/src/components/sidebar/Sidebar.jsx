@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Context } from '../../store/Store';
@@ -7,7 +7,7 @@ import { findGroupMembers } from '../../common/api/group';
 import { handleGridColor } from '../../styles/theme';
 import { DEFAULT_PART_LIST } from '../../common/policy';
 
-function Sidebar({ handleDrag, handleDrop }) {
+function Sidebar({ handleDrag }) {
   const { state, dispatch } = useContext(Context);
 
   const getGroupMembers = async () => {
@@ -77,12 +77,10 @@ function Sidebar({ handleDrag, handleDrop }) {
 
 Sidebar.propTypes = {
   handleDrag: PropTypes.func,
-  handleDrop: PropTypes.func,
 };
 
 Sidebar.defaultProps = {
   handleDrag: () => {},
-  handleDrop: () => {},
 };
 
 const SidebarSubitle = styled.p`

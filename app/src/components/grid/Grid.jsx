@@ -4,12 +4,11 @@ import styled from 'styled-components';
 
 import GridItem from './GridItem';
 import Sidebar from '../sidebar/Sidebar';
-import DeleteIcon from '../icons/DeleteIcon';
 
 import { ACCOUNT_PERMISSION, SOCKET_EVENT_TYPE, DEFAULT_PART_LIST } from '../../common/policy';
 import findRoomParts from '../../common/api/grid';
 
-function Grid({ showInfoModal, handleDeskModal, roomId, sizeX, sizeY, socketConnection, accountLevel }) {
+function Grid({ showInfoModal, roomId, sizeX, sizeY, socketConnection, accountLevel }) {
   const [dragItem, setDragItem] = useState({});
   const [gridData, setGridData] = useState({});
 
@@ -227,7 +226,6 @@ function Grid({ showInfoModal, handleDeskModal, roomId, sizeX, sizeY, socketConn
 }
 
 Grid.propTypes = {
-  handleDeskModal: PropTypes.func.isRequired,
   roomId: PropTypes.number,
   sizeX: PropTypes.number,
   sizeY: PropTypes.number,

@@ -237,7 +237,6 @@ function Main() {
         {selectedRoom && selectedRoom.id && (
           <Grid
             showInfoModal={showInfoModal}
-            handleDeskModal={handleDeskModal}
             roomId={selectedRoom.id}
             sizeX={selectedRoom.sizeX}
             sizeY={selectedRoom.sizeY}
