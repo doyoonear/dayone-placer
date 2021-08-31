@@ -26,4 +26,8 @@ pw: test
 - Edit Simultaniously
 
 ### Stack
-- React, Context API, styled-component, socket.io, 
+_front_
+- React, Context API, styled-component
+
+_back_
+- Node.js, Express, Knex, Socket.io
