@@ -6,19 +6,21 @@ import Tabs from '../components/tab/Tabs';
 import InfoModal from '../components/modal/InfoModal';
 import RoomCreateModal from '../components/modal/RoomCreateModal';
 import RoomDeleteModal from '../components/modal/RoomDeleteModal';
+import RoomUpdateModal from '../components/modal/RoomUpdateModal';
 import DeskCreateModal from '../components/modal/DeskCreateModal';
 
 import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
 import { findGroups } from '../common/api/group';
-import { findRooms, createRoom, apiDeleteRoom } from '../common/api/room';
+import { findRooms, createRoom, apiDeleteRoom, apiUpdateRoom } from '../common/api/room';
 
 function Main() {
   const history = useHistory();
   const [accountLevel, setAccountLevel] = useState(0);
   const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
-  const [isRoomDeleteModalOn, setIsRoomDeleteModalOn] = useState({});
+  const [roomDeleteData, setRoomDeleteData] = useState({});
+  const [roomUpdateData, setRoomUpdateData] = useState({});
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState({});
   const [groups, setGroups] = useState([]);
@@ -52,6 +54,29 @@ function Main() {
     fetchGroups();
   };
 
+  const deleteRoom = () => {
+    try {
+      apiDeleteRoom(roomDeleteData.id).then(() => {
+        setRoomDeleteData({});
+
+        fetchRooms();
+      });
+    } catch {
+      setInfoModal(false);
+    }
+  };
+
+  const updateRoom = ({ id, data }) => {
+    try {
+      apiUpdateRoom(id, data).then(() => {
+        setRoomUpdateData({});
+        fetchRooms();
+      });
+    } catch {
+      setInfoModal(false);
+    }
+  };
+
   const handleRoom = (id) => {
     const room = rooms.find((item) => item.id === id);
     setSelectedRoom(room);
@@ -61,12 +86,38 @@ function Main() {
     setIsDeskModalOn(!isDeskModalOn);
   };
 
-  const handleRoomModal = () => {
-    setIsRoomModalOn(!isRoomModalOn);
+  const handleRoomModal = (type, room) => {
+    switch (type) {
+      case 'CREATE':
+        setIsRoomModalOn(!isRoomModalOn);
+        break;
+      case 'UPDATE':
+        setRoomUpdateData(room);
+        break;
+      case 'DELETE':
+        setRoomDeleteData(room);
+        break;
+      default:
+        alert('올바르지 않은 접근입니다');
+        break;
+    }
   };
 
-  const handleRoomDeleteModal = (room) => {
-    setIsRoomDeleteModalOn(room);
+  const handleRoomConfirm = (type, room) => {
+    switch (type) {
+      case 'CREATE':
+        setIsRoomModalOn(!isRoomModalOn);
+        break;
+      case 'UPDATE':
+        updateRoom(room);
+        break;
+      case 'DELETE':
+        deleteRoom();
+        break;
+      default:
+        alert('올바르지 않은 접근입니다');
+        break;
+    }
   };
 
   const handleDeskForm = (e) => {
@@ -114,17 +165,6 @@ function Main() {
     }
   };
 
-  const deleteRoom = async () => {
-    try {
-      await apiDeleteRoom(isRoomDeleteModalOn.id);
-      setIsRoomDeleteModalOn({});
-
-      fetchRooms();
-    } catch {
-      setInfoModal(false);
-    }
-  };
-
   const handleInfoModal = (bool) => {
     return setInfoModal(bool);
   };
@@ -153,15 +193,22 @@ function Main() {
         <RoomCreateModal
           handleRoomForm={handleRoomForm}
           roomForm={roomForm}
-          handleRoomModal={handleRoomModal}
-          makeNewRoom={makeNewRoom}
+          onClose={() => handleRoomModal('CREATE', {})}
+          onConfirm={() => handleRoomConfirm('CREATE')}
         />
       )}
-      {isRoomDeleteModalOn && isRoomDeleteModalOn.id && (
+      {roomDeleteData && roomDeleteData.id && (
         <RoomDeleteModal
-          isRoomDeleteModalOn={isRoomDeleteModalOn}
-          handleRoomDeleteModal={handleRoomDeleteModal}
-          deleteRoom={deleteRoom}
+          roomDeleteData={roomDeleteData}
+          onClose={() => handleRoomModal('DELETE', {})}
+          onConfirm={() => handleRoomConfirm('DELETE')}
+        />
+      )}
+      {roomUpdateData && roomUpdateData.id && (
+        <RoomUpdateModal
+          roomUpdateData={roomUpdateData}
+          onClose={() => handleRoomModal('UPDATE', {})}
+          onConfirm={(data) => handleRoomConfirm('UPDATE', data)}
         />
       )}
       {isInfoModalVisible && <InfoModal title='생성되었습니다.' handleInfoModal={handleInfoModal} />}
