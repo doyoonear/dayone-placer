@@ -9,10 +9,11 @@ export const SOCKET_EVENT_TYPE = {
 };
 
 export const DEFAULT_PART_LIST = [
-  { id: 1, type: 'DESK', title: '공석', color: '#EFC88B' },
+  { id: 1, type: 'DESK', title: '책상', color: '#EFC88B' },
   { id: 2, type: 'WINDOW_1', title: '창문', color: '#C7EBF0' },
   { id: 3, type: 'DOOR', title: '출입문', color: '#bcc7eb' },
-  { id: 4, type: 'BOOK_SHELVES', title: '책장', color: '#BAA7B0' },
+  { id: 4, type: 'WALL', title: '벽', color: '#BAA7B0' },
+  { id: 4, type: 'PLANT', title: '화분', color: '#e3f0bd' },
   { id: 5, type: 'PRINTER', title: '프린터', color: '#B1B5C8' },
   { id: 6, type: 'WAY', title: '통로', color: '#707070' },
 ];
