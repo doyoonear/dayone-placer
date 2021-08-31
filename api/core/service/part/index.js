@@ -31,6 +31,10 @@ class PartService extends Service {
     return partRepository.updateMemberIdByLocation(memberId, roomId, { locationX, locationY });
   }
 
+  updateEmptyDeskMember({ roomId, locationX, locationY }) {
+    return partRepository.updateEmptyDeskByLocation(roomId, { locationX, locationY });
+  }
+
   // TODO: transaction
   async updateChangeLocation({ roomId, location }) {
     const { prevX, prevY, nextX, nextY } = location;
@@ -41,6 +45,8 @@ class PartService extends Service {
   }
 
   deleteLocation({ roomId, location }) {
+    console.log("roomId", roomId);
+    console.log("location", location);
     const { x, y } = location;
     return partRepository.deleteByRoomIdAndLocationXAndLocationY(roomId, x, y);
   }

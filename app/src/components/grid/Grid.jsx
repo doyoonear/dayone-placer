@@ -33,12 +33,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection, account
   };
 
   const deleteItem = ({ data, location }) => {
-    socketConnection.emit(SOCKET_EVENT_TYPE.DELETE_LOCATION, {
-      data,
-      roomId,
-      location,
-    });
-
+    delete gridData[`${location.x}_${location.y}`];
     setDragItem({});
   };
 
@@ -61,8 +56,20 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection, account
     setDragItem({});
   };
 
+  const deleteGridItem = ({ data, location }) => {
+    socketConnection.emit(SOCKET_EVENT_TYPE.DELETE_LOCATION, {
+      data,
+      roomId,
+      location,
+    });
+  };
+
   const socketAppendLocation = ({ data, location }) => {
     addNewItem({ data, location });
+  };
+
+  const socketDeleteLocation = ({ data, location }) => {
+    deleteItem({ data, location });
   };
 
   const socketMoveLocation = ({ data, location }) => {
@@ -86,10 +93,15 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection, account
       socketChangeLocation(data);
     });
 
+    socketConnection.on(SOCKET_EVENT_TYPE.DELETE_LOCATION, (data) => {
+      socketDeleteLocation(data);
+    });
+
     return () => {
       socketConnection.removeListener(SOCKET_EVENT_TYPE.APPEND_LOCATION);
       socketConnection.removeListener(SOCKET_EVENT_TYPE.MOVE_LOCATION);
       socketConnection.removeListener(SOCKET_EVENT_TYPE.CHANGE_LOCATION);
+      socketConnection.removeListener(SOCKET_EVENT_TYPE.DELETE_LOCATION);
     };
   }, [gridData]);
 
@@ -180,7 +192,7 @@ function Grid({ handleDeskModal, roomId, sizeX, sizeY, socketConnection, account
           handleDrag={handleDrag}
           handleDrop={handleDrop}
           addNewItem={addNewItem}
-          deleteItem={deleteItem}
+          deleteItem={deleteGridItem}
           partList={DEFAULT_PART_LIST}
           accountLevel={accountLevel}
           data={gridData[`${x}_${y}`]}
