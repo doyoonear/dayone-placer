@@ -9,8 +9,6 @@ import { DEFAULT_PART_LIST } from '../../common/policy';
 
 function Sidebar({ handleDrag, handleDrop }) {
   const { state, dispatch } = useContext(Context);
-  // const [isGroupOpen, setIsGroupOpen] = useState(true);
-  // const [groupList, setGroupList] = useState([]);
 
   const getGroupMembers = async () => {
     const {
