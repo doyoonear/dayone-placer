@@ -47,6 +47,9 @@ function Main() {
   const fetchRooms = () => {
     findRooms().then((result) => {
       setRooms(result.data);
+      if (!selectedRoom?.id && result.data.length > 0) {
+        setSelectedRoom(result.data[0]);
+      }
     });
   };
 
@@ -277,8 +280,6 @@ const Title = styled.p`
 `;
 
 const TitleContainer = styled.div`
-  position: fixed;
-  z-index: 10;
   display: flex;
   align-items: center;
   width: 100vw;

@@ -245,6 +245,7 @@ const GridBox = styled.div`
   align-content: center;
   min-width: ${(props) => (props.accountLevel === ACCOUNT_PERMISSION.ALL ? 'calc(100vw - 300px)' : '100vw')};
   min-height: calc(100vh-40px);
+  padding: 20px;
 `;
 
 const GridWrapper = styled.div`
@@ -256,6 +257,10 @@ const GridWrapper = styled.div`
   overflow: scroll;
   margin-right: ${(props) => (props.accountLevel === ACCOUNT_PERMISSION.ALL ? '300px' : '0px')};
   border: 2px solid gray;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export default Grid;
