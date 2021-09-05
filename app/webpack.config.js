@@ -14,6 +14,13 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.svg$/,
+        issuer: {
+          test: /\.(js|ts)x?$/,
+        },
+        use: '@svgr/webpack',
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -24,13 +31,6 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
-      {
-        test: /\.svg$/,
-        issuer: {
-          test: /\.(js|ts)x?$/,
-        },
-        use: '@svgr/webpack',
-      },
     ],
   },
   plugins: [
@@ -38,4 +38,11 @@ module.exports = {
       template: './public/index.html',
     }),
   ],
+  devServer: {
+    contentBase: path.resolve(__dirname + '/../api/public'),
+    inline: true,
+    hot: true,
+    host: 'localhost',
+    port: 3000,
+  },
 };
