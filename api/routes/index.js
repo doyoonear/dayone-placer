@@ -9,11 +9,11 @@ const deskRoutes = require("./desk");
 const partRoutes = require("./part");
 
 router
-  .use("/auth", authRoutes)
-  .use("/rooms", roomRoutes)
-  .use("/members", memberRoutes)
-  .use("/groups", groupRoutes)
-  .use("/desks", deskRoutes)
-  .use("/parts", partRoutes);
+  .use("/.api/auth", authRoutes)
+  .use("/.api/rooms", roomRoutes)
+  .use("/.api/members", memberRoutes)
+  .use("/.api/groups", groupRoutes)
+  .use("/.api/desks", deskRoutes)
+  .use("/.api/parts", partRoutes);
 
 module.exports = router;

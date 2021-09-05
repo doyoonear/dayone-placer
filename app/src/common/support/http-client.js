@@ -3,7 +3,7 @@ import { getStorage } from './storage';
 import { SERVER_URL } from '../policy';
 
 const api = axios.create({
-  baseURL: SERVER_URL,
+  baseURL: SERVER_URL + '/.api',
 });
 
 const setAccessToken = () => {
