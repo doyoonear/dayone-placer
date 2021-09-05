@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as RightArrow } from '../../assets/right-arrow.svg';
+import RightArrow from '../../assets/right-arrow.svg';
 import CommonIconContainer from '../_styled/CommonIconBox';
 
 function ArrowIcon({ width, height, rotate }) {

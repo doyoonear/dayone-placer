@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as Logout } from '../../assets/logout.svg';
+import Logout from '../../assets/logout.svg';
 import CommonIconBox from '../_styled/CommonIconBox';
 
 function LogoutIcon({ width, height, rotate }) {
