@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-const PORT = 4000;
+const PORT = 3000;
 http.listen(PORT, () => {
   console.log("listening on *:" + PORT);
 });
