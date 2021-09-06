@@ -42,7 +42,6 @@ module.exports = {
     contentBase: path.resolve(__dirname + '/../api/public'),
     inline: true,
     hot: true,
-    host: 'localhost',
-    port: 3000,
+    port: 8080,
   },
 };
