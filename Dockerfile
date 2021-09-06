@@ -3,9 +3,11 @@ FROM node:16-alpine
 RUN mkdir service
 WORKDIR /service
 
-COPY /api /service
+COPY . /service
 
 RUN npm install
+RUN cd app && npm run build
 
-CMD ["node", "index.js"]
+EXPOSE 3000
 
+CMD ["node", "api/index.js"]
