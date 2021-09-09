@@ -220,7 +220,9 @@ function Grid({ showInfoModal, roomId, sizeX, sizeY, socketConnection, accountLe
           {makeGridItem(sizeX, sizeY)}
         </GridWrapper>
       </GridBox>
-      {accountLevel === ACCOUNT_PERMISSION.ALL && <Sidebar handleDrag={handleDrag} handleDrop={handleDrop} />}
+      {accountLevel === ACCOUNT_PERMISSION.ALL && (
+        <Sidebar roomId={roomId} handleDrag={handleDrag} handleDrop={handleDrop} />
+      )}
     </>
   );
 }

@@ -39,17 +39,17 @@ function Tabs({ rooms, handleRoomModal, handleRoom, selectedRoom, accountLevel }
             accountLevel={accountLevel}
           />
         ))}
-        {visibleOptionModalData.room && (
-          <OptionModal x={visibleOptionModalData.x} y={visibleOptionModalData.y}>
-            <OptionModalItem onClick={() => onClickOptionItem('DELETE', visibleOptionModalData.room)}>
-              <OptionModalItemTitle>삭제</OptionModalItemTitle>
-            </OptionModalItem>
-            <OptionModalItem onClick={() => onClickOptionItem('UPDATE', visibleOptionModalData.room)}>
-              <OptionModalItemTitle>수정</OptionModalItemTitle>
-            </OptionModalItem>
-          </OptionModal>
-        )}
       </TabItemContainer>
+      {visibleOptionModalData.room && (
+        <OptionModal x={visibleOptionModalData.x} y={visibleOptionModalData.y}>
+          <OptionModalItem onClick={() => onClickOptionItem('DELETE', visibleOptionModalData.room)}>
+            <OptionModalItemTitle>삭제</OptionModalItemTitle>
+          </OptionModalItem>
+          <OptionModalItem onClick={() => onClickOptionItem('UPDATE', visibleOptionModalData.room)}>
+            <OptionModalItemTitle>수정</OptionModalItemTitle>
+          </OptionModalItem>
+        </OptionModal>
+      )}
     </TabsContainer>
   );
 }
@@ -61,19 +61,23 @@ Tabs.propTypes = {
 };
 
 const OptionModal = styled.div`
+  width: 100px;
   position: absolute;
+  border-radius: 10px;
+  border: 1px solid ${(props) => props.theme.grey0};
   left: ${(props) => props.x}px;
   bottom: ${(props) => window.innerHeight - props.y}px;
-  border: 1px solid #ddd;
+  margin-bottom: 0.6rem;
+  box-shadow: 10px 15px 25px ${(props) => props.theme.grey2};
 `;
 
 const OptionModalItem = styled.div`
   display: flex;
   align-items: center;
-  background: #fff;
-  width: 80px;
+  width: 100%;
   height: 35px;
-  border: 1px solid #ddd;
+  border-bottom: 0.3px solid ${(props) => props.theme.grey6};
+  background-color: ${(props) => props.theme.secondary2};
   cursor: pointer;
 `;
 
@@ -85,15 +89,15 @@ const OptionModalItemTitle = styled.p`
 const TabsContainer = styled.div`
   display: flex;
   position: fixed;
-  z-index: 10;
   left: 0;
   bottom: 0;
   width: 100%;
   height: 40px;
-  background: ${(props) => props.theme.primary2};
+  background-color: ${(props) => props.theme.grey8};
 `;
 
 const TabItemContainer = styled.div`
+  z-index: 20;
   display: flex;
   overflow-y: scroll;
 
@@ -104,10 +108,10 @@ const TabItemContainer = styled.div`
 
 const TabAdd = styled.button`
   font-size: 16px;
-  padding: 0px 10px;
+  padding: 0px 20px;
   align-items: center;
   justify-content: center;
-  background: ${(props) => props.theme.primary6};
+  background: ${(props) => props.theme.primary8};
 `;
 
 export default Tabs;

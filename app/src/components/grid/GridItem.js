@@ -67,9 +67,8 @@ const GridItem = ({ location, data, handleDrag, handleDrop, deleteItem, partList
   useEffect(() => {}, []);
 
   return (
-    <GridItemContainer key={`container_${data.id}`}>
+    <GridItemContainer>
       <Bullet
-        key={`bullet_${data.id}`}
         draggable={(data.type && accountLevel === ACCOUNT_PERMISSION.ALL && true) || false}
         type={data.type}
         data-type={data.type}
@@ -85,8 +84,8 @@ const GridItem = ({ location, data, handleDrag, handleDrop, deleteItem, partList
       </Bullet>
 
       {state.isDeleteIconOn && isMatchLocation && accountLevel === ACCOUNT_PERMISSION.ALL && (
-        <IconButton key={`iconbtn_${data.id}`} onClick={onIconClick}>
-          <DeleteIcon key={`deleteicon_${data.id}`} width={1} height={1} rotate={0} />
+        <IconButton onClick={onIconClick}>
+          <DeleteIcon width={1} height={1} rotate={0} />
         </IconButton>
       )}
     </GridItemContainer>
@@ -121,7 +120,7 @@ const IconButton = styled.button`
   align-items: center;
   width: 2rem;
   height: 2rem;
-  background-color: ${(props) => (props.color ? props.color : props.theme.primary8)};
+  background-color: ${(props) => (props.color ? props.color : props.theme.primary4)};
   right: -2rem;
   top: -2rem;
   z-index: 10;
@@ -133,14 +132,14 @@ const Bullet = styled.div`
   justify-content: center;
   width: 48px;
   height: 32px;
-  border: 1px solid lightgrey;
+  border: 0.3px solid ${(props) => props.theme.grey2};
   font-size: 12px;
   text-align: center;
   cursor: pointer;
   background: ${({ type, color }) => color ?? handleGridColor(type)};
 
   :hover {
-    border: solid 4px ${(props) => props.theme.primary8};
+    border: solid 3px ${(props) => props.theme.primary4};
   }
 `;
 
