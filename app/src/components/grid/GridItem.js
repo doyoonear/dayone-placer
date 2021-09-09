@@ -133,6 +133,7 @@ const Bullet = styled.div`
   width: 48px;
   height: 32px;
   border: 0.3px solid ${(props) => props.theme.grey2};
+  font-weight: ${(props) => (props.type === 'MEMBER' ? 'bold' : 'normal')};
   font-size: 12px;
   text-align: center;
   cursor: pointer;
