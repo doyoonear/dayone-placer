@@ -128,7 +128,7 @@ const StPartTitle = styled.span`
 const StPartWrapper = styled.div`
   display: flex;
   align-items: center;
-  padding-bottom: 10px;
+  margin-bottom: 1.2rem;
 `;
 
 const StPart = styled.div`
@@ -137,6 +137,14 @@ const StPart = styled.div`
   border: 0.3px solid ${(props) => props.theme.grey6};
   cursor: pointer;
   background: ${({ type, color }) => color ?? handleGridColor(type)};
+
+  :hover {
+    position: relative;
+    bottom: 5px;
+    right: 5px;
+    transition: all 0.3s ease-out;
+    box-shadow: 5px 3px 5px ${(props) => props.theme.secondary2};
+  }
 `;
 
 const StMotherGroupContainer = styled.div`
