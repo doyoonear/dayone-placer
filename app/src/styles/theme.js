@@ -1,9 +1,17 @@
 export const theme = {
+  grey0: '#fafafa',
+  grey2: '#ededed',
+  grey4: '#bfbfbf',
+  grey6: '#636363',
+  grey8: '#404040',
+  grey10: '#262626',
   primary2: '#EAEEFB',
-  primary4: '#DFE3EF',
-  primary6: '#839DFB',
-  primary8: '#6988FA',
-  primary10: '#5449D2',
+  primary4: '#e6e9f2',
+  primary6: '#a1b5ff',
+  primary8: '#839DFB',
+  primary10: '#6988FA',
+  secondary2: '#fdffb5',
+  secondary4: '#fbff70',
 };
 
 export const handleGridColor = (type) => {

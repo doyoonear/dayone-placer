@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Context } from '../../store/Store';
@@ -7,13 +7,12 @@ import { findGroupMembers } from '../../common/api/group';
 import { handleGridColor } from '../../styles/theme';
 import { DEFAULT_PART_LIST } from '../../common/policy';
 
-function Sidebar({ handleDrag }) {
+function Sidebar({ roomId, handleDrag }) {
   const { state, dispatch } = useContext(Context);
 
   const getMotherGroup = async () => {
     const { data } = await findGroupMembers();
 
-    console.log('data', data);
     dispatch({ type: 'SET_MOTHERGROUPS', value: data });
   };
 
@@ -34,8 +33,9 @@ function Sidebar({ handleDrag }) {
   }, []);
 
   return (
-    <StSidebar>
+    <StSidebar key={`sidebar_${roomId}`}>
       <SidebarSubtitle>사물</SidebarSubtitle>
+      <StGuideMessage>사물을 드래그해 그리드에 배치하세요.</StGuideMessage>
       {DEFAULT_PART_LIST.map((part) => (
         <StPartWrapper key={`partwrapper_${part.id}`}>
           <StPart
@@ -47,14 +47,19 @@ function Sidebar({ handleDrag }) {
             onDragOver={(e) => e.preventDefault()}
             onDragStart={(e) => handleDrag(e, part)}
           />
-          <StName key={`partName${part.id}`}>{part.title}</StName>
+          <StPartTitle key={`partName${part.id}`}>{part.title}</StPartTitle>
         </StPartWrapper>
       ))}
       <SidebarSubtitle>임직원</SidebarSubtitle>
+      <StGuideMessage>배치할 그룹을 선택하세요.</StGuideMessage>
       <StMotherGroupContainer>
         {state.motherGroupList.length > 0 &&
           state.motherGroupList?.map((mGroup, index) => {
-            return <StMotherGroupBtn onClick={() => getGroupMembers(index)}>{mGroup.title}</StMotherGroupBtn>;
+            return (
+              <StMotherGroupBtn key={`motherBtn_${mGroup.id}`} onClick={() => getGroupMembers(index)}>
+                {mGroup.title}
+              </StMotherGroupBtn>
+            );
           })}
       </StMotherGroupContainer>
       {state.groupList.length > 0 &&
@@ -96,18 +101,28 @@ Sidebar.defaultProps = {
 };
 
 const SidebarSubtitle = styled.p`
+  padding-bottom: 0.8rem;
+  margin-bottom: 1.2rem;
   font-size: 16px;
   font-weight: 600;
-  padding-bottom: 20px;
+  border-bottom: 5px solid ${(props) => props.theme.secondary2};
 
   :not(:first-child) {
-    margin-top: 20px;
+    margin-top: 2.4rem;
   }
 `;
 
-const StName = styled.span`
+const StGuideMessage = styled.p`
+  font-size: 12px;
+  font-weight: normal;
+  color: ${(props) => props.theme.grey10};
+  margin-bottom: 1.2rem;
+`;
+
+const StPartTitle = styled.span`
   margin-left: 8px;
   font-size: 12px;
+  cursor: default;
 `;
 
 const StPartWrapper = styled.div`
@@ -119,7 +134,7 @@ const StPartWrapper = styled.div`
 const StPart = styled.div`
   width: 48px;
   height: 32px;
-  border: 1px solid lightgrey;
+  border: 0.3px solid ${(props) => props.theme.grey6};
   cursor: pointer;
   background: ${({ type, color }) => color ?? handleGridColor(type)};
 `;
@@ -127,7 +142,9 @@ const StPart = styled.div`
 const StMotherGroupContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 1.2rem;
   width: 100%;
+  margin-bottom: 1.2rem;
 `;
 
 const StMotherGroupBtn = styled.button`
@@ -135,11 +152,27 @@ const StMotherGroupBtn = styled.button`
   height: 30px;
   border-radius: 0.2rem;
   background-color: ${(props) => props.color || 'white'};
+  transition: all 0.2s ease-out;
+
+  :hover {
+    background: ${(props) => props.color || props.theme.grey0};
+  }
+
+  :active {
+    background: ${(props) => props.color || props.theme.grey2};
+  }
 `;
 
 const StGroupHeader = styled.div`
+  cursor: pointer;
   padding: 0.7rem;
-  background: ${(props) => props.color || 'grey'};
+  border-radius: 0.2rem;
+  background: ${(props) => props.color || props.theme.grey2};
+  transition: all 0.2s ease-out;
+
+  :hover {
+    color: white;
+  }
 `;
 
 const StMemberContainer = styled.li`
@@ -148,11 +181,13 @@ const StMemberContainer = styled.li`
 `;
 
 const StMemberName = styled.div`
-  color: #262626;
+  color: ${(props) => props.theme.grey10};
   padding: 0.7rem;
-  background-color: ${(props) => props.theme.primary2};
+  background-color: ${(props) => props.theme.grey0};
+  transition: all 0.2s ease-out;
+
   :hover {
-    background-color: ${(props) => props.theme.primary6};
+    background-color: ${(props) => props.theme.secondary2};
   }
 `;
 
