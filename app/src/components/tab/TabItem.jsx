@@ -12,36 +12,18 @@ const TabItem = ({ room, handleRoom, selectedRoomId, handleOptionModal, accountL
 
   return (
     <TabContainer id={room.id} selectedRoomId={selectedRoomId} ref={tabContainer}>
-      <StEllipsis>
-        <TabTitle
-          key={room.id}
-          id={room.id}
-          onClick={() => handleRoom(room.id)}
-          hasSuperPermission={hasSuperPermission}
-        >
-          {room.title}
-        </TabTitle>
-      </StEllipsis>
+      <TabTitle key={room.id} id={room.id} onClick={() => handleRoom(room.id)} hasSuperPermission={hasSuperPermission}>
+        {room.title}
+      </TabTitle>
+
       {hasSuperPermission && (
         <TabArrow onClick={() => handleOptionModal(room, tabContainer.current.getBoundingClientRect())}>
-          <ArrowIcon width={0.8} height={0.8} rotate={90} />
+          <ArrowIcon width={0.6} height={0.6} rotate={90} />
         </TabArrow>
       )}
     </TabContainer>
   );
 };
-
-const StEllipsis = styled.p`
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  line-height: 14px;
-  height: 25px;
-  max-width: 20rem;
-`;
 
 const TabContainer = styled.div`
   display: flex;
@@ -57,12 +39,16 @@ const TabContainer = styled.div`
 `;
 
 const TabTitle = styled.p`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  max-width: 20rem;
   padding: 10px;
   font-size: 13px;
-  height: 100%;
 `;
 
-const TabArrow = styled.p`
+const TabArrow = styled.div`
   padding-right: 10px;
 `;
 
