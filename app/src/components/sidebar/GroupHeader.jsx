@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ArrowIcon from '../icons/ArrowIcon';
@@ -21,8 +21,8 @@ function GroupHeader({ group }) {
 
   return (
     <CommonFlexBox justify='space-between' onClick={handleGroupOpen}>
-      <h3>{group.title}</h3>
-      <ArrowIcon width={1} height={1} rotate={arrowDeg} />
+      <Title>{group.title}</Title>
+      <ArrowIcon width={0.8} height={0.8} rotate={arrowDeg} />
     </CommonFlexBox>
   );
 }
@@ -32,7 +32,7 @@ GroupHeader.propTypes = {
 };
 
 const Title = styled.p`
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 export default GroupHeader;
