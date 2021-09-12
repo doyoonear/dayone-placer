@@ -49,16 +49,18 @@ function Login() {
     <LoginPage>
       <LoginContainer>
         <Title>LOGIN</Title>
-        <Input name='email' type='email' placeholder='email' value={form.email} onChange={handleForm} required />
-        <Input
-          name='password'
-          type='password'
-          placeholder='password'
-          value={form.password}
-          onChange={handleForm}
-          required
-        />
-        <Button type='submit' onClick={signIn} name='로그인' />
+        <form>
+          <Input name='email' type='email' placeholder='email' value={form.email} onChange={handleForm} required />
+          <Input
+            name='password'
+            type='password'
+            placeholder='password'
+            value={form.password}
+            onChange={handleForm}
+            required
+          />
+          <Button type='submit' onClick={signIn} name='로그인' />
+        </form>
       </LoginContainer>
     </LoginPage>
   );
