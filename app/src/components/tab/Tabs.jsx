@@ -79,11 +79,15 @@ const OptionModalItem = styled.div`
   border-bottom: 0.3px solid ${(props) => props.theme.grey6};
   background-color: ${(props) => props.theme.secondary2};
   cursor: pointer;
+
+  :hover {
+    background-color: ${(props) => props.theme.primary4};
+  }
 `;
 
 const OptionModalItemTitle = styled.p`
   padding-left: 0.3rem;
-  font-size: 1em;
+  font-size: 12px;
 `;
 
 const TabsContainer = styled.div`
@@ -112,6 +116,7 @@ const TabAdd = styled.button`
   align-items: center;
   justify-content: center;
   background: ${(props) => props.theme.primary8};
+  cursor: pointer;
 `;
 
 export default Tabs;
