@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Context } from '../../store/Store';
@@ -172,11 +172,12 @@ const StMotherGroupBtn = styled.button`
 `;
 
 const StGroupHeader = styled.div`
-  cursor: pointer;
+  margin-bottom: 0.4rem;
   padding: 0.7rem;
   border-radius: 0.2rem;
   background: ${(props) => props.color || props.theme.grey2};
   transition: all 0.2s ease-out;
+  cursor: pointer;
 
   :hover {
     color: white;
@@ -186,13 +187,16 @@ const StGroupHeader = styled.div`
 const StMemberContainer = styled.li`
   display: ${(props) => (props.isGroupOpen ? 'block' : 'none')};
   width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const StMemberName = styled.div`
-  color: ${(props) => props.theme.grey10};
   padding: 0.7rem;
+  font-size: 14px;
   background-color: ${(props) => props.theme.grey0};
+  color: ${(props) => props.theme.grey10};
   transition: all 0.2s ease-out;
+  cursor: pointer;
 
   :hover {
     background-color: ${(props) => props.theme.secondary2};
