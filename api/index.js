@@ -17,7 +17,7 @@ const PORT = 3000;
 http.listen(PORT, () => {
   console.log("listening on *:" + PORT);
 });
-app.use(require("./routes"));
+app.use("/.api", require("./routes"));
 app.get("/", (req, res) => {
   res.send("socket.io");
 });
