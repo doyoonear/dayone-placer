@@ -1,13 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
-import Modal from './Modal';
+import CommonModal from '../_styled/CommonModal';
 import Button from '../Button';
 
 function InfoModal({ title, hideInfoModal }) {
   return (
-    <Modal title={title}>
+    <CommonModal title={title}>
       <Button name='확인' onClick={hideInfoModal} />
-    </Modal>
+    </CommonModal>
   );
 }
 

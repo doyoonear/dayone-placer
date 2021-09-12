@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Input from '../Input';
 import Button from '../Button';
-import Modal from './Modal';
+import CommonModal from '../_styled/CommonModal';
 
 const RoomCreateModal = ({ onClose, onConfirm }) => {
   const [roomForm, setRoomForm] = useState({
@@ -21,7 +21,7 @@ const RoomCreateModal = ({ onClose, onConfirm }) => {
   };
 
   return (
-    <Modal title='공간 추가'>
+    <CommonModal title='공간 추가'>
       <InputWrapper>
         <Input label='공간명' name='title' onChange={handleRoomForm} value={roomForm.title} />
         <Input label='가로' type='number' name='sizeX' onChange={handleRoomForm} value={roomForm.sizeX} />
@@ -31,7 +31,7 @@ const RoomCreateModal = ({ onClose, onConfirm }) => {
         <Button onClick={onClose} name='취소' />
         <Button name='확인' onClick={() => onConfirm(roomForm)} />
       </ButtonWrapper>
-    </Modal>
+    </CommonModal>
   );
 };
 
