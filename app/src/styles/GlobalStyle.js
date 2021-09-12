@@ -3,6 +3,7 @@ import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
+  
   *, html, body{
     box-sizing:border-box;
     font-family: 'Noto Sans KR', 'Helvetica Neue', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', sans-serif;
@@ -20,9 +21,11 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
   a {
     text-decoration: none;
   }
+  
   button {
     border: none;
   }
