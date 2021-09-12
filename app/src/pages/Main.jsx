@@ -1,35 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import Grid from '../components/grid/Grid.jsx';
+import Grid from '../components/grid/Grid';
 import Tabs from '../components/tab/Tabs';
 import InfoModal from '../components/modal/InfoModal';
 import RoomCreateModal from '../components/modal/RoomCreateModal';
 import RoomDeleteModal from '../components/modal/RoomDeleteModal';
 import RoomUpdateModal from '../components/modal/RoomUpdateModal';
-import DeskCreateModal from '../components/modal/DeskCreateModal';
 import LogoutIcon from '../components/icons/LogoutIcon';
 
 import socketConnection from '../common/api/socket';
 import { getStorage } from '../common/support/storage';
-import { findGroups } from '../common/api/group';
 import { findRooms, createRoom, apiDeleteRoom, apiUpdateRoom } from '../common/api/room';
 
 function Main() {
   const history = useHistory();
   const [accountLevel, setAccountLevel] = useState(0);
-  const [isDeskModalOn, setIsDeskModalOn] = useState(false);
   const [isRoomModalOn, setIsRoomModalOn] = useState(false);
   const [roomDeleteData, setRoomDeleteData] = useState({});
   const [roomUpdateData, setRoomUpdateData] = useState({});
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState({});
-  const [groups, setGroups] = useState([]);
-  const [deskForm, setDeskForm] = useState({
-    team: '',
-    x: 0,
-    y: 0,
-  });
 
   const [isInfoModalVisible, setInfoModal] = useState(false);
   const [infoModalTitle, setInfoModalTitle] = useState('');
@@ -53,15 +44,8 @@ function Main() {
     });
   };
 
-  const fetchGroups = () => {
-    findGroups().then((result) => {
-      setGroups(result.data);
-    });
-  };
-
   const fetchData = () => {
     fetchRooms();
-    fetchGroups();
   };
 
   const deleteRoom = () => {
@@ -143,10 +127,6 @@ function Main() {
     setSelectedRoom(room);
   };
 
-  const handleDeskModal = () => {
-    setIsDeskModalOn(!isDeskModalOn);
-  };
-
   const handleRoomModal = (type, room) => {
     switch (type) {
       case 'CREATE':
@@ -181,15 +161,6 @@ function Main() {
     }
   };
 
-  const handleDeskForm = (e) => {
-    const { name, value } = e.target;
-
-    setDeskForm({
-      ...deskForm,
-      [name]: value,
-    });
-  };
-
   const handleLogout = () => {
     localStorage.clear();
     history.push('/login');
@@ -207,14 +178,6 @@ function Main() {
 
   return (
     <MainPage>
-      {isDeskModalOn && (
-        <DeskCreateModal
-          groups={groups}
-          handleDeskForm={handleDeskForm}
-          deskForm={deskForm}
-          handleDeskModal={handleDeskModal}
-        />
-      )}
       {isRoomModalOn && (
         <RoomCreateModal
           onClose={() => handleRoomModal('CREATE', {})}
@@ -267,6 +230,7 @@ function Main() {
     </MainPage>
   );
 }
+
 const MainPage = styled.div`
   height: 100vh;
 `;
