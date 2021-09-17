@@ -10,10 +10,24 @@ import { DEFAULT_PART_LIST } from '../../common/policy';
 function Sidebar({ roomId, handleDrag }) {
   const { state, dispatch } = useContext(Context);
 
+  const createGroupColorMap = (data, result = {}) => {
+    data.forEach((item) => {
+      result[item.id] = item.color;
+      if (item.children?.length) {
+        createGroupColorMap(item.children, result);
+      }
+    });
+
+    return result;
+  };
+
   const getMotherGroup = async () => {
     const { data } = await findGroupMembers();
 
     dispatch({ type: 'SET_MOTHERGROUPS', value: data });
+
+    const groupColors = createGroupColorMap(data);
+    dispatch({ type: 'SET_GROUP_COLORS', value: groupColors });
   };
 
   const getGroupMembers = async (index) => {
@@ -54,7 +68,7 @@ function Sidebar({ roomId, handleDrag }) {
       <StGuideMessage>배치할 그룹을 선택하세요.</StGuideMessage>
       <StMotherGroupContainer>
         {state.motherGroupList.length > 0 &&
-          state.motherGroupList?.map((mGroup, index) => {
+          state.motherGroupList.map((mGroup, index) => {
             return (
               <StMotherGroupBtn key={`motherBtn_${mGroup.id}`} onClick={() => getGroupMembers(index)}>
                 {mGroup.title}
@@ -63,7 +77,7 @@ function Sidebar({ roomId, handleDrag }) {
           })}
       </StMotherGroupContainer>
       {state.groupList.length > 0 &&
-        state.groupList?.map((group) => {
+        state.groupList.map((group) => {
           return (
             <>
               <StGroupHeader key={`header_${group.id}`} color={group.color}>

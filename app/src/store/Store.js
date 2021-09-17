@@ -3,6 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const initialState = {
   motherGroupList: [],
   groupList: [],
+  groupColors: [],
   isDeleteIconOn: false,
 };
 
@@ -33,6 +34,11 @@ export const StateProvider = ({ children }) => {
           ...state,
           isDeleteIconOn: action.value ? action.value : !state.isDeleteIconOn,
           location: action.location,
+        };
+      case 'SET_GROUP_COLORS':
+        return {
+          ...state,
+          groupColors: action.value,
         };
       default:
         throw new Error();

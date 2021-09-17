@@ -17,9 +17,7 @@ const GridItem = ({ location, data, handleDrag, handleDrop, deleteItem, partList
   };
 
   const getMemberColor = (d) => {
-    return state.groupList.find((group) => {
-      return group.id === d?.member?.groupId;
-    })?.color;
+    return state.groupColors[d.member.groupId];
   };
 
   const getPartTitle = (type) => {
