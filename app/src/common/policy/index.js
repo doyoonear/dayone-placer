@@ -22,5 +22,3 @@ export const ACCOUNT_PERMISSION = {
   ALL: 100,
   NONE: 0,
 };
-
-export const SERVER_URL = 'http://ky-server.iptime.org:3000';
