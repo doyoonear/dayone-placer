@@ -43,10 +43,11 @@ module.exports = {
     inline: true,
     hot: true,
     port: 8080,
-    proxy: {
-      '/.api': {
+    proxy: [
+      {
+        context: ['/.api', '/socket.io'],
         target: 'http://localhost:3000',
       },
-    },
+    ],
   },
 };
