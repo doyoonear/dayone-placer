@@ -119,8 +119,8 @@ const IconButton = styled.button`
   width: 2rem;
   height: 2rem;
   background-color: ${(props) => (props.color ? props.color : props.theme.primary4)};
-  right: -2rem;
-  top: -2rem;
+  right: -1rem;
+  top: -1rem;
   z-index: 10;
 `;
 
