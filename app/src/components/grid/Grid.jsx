@@ -125,7 +125,7 @@ function Grid({ showInfoModal, roomId, sizeX, sizeY, socketConnection, accountLe
       return;
     }
 
-    if (!prevX && !prevY) {
+    if (Number.isNaN(prevX) && Number.isNaN(prevY)) {
       // 새로운 추가
       if (gridData[`${nextX}_${nextY}`]) {
         if (dragItem.type !== 'MEMBER') {
