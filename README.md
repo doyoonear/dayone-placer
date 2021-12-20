@@ -4,7 +4,7 @@ This is a side-project for hackathon 2021 Sep Day1 company.
 ## Docker image build
 ```
 docker image build -t placer .
-docer-compuse-up
+docker-compose up
 ```
 
 ### For Test
