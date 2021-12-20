@@ -1,6 +1,12 @@
 # Dayone-Placer
 This is a side-project for hackathon 2021 Sep Day1 company.
 
+## Docker image build
+```
+docker image build -t placer .
+docer-compuse-up
+```
+
 ### For Test
 
 Login to account down below.
