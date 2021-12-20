@@ -1,0 +1,37 @@
+version: "3"
+services:
+  mydb:
+    image: mysql:5.7
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-file /db_schema.sql
+    environment:
+      - MYSQL_ROOT_HOST='%'
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=placer
+      - MYSQL_PASSWORD=placer
+      - MYSQL_DATABASE=placer
+      - LANG=C.UTF-8
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/db_schema.sql:/db_schema.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - placer
+
+  placer:
+    image: placer:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=mydb
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_DATABASE=placer
+    depends_on:
+      - mydb
+    networks:
+      - placer
+
+networks:
+  placer:
+    driver: bridge
