@@ -1,6 +1,8 @@
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';
 flush privileges;
 
+CREATE DATABASE IF NOT EXISTS placer;
+
 USE placer;
 SET foreign_key_checks = 0;
 
